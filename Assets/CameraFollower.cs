@@ -14,18 +14,45 @@ public class CameraFollower : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float tmp = Input.GetAxis("Right Analog Horizontal");
-		if(tmp > 0.2f || tmp < -0.2f)
-			theta += 2*tmp;
+        
+        if (Input.GetJoystickNames().Length > 0)
+        {
+            float tmp = Input.GetAxis("Right Analog Horizontal");
+            float tmp1 = Input.GetAxis("Right Analog Vertical");
+
+            if (tmp > 0.2f || tmp < -0.2f)
+                theta += 2 * tmp;
+
+
+            if (tmp1 > 0.2 || tmp1 < -0.2)
+                phi -= 2 * tmp1;
+
+            if (phi >= 179.9f)
+                phi = 179.9f;
+            else if (phi < 90.0f)
+                phi = 90f;
+
+
+        }
+        else
+        {
+            float tmp = Input.GetAxis("Mouse X") * 0.8f;
+            float tmp1 = Input.GetAxis("Mouse Y") * 0.8f;
+
+            if (tmp > 0.2f || tmp < -0.2f)
+                theta += 2 * tmp;
+
+
+            if (tmp1 > 0.2 || tmp1 < -0.2)
+                phi -= 2 * tmp1;
+
+            if (phi >= 179.9f)
+                phi = 179.9f;
+            else if (phi < 90.0f)
+                phi = 90f;
+
+        }
 		
-		tmp = Input.GetAxis("Right Analog Vertical");
-		if(tmp > 0.2 || tmp < -0.2)
-			phi -= 2*tmp;
-		
-		if(phi >= 179.9f)
-			phi =  179.9f;
-		else if(phi < 90.0f)
-			phi = 90f;
 		
 		float x = distance*Mathf.Cos(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
 		float z = distance*Mathf.Sin(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
