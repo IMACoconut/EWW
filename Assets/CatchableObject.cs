@@ -5,12 +5,10 @@ public class CatchableObject : MonoBehaviour {
 
     public bool taken;
     private GameObject text;
-    private float mass;
 	// Use this for initialization
 	void Start () {
         taken = false;
         text = GameObject.FindGameObjectWithTag("LabelTake");
-        mass = rigidbody.mass;
     }
 	
 	// Update is called once per frame

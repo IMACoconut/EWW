@@ -8,3 +8,13 @@ C:\Users\Andre\Documents\Unity\EWW\Temp\bin\Debug\ICSharpCode.NRefactory.dll
 C:\Users\Andre\Documents\Unity\EWW\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
 C:\Users\Andre\Documents\Unity\EWW\obj\Debug\Assembly-CSharp.dll
 C:\Users\Andre\Documents\Unity\EWW\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\nunit.framework.dll
+C:\Users\Andre\Documents\GitHub\EWW\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\Andre\Documents\GitHub\EWW\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+C:\Users\Andre\Documents\GitHub\EWW\obj\Debug\Assembly-CSharp.dll
+C:\Users\Andre\Documents\GitHub\EWW\obj\Debug\Assembly-CSharp.pdb

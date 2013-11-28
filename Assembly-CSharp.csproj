@@ -37,16 +37,22 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BallPlayer.cs" />
      <Compile Include="Assets\CameraFollower.cs" />
      <Compile Include="Assets\CatchableObject.cs" />
+     <Compile Include="Assets\EndPointScript.cs" />
+     <Compile Include="Assets\EndStreetScript.cs" />
+     <Compile Include="Assets\GameScript.cs" />
+     <Compile Include="Assets\Room1Script.cs" />
+     <Compile Include="Assets\StreetScript.cs" />
+     <Compile Include="Assets\TeleportScript.cs" />
      <Compile Include="Assets\VisualTrick1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
