@@ -1,5 +1,8 @@
 /Temp
 /obj
-/Library
+/library
+*.csproj
+*.unityproj
+*.sln
 
 !.gitignore
