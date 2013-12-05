@@ -7,11 +7,13 @@ public class BallPlayer : MonoBehaviour {
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
     public float speed;
+    public int currentCam = 1;
 	
 	void Start () {
         objectTaken = null;
         canBeTaken = null;
-        speed = 10f;
+        speed = 15f;
+        camSwap(1);
         //rigidbody.mass = 30;
 	}
 	
@@ -19,8 +21,10 @@ public class BallPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		CharacterController controller = GetComponent<CharacterController>();
-		
-		var controlCameraObject = GameObject.Find("Main Camera");
+        var controlCameraObject = GameObject.Find("Main Camera");
+        if(currentCam == 1) controlCameraObject = GameObject.Find("Main Camera");
+        else controlCameraObject = GameObject.Find("ironSight");
+		 
         //if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
 		float forw = 0f;
 		if(Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
@@ -28,7 +32,12 @@ public class BallPlayer : MonoBehaviour {
 		float right = 0f;
 		if(Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
 			right = Input.GetAxis("Left Analog Horizontal");
-		
+        if (Input.GetKey(KeyCode.UpArrow)) forw = -1;
+        if (Input.GetKey(KeyCode.DownArrow)) forw = 1;
+        if (Input.GetKey(KeyCode.RightArrow)) right = 1;
+        if (Input.GetKey(KeyCode.LeftArrow)) right = -1;
+
+
 		Vector3 forwardVec = controlCameraObject.transform.forward;
 		forwardVec.y = 0;
 		forwardVec.Normalize();
@@ -61,6 +70,12 @@ public class BallPlayer : MonoBehaviour {
 		} else if(controller.velocity.magnitude < 0.1f){
 				animation.Stop();
 		}
+
+        if (Input.GetKeyDown ("space")){
+            Debug.Log("Jump");    
+
+
+          } 
 		
 		/*
 		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("Left Analog Horizontal") < -0.2f)
@@ -78,7 +93,36 @@ public class BallPlayer : MonoBehaviour {
        // if (objectTaken != null)
        //     objectTaken.rigidbody.MovePosition(move);
        */
+
+
+        if (Input.GetKey("1"))
+        {
+            Debug.Log("main camera");
+            camSwap(1);
+            currentCam = 1;
+        }
+        if (Input.GetKey("2"))
+        {
+            Debug.Log("iron sight");
+            camSwap(2);
+            currentCam = 2;
+        }
+        
+
 	}
+    void camSwap(int currentCam){
+        GameObject[] cameras = GameObject.FindGameObjectsWithTag("MainCamera");
+ 
+          foreach (GameObject cams in cameras){
+           Camera theCam = cams.GetComponent<Camera>() as Camera;
+           theCam.enabled = false;
+          }  
+            string oneToUse = "";
+            if (currentCam == 1) oneToUse = "Main Camera";
+            else if (currentCam == 2) oneToUse = "ironSight";
+          Camera usedCam = GameObject.Find(oneToUse).GetComponent<Camera>() as Camera;
+          usedCam.enabled = true;
+ }
 
     void GrabObject()
     {

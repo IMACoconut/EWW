@@ -7,7 +7,7 @@ public class CameraFollower : MonoBehaviour {
 	float theta, phi, distance;
 	// Use this for initialization
 	void Start () {
-		distance = 10;
+		distance = 12;
 		theta = 0;
 		phi = 0;
 	}
@@ -59,7 +59,7 @@ public class CameraFollower : MonoBehaviour {
 		float y = distance*Mathf.Cos(phi*Mathf.PI/180f);
 		
 		Vector3 look = ball.transform.position;
-		look.y += 10; 
+		look.y += 7; 
 		transform.position = look-new Vector3(x,y,z);
 		
 		transform.LookAt(look);
