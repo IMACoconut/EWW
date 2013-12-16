@@ -7,7 +7,7 @@ public class CameraFollower : MonoBehaviour {
 	float theta, phi, distance;
 	// Use this for initialization
 	void Start () {
-		distance = 10;
+		distance = 100;
 		theta = 0;
 		phi = 0;
 	}

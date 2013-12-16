@@ -51,6 +51,7 @@
      <Compile Include="Assets\EndStreetScript.cs" />
      <Compile Include="Assets\GameScript.cs" />
      <Compile Include="Assets\Room1Script.cs" />
+     <Compile Include="Assets\StreetGenerator.cs" />
      <Compile Include="Assets\StreetScript.cs" />
      <Compile Include="Assets\TeleportScript.cs" />
      <Compile Include="Assets\VisualTrick1.cs" />

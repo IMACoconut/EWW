@@ -539,6 +539,8 @@ MonoBehaviour:
   E: 0
   S: 0
   W: 1
+  x: 0
+  y: 0
 --- !u!135 &13500002
 SphereCollider:
   m_ObjectHideFlags: 1
