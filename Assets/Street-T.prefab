@@ -669,10 +669,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b24e3067f37c84793157df5466ea87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  N: 0
+  N: 1
   E: 1
-  S: 1
+  S: 0
   W: 1
+  x: 0
+  y: 0
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -1755,32 +1755,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 06b1d03791da2574b99e5e9ecaaef9d2, type: 2}
   - {fileID: 11400000, guid: aad09f4e071ee1f4b976e0d3b14dc7ff, type: 2}
   currentLocation: {fileID: 0}
-  generatedStreets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!4 &1281739435
 Transform:
   m_ObjectHideFlags: 0
