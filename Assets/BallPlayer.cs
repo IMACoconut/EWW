@@ -6,13 +6,11 @@ public class BallPlayer : MonoBehaviour {
 	// Use this for initialization
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
-    public float speed;
 	
 	void Start () {
         objectTaken = null;
         canBeTaken = null;
-        speed = 10f;
-        //rigidbody.mass = 30;
+		//rigidbody.mass = 30;
 	}
 	
 	
@@ -38,7 +36,7 @@ public class BallPlayer : MonoBehaviour {
 		
 		Vector3 mov = forwardVec * forw * -1 + rightVec*right;
 		mov.Normalize();
-		mov *= speed;
+		mov *= Constants.charSpeed;
         controller.SimpleMove(mov);
 		transform.LookAt(transform.position + mov);
 		

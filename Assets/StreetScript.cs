@@ -7,6 +7,7 @@ public class StreetScript : MonoBehaviour {
 	public bool E;
 	public bool S;
 	public bool W;
+	public bool open = true;
 	public int x, y;
 	// Use this for initialization
 	void Start () {
