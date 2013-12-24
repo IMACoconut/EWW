@@ -54,9 +54,9 @@ public class CameraFollower : MonoBehaviour {
         }
 		
 		
-		float x = distance*Mathf.Cos(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
-		float z = distance*Mathf.Sin(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
-		float y = distance*Mathf.Cos(phi*Mathf.PI/180f);
+		float x = Constants.camDist*Mathf.Cos(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
+		float z = Constants.camDist*Mathf.Sin(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
+		float y = Constants.camDist*Mathf.Cos(phi*Mathf.PI/180f);
 		
 		Vector3 look = ball.transform.position;
 		look.y += 10; 

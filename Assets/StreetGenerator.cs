@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class StreetGenerator {
-	ArrayList placed;
-	ArrayList open;
+	ArrayList placed = null;
+	ArrayList open = null;
 	int maxRadius;
 	
 	StreetScript getRandomStreet(StreetScript[] streets, int minPath, int maxPath) {
@@ -15,7 +16,7 @@ public class StreetGenerator {
 		}
 		
 		int r = Random.Range(0, tmp.Count);
-		StreetScript ret = GameObject.Instantiate((StreetScript)tmp[r]) as StreetScript;
+		StreetScript ret = StreetScript.Instantiate((StreetScript)tmp[r]) as StreetScript;
 		if(ret == null)
 			Debug.Log("generating null street!");
 		return ret;
@@ -27,11 +28,11 @@ public class StreetGenerator {
 				continue;
 		
 			if(s.x == x && s.y == y) {
-				if(s.E && !exists (x, y+1))
+				if(s.E && !exists (x, y-1))
 					return true;
-				if(s.W && !exists (x,y-1))
+				if(s.W && !exists (x, y+1))
 					return true;
-				if(s.N && !exists (x+1,y))
+				if(s.N && !exists (x+1, y))
 					return true;
 				if(s.S && !exists (x-1, y))
 					return true;
@@ -62,7 +63,7 @@ public class StreetGenerator {
 			if(y2 >= maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
 			else
-				s2 = getRandomStreet(streets, 0,4);
+				s2 = getRandomStreet(streets, 1,4);
 			while(!s2.E)
 				s2.rotateLeft();
 		} else if(s.E && !exists (s.x, s.y-1)) {
@@ -70,7 +71,7 @@ public class StreetGenerator {
 			if(y2 <= -maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
 			else
-				s2 = getRandomStreet(streets, 0,4);
+				s2 = getRandomStreet(streets, 1,4);
 			while(!s2.W)
 				s2.rotateLeft();
 		} else if(s.N && !exists (s.x+1, s.y)) {
@@ -78,15 +79,15 @@ public class StreetGenerator {
 			if(x2 >= maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
 			else
-				s2 = getRandomStreet(streets, 0,4);
+				s2 = getRandomStreet(streets, 1,4);
 			while(!s2.S)
 				s2.rotateLeft();
 		} else if(s.S && !exists (s.x-1, s.y)) {
 			x2 = x2-1;
-			if(x2 <= -maxRadius )
+			if(x2 <= -maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
 			else
-				s2 = getRandomStreet(streets, 0,4);
+				s2 = getRandomStreet(streets, 1,4);
 			
 			while(!s2.N)
 				s2.rotateLeft();
@@ -96,20 +97,31 @@ public class StreetGenerator {
 		}
 		
 		s2.x = x2;
-			s2.y = y2;
+		s2.y = y2;
 		placed.Add(s2);
 		if(isOpen(x2, y2))
 			open.Add(s2);
-		if(!isOpen (s.x,s.y))
+		else
+			s2.open = false;
+		
+		if(!isOpen (s.x,s.y)) {
 			open.Remove(s);
+			s.open = false;
+		}
 	}
 	
-	public ArrayList Generate(StreetScript[] streets, int radius) {
+	public ArrayList Generate(GameScript game, StreetScript[] streets, int radius) {
+		if(placed != null)
+			placed.Clear();
+		
 		placed = new ArrayList();
+		if(open!=null)
+			open.Clear();
+		
 		open = new ArrayList();
 		maxRadius = radius;
 		
-		StreetScript first = getRandomStreet(streets, 2, 4);
+		StreetScript first = getRandomStreet(streets, 2, 3);
 		first.x = 0; first.y = 0;
 		placed.Add(first);
 		open.Add(first);
@@ -119,9 +131,53 @@ public class StreetGenerator {
 			tmp++;
 		}
 		
+		
+		
 		foreach(StreetScript s in placed)
 			s.transform.position = new Vector3(25.6f*3*s.x, 0, 25.6f*3*s.y);
 		
+		int val = Random.Range(1, placed.Count);
+		game.currentValve = ValveScript.Instantiate(game.valve) as ValveScript;
+		game.currentValve.useEnabled = true;
+		placeValve(game, val);
+		
+		int val2;
+		do {
+			val2 = Random.Range(1, placed.Count);
+		} while(val2 == val);
+		
+		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
+		game.currentDoor.locked = true;
+		placeDoor(game, val2);
+		
 		return placed;
+	}
+	
+	void placeValve(GameScript game, int pos) {
+		StreetScript s = (StreetScript)placed[pos];
+		Transform[] children = s.transform.GetComponentsInChildren<Transform>();
+		ArrayList tmp = new ArrayList();
+		
+		foreach(Transform c in children)
+			if(c.gameObject.tag.StartsWith("Attachment"))
+				tmp.Add(c);
+		
+		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
+		game.currentValve.transform.position = a.position;
+		game.currentValve.transform.rotation = a.rotation;
+	}
+	
+	void placeDoor(GameScript game, int pos) {
+		StreetScript s = (StreetScript)placed[pos];
+		Transform[] children = s.transform.GetComponentsInChildren<Transform>();
+		ArrayList tmp = new ArrayList();
+		
+		foreach(Transform c in children)
+			if(c.gameObject.tag.StartsWith("Attachment"))
+				tmp.Add(c);
+		
+		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
+		game.currentDoor.transform.position = a.position;
+		game.currentDoor.transform.rotation = a.rotation;
 	}
 }
