@@ -22,7 +22,7 @@ public class GameScript : MonoBehaviour {
 	void Start () {
 		roomsDone = 0;
 		maxRooms = 3;
-		player = GameObject.Find("Player");
+		//player = GameObject.Find("Player");
 		EnterRoom();
 		globalTimer = new CTimer();
 		globalTimer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
@@ -89,8 +89,9 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	// Specify what you want to happen when the Elapsed event is raised.
-	private static void OnTimedEvent(object source, ElapsedEventArgs e)
+	private void OnTimedEvent(object source, ElapsedEventArgs e)
 	{
 		Debug.Log("Timeout noob!");
+		globalTimer.Stop();
 	}
 }

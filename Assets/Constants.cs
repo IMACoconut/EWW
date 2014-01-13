@@ -9,7 +9,7 @@ public class Constants : MonoBehaviour {
 	private static bool debugMode = false;
 	
 	void Update() {
-		if(Input.GetKey(KeyCode.F2))
+		if(Input.GetKeyDown(KeyCode.F2))
 			EnableDebug(!debugMode);
 	}
 	

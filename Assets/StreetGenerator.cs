@@ -136,24 +136,27 @@ public class StreetGenerator {
 		foreach(StreetScript s in placed)
 			s.transform.position = new Vector3(25.6f*3*s.x, 0, 25.6f*3*s.y);
 		
-		int val = Random.Range(1, placed.Count);
+		
 		game.currentValve = ValveScript.Instantiate(game.valve) as ValveScript;
 		game.currentValve.useEnabled = true;
-		placeValve(game, val);
+		
+		int val;
+		do {
+			val = Random.Range(1, placed.Count);	
+		} while(!placeValve(game, val));
+		
+		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
+		game.currentDoor.locked = true;
 		
 		int val2;
 		do {
 			val2 = Random.Range(1, placed.Count);
-		} while(val2 == val);
-		
-		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
-		game.currentDoor.locked = true;
-		placeDoor(game, val2);
+		} while(val2 == val || !placeDoor(game, val2));
 		
 		return placed;
 	}
 	
-	void placeValve(GameScript game, int pos) {
+	bool placeValve(GameScript game, int pos) {
 		StreetScript s = (StreetScript)placed[pos];
 		Transform[] children = s.transform.GetComponentsInChildren<Transform>();
 		ArrayList tmp = new ArrayList();
@@ -161,13 +164,16 @@ public class StreetGenerator {
 		foreach(Transform c in children)
 			if(c.gameObject.tag.StartsWith("Attachment"))
 				tmp.Add(c);
+		if(tmp.Count <= 0)
+			return false;
 		
 		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
 		game.currentValve.transform.position = a.position;
 		game.currentValve.transform.rotation = a.rotation;
+		return true;
 	}
 	
-	void placeDoor(GameScript game, int pos) {
+	bool placeDoor(GameScript game, int pos) {
 		StreetScript s = (StreetScript)placed[pos];
 		Transform[] children = s.transform.GetComponentsInChildren<Transform>();
 		ArrayList tmp = new ArrayList();
@@ -175,9 +181,12 @@ public class StreetGenerator {
 		foreach(Transform c in children)
 			if(c.gameObject.tag.StartsWith("Attachment"))
 				tmp.Add(c);
+		if(tmp.Count <= 0)
+			return false;
 		
 		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
 		game.currentDoor.transform.position = a.position;
 		game.currentDoor.transform.rotation = a.rotation;
+		return true;
 	}
 }
