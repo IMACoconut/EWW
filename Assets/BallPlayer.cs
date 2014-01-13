@@ -6,10 +6,12 @@ public class BallPlayer : MonoBehaviour {
 	// Use this for initialization
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
+	private Vector3 lastDir;
 	
 	void Start () {
         objectTaken = null;
         canBeTaken = null;
+		lastDir = Vector3.zero;
 		//rigidbody.mass = 30;
 	}
 	
@@ -19,26 +21,45 @@ public class BallPlayer : MonoBehaviour {
 		CharacterController controller = GetComponent<CharacterController>();
 		
 		var controlCameraObject = GameObject.Find("Main Camera");
-        //if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
-		float forw = 0f;
-		if(Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
-			forw = Input.GetAxis("Left Analog Vertical");
-		float right = 0f;
-		if(Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
-			right = Input.GetAxis("Left Analog Horizontal");
+		float tmpSpeed = 1f;
+		Vector3 mov = Vector3.zero;
+		//if() {
+	        //if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
+			float forw = 0f;
+			if(Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
+				forw = Input.GetAxis("Left Analog Vertical");
+			float right = 0f;
+			if(Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
+				right = Input.GetAxis("Left Analog Horizontal");
 		
-		Vector3 forwardVec = controlCameraObject.transform.forward;
-		forwardVec.y = 0;
-		forwardVec.Normalize();
-		Vector3 rightVec = controlCameraObject.transform.right;
-		rightVec.y = 0;
-		rightVec.Normalize();
+			if(Mathf.Abs(forw) > 0.6 || Mathf.Abs(right) > 0.6)
+				tmpSpeed = 3;
+			
+			Vector3 forwardVec = controlCameraObject.transform.forward;
+			forwardVec.y = 0;
+			forwardVec.Normalize();
+			Vector3 rightVec = controlCameraObject.transform.right;
+			rightVec.y = 0;
+			rightVec.Normalize();
+			
+			mov = forwardVec * forw * -1 + rightVec*right;
+			mov.Normalize();
+			mov *= Constants.charSpeed * tmpSpeed;
+			mov *= Time.deltaTime;
+			transform.LookAt(transform.position + mov);
+			lastDir = mov;
+			if(controller.isGrounded && Input.GetButton("X"))
+				mov.y = 10f;
+			
+			
+		//} else {
+		//	mov = lastDir;	
+		//}
 		
-		Vector3 mov = forwardVec * forw * -1 + rightVec*right;
-		mov.Normalize();
-		mov *= Constants.charSpeed;
-        controller.SimpleMove(mov);
-		transform.LookAt(transform.position + mov);
+		mov.y -= 9.81f*Time.deltaTime;
+		
+		controller.Move(mov);
+        
 		
         
        /* else if (Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("Left Analog Vertical") > 0.2f)*/
