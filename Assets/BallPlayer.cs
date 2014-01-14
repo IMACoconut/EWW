@@ -35,10 +35,9 @@ public class BallPlayer : MonoBehaviour {
         if (Input.GetKey(KeyCode.UpArrow)) forw = -1;
         if (Input.GetKey(KeyCode.DownArrow)) forw = 1;
         if (Input.GetKey(KeyCode.RightArrow)) right = 1;
-        if (Input.GetKey(KeyCode.LeftArrow)) right = -1;
+        if (Input.GetKey(KeyCode.LeftArrow))  right = -1;
 
-
-		Vector3 forwardVec = controlCameraObject.transform.forward;
+        Vector3 forwardVec = controlCameraObject.transform.forward; 
 		forwardVec.y = 0;
 		forwardVec.Normalize();
 		Vector3 rightVec = controlCameraObject.transform.right;
@@ -99,15 +98,15 @@ public class BallPlayer : MonoBehaviour {
         {
             Debug.Log("main camera");
             camSwap(1);
-            currentCam = 1;
+            currentCam = 1;  
         }
         if (Input.GetKey("2"))
         {
             Debug.Log("iron sight");
             camSwap(2);
             currentCam = 2;
-        }
-        
+            
+        }        
 
 	}
     void camSwap(int currentCam){
@@ -118,10 +117,12 @@ public class BallPlayer : MonoBehaviour {
            theCam.enabled = false;
           }  
             string oneToUse = "";
-            if (currentCam == 1) oneToUse = "Main Camera";
-            else if (currentCam == 2) oneToUse = "ironSight";
+            if (currentCam == 1) { oneToUse = "Main Camera"; }
+            else if (currentCam == 2) { oneToUse = "ironSight"; }
           Camera usedCam = GameObject.Find(oneToUse).GetComponent<Camera>() as Camera;
           usedCam.enabled = true;
+
+
  }
 
     void GrabObject()

@@ -23,7 +23,6 @@ public class ironSight : MonoBehaviour
         {
             float tmp = Input.GetAxis("Right Analog Horizontal");
             float tmp1 = Input.GetAxis("Right Analog Vertical");
-
             if (tmp > 0.2f || tmp < -0.2f)
                 theta += 2 * tmp;
 
@@ -64,9 +63,11 @@ public class ironSight : MonoBehaviour
         float y = distance * Mathf.Cos(phi * Mathf.PI / 180f);
 
         Vector3 origin = ball.transform.position;
-        origin.x -= 0.8f;
+        origin.x += 5;
+		origin.z += 2.5f;
         Vector3 look = origin ;
-        look.y += 8;
+        look.y += 8.5f;
+		
         transform.position = look - new Vector3(x, y, z);
 
         transform.LookAt(look);
