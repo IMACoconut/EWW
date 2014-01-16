@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BallPlayer.cs" />
      <Compile Include="Assets\Scripts\CTimer.cs" />
+     <Compile Include="Assets\Scripts\CameraCollider.cs" />
      <Compile Include="Assets\Scripts\CameraFollower.cs" />
      <Compile Include="Assets\Scripts\CatchableObject.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
