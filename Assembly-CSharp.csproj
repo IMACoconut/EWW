@@ -54,12 +54,14 @@
      <Compile Include="Assets\Scripts\EndStreetScript.cs" />
      <Compile Include="Assets\Scripts\GameScript.cs" />
      <Compile Include="Assets\Scripts\Room1Script.cs" />
+     <Compile Include="Assets\Scripts\Room2Script.cs" />
+     <Compile Include="Assets\Scripts\Room2Script_Table.cs" />
      <Compile Include="Assets\Scripts\StreetGenerator.cs" />
      <Compile Include="Assets\Scripts\StreetScript.cs" />
      <Compile Include="Assets\Scripts\TeleportScript.cs" />
      <Compile Include="Assets\Scripts\ValveScript.cs" />
      <Compile Include="Assets\Scripts\VisualTrick1.cs" />
-     <Compile Include="Assets\ironSight.cs" />
+     <Compile Include="Assets\Scripts\ironSight.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

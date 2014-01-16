@@ -5,6 +5,9 @@ public class Constants : MonoBehaviour {
 	private static float baseSpeed = 10f;
 	public static float camDist = 10f;
 	private static float baseCamDist = 10f;
+
+
+       
 	
 	private static bool debugMode = false;
 	
@@ -24,4 +27,7 @@ public class Constants : MonoBehaviour {
 		}
 		debugMode = b;
 	}
+
+
+ 
 }
