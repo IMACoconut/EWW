@@ -4,13 +4,12 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour {
 	
 	public GameObject ball;
-	float theta, phi;
+	float theta, phi, distance;
 	// Use this for initialization
 	void Start () {
-<<<<<<< HEAD
+
 		distance = 12;
-=======
->>>>>>> origin/André
+
 		theta = 0;
 		phi = 0;
 	}
