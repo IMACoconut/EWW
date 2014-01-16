@@ -1,6 +1,7 @@
 /Temp/*
 /obj/*
 /Library/*
+!*.asset
 *.csproj
 *.unityproj
 *.sln
