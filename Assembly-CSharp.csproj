@@ -44,21 +44,21 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BallPlayer.cs" />
-     <Compile Include="Assets\CTimer.cs" />
-     <Compile Include="Assets\CameraFollower.cs" />
-     <Compile Include="Assets\CatchableObject.cs" />
-     <Compile Include="Assets\Constants.cs" />
-     <Compile Include="Assets\DoorScript.cs" />
-     <Compile Include="Assets\EndPointScript.cs" />
-     <Compile Include="Assets\EndStreetScript.cs" />
-     <Compile Include="Assets\GameScript.cs" />
-     <Compile Include="Assets\Room1Script.cs" />
-     <Compile Include="Assets\StreetGenerator.cs" />
-     <Compile Include="Assets\StreetScript.cs" />
-     <Compile Include="Assets\TeleportScript.cs" />
-     <Compile Include="Assets\ValveScript.cs" />
-     <Compile Include="Assets\VisualTrick1.cs" />
+     <Compile Include="Assets\Scripts\BallPlayer.cs" />
+     <Compile Include="Assets\Scripts\CTimer.cs" />
+     <Compile Include="Assets\Scripts\CameraFollower.cs" />
+     <Compile Include="Assets\Scripts\CatchableObject.cs" />
+     <Compile Include="Assets\Scripts\Constants.cs" />
+     <Compile Include="Assets\Scripts\DoorScript.cs" />
+     <Compile Include="Assets\Scripts\EndPointScript.cs" />
+     <Compile Include="Assets\Scripts\EndStreetScript.cs" />
+     <Compile Include="Assets\Scripts\GameScript.cs" />
+     <Compile Include="Assets\Scripts\Room1Script.cs" />
+     <Compile Include="Assets\Scripts\StreetGenerator.cs" />
+     <Compile Include="Assets\Scripts\StreetScript.cs" />
+     <Compile Include="Assets\Scripts\TeleportScript.cs" />
+     <Compile Include="Assets\Scripts\ValveScript.cs" />
+     <Compile Include="Assets\Scripts\VisualTrick1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
