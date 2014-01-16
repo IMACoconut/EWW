@@ -24,4 +24,16 @@ public class Constants : MonoBehaviour {
 		}
 		debugMode = b;
 	}
+
+    public static float RealAngle(Vector3 a, Vector3 b, Vector3 c)
+    {
+        int scal = 0;
+        if (Vector3.Dot(a, c) < 0)
+            scal = 1;
+
+        if (scal == 0)
+            return Vector3.Angle(a, b);
+        else
+            return 360 - Vector3.Angle(a, b);
+    }
 }
