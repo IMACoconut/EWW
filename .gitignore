@@ -1,6 +1,6 @@
-/Temp
-/obj
-/library
+/Temp/*
+/obj/*
+/Library/*
 *.csproj
 *.unityproj
 *.sln
