@@ -1,5 +1,8 @@
-Temp/
-
-
+/Temp/*
+/obj/*
+/Library/*
+*.csproj
+*.unityproj
+*.sln
 
 !.gitignore

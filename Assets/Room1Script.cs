@@ -35,7 +35,7 @@ public class Room1Script : MonoBehaviour {
 	void Update () {
 		if(!startRoom)
 			return;
-		
+
 		currAngle = Vector3.Angle(player.transform.position, roomCenter.transform.position);
 		
 		if(updateLoopValue) {

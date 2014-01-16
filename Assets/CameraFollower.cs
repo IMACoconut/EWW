@@ -4,10 +4,13 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour {
 	
 	public GameObject ball;
-	float theta, phi, distance;
+	float theta, phi;
 	// Use this for initialization
 	void Start () {
+<<<<<<< HEAD
 		distance = 12;
+=======
+>>>>>>> origin/André
 		theta = 0;
 		phi = 0;
 	}
@@ -54,9 +57,9 @@ public class CameraFollower : MonoBehaviour {
         }
 		
 		
-		float x = distance*Mathf.Cos(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
-		float z = distance*Mathf.Sin(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
-		float y = distance*Mathf.Cos(phi*Mathf.PI/180f);
+		float x = Constants.camDist*Mathf.Cos(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
+		float z = Constants.camDist*Mathf.Sin(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
+		float y = Constants.camDist*Mathf.Cos(phi*Mathf.PI/180f);
 		
 		Vector3 look = ball.transform.position;
 		look.y += 7; 
