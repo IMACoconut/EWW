@@ -3,5 +3,10 @@ Temp/*
 obj/*
 !.asset
 !/Assets/
+*.sln
+*.suo
+*.csproj
+Assembly-CSharp.pidb
+EWW.userprefs
 
 !.gitignore
