@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Temp/*
 /obj/*
 /Library/*
@@ -8,6 +9,13 @@
 <<<<<<< HEAD
 =======
 *.suo
+>>>>>>> origin/master
+=======
+Library/*
+Temp/*
+obj/*
+!.asset
+!/Assets/
 >>>>>>> origin/master
 
 !.gitignore
