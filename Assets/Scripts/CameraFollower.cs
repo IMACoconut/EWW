@@ -4,23 +4,14 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour {
 	
 	public GameObject ball;
-<<<<<<< HEAD
-	float theta, phi, distance;
-	// Use this for initialization
-	void Start () {
 
-		distance = 12;
-
-		theta = 0;
-		phi = 0;
-=======
 	float theta, phi;
 	// Use this for initialization
 	void Start () {
 		theta = 0;
 		phi = 0;
         //maxDist = Constants.camDist;
->>>>>>> origin/master
+
 	}
 	
 	// Update is called once per frame
@@ -36,11 +27,9 @@ public class CameraFollower : MonoBehaviour {
 
 
             if (tmp1 > 0.2 || tmp1 < -0.2)
-<<<<<<< HEAD
-                phi -= 2 * tmp1;
-=======
+
                 phi += 2 * tmp1;
->>>>>>> origin/master
+
 
             if (phi >= 179.9f)
                 phi = 179.9f;
@@ -54,10 +43,6 @@ public class CameraFollower : MonoBehaviour {
             float tmp = Input.GetAxis("Mouse X") * 0.8f;
             float tmp1 = Input.GetAxis("Mouse Y") * 0.8f;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
             if (tmp > 0.2f || tmp < -0.2f)
                 theta += 2 * tmp;
 
@@ -73,18 +58,7 @@ public class CameraFollower : MonoBehaviour {
         }
 		
 		
-<<<<<<< HEAD
-		float x = Constants.camDist*Mathf.Cos(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
-		float z = Constants.camDist*Mathf.Sin(theta*Mathf.PI/180f)*Mathf.Sin(phi*Mathf.PI/180f);
-		float y = Constants.camDist*Mathf.Cos(phi*Mathf.PI/180f);
-		
-		Vector3 look = ball.transform.position;
-		look.y += 7; 
-		transform.position = look-new Vector3(x,y,z);
-		
-		transform.LookAt(look);
-	}
-=======
+
 		
 		
 		Vector3 look = ball.transform.position;
@@ -120,5 +94,5 @@ public class CameraFollower : MonoBehaviour {
         float y = dist * Mathf.Cos(phi * Mathf.PI / 180f);
         return new Vector3(x, y, z);
     }
->>>>>>> origin/master
+
 }

@@ -12,10 +12,9 @@ public class Room1Script : MonoBehaviour {
 	public GameObject[] cubes;
 	public GameObject etagere;
 	public GameObject roomCenter;
-<<<<<<< HEAD
-=======
+
     public GameObject pillar;
->>>>>>> origin/master
+
 	public bool startRoom;
 	
 	// Use this for initialization
@@ -29,16 +28,12 @@ public class Room1Script : MonoBehaviour {
 		player = GameObject.Find("Player");
 		etagere = GameObject.Find("Etagere");
 		roomCenter = GameObject.Find("RoomCenter");
-<<<<<<< HEAD
-		startRoom = false;
-		lastAngle = 0;//Vector3.Angle(player.transform.position, roomCenter.transform.position);
-		loop = 0;
-=======
+
         pillar = GameObject.Find("Pillar");
 		startRoom = false;
 		lastAngle = Vector3.Angle(player.transform.position, roomCenter.transform.position);
 		loop = -1;
->>>>>>> origin/master
+
 		updateLoopValue = false;
 	}
 	
@@ -47,27 +42,7 @@ public class Room1Script : MonoBehaviour {
 		if(!startRoom)
 			return;
 
-<<<<<<< HEAD
-		currAngle = Vector3.Angle(player.transform.position, roomCenter.transform.position);
-		
-		if(updateLoopValue) {
-			if(currAngle > lastAngle) {
-				
-			} else {
-				
-			}
-			
-		}
-		//lastAngle = currAngle;
-	}
-	
-	void IncreaseLoop() {
-		
-	}
-	
-	void OnTriggerEnter() {
-		startRoom = true;
-=======
+
         Vector3 pos = player.transform.position - roomCenter.transform.position;
         currAngle = Constants.RealAngle(pos, -roomCenter.transform.right, -roomCenter.transform.forward);
         IncreaseLoop();
@@ -170,7 +145,7 @@ public class Room1Script : MonoBehaviour {
             return;
 		
         startRoom = true;
->>>>>>> origin/master
+
 		updateLoopValue = true;
 		Debug.Log ("start room");
 	}
