@@ -6,12 +6,12 @@ public class BallPlayer : MonoBehaviour {
 	// Use this for initialization
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
-	private Vector3 lastDir;
+	//private Vector3 lastDir;
 	
 	void Start () {
         objectTaken = null;
         canBeTaken = null;
-		lastDir = Vector3.zero;
+		//lastDir = Vector3.zero;
 		//rigidbody.mass = 30;
 	}
 	
@@ -47,7 +47,7 @@ public class BallPlayer : MonoBehaviour {
 			mov *= Constants.charSpeed * tmpSpeed;
 			mov *= Time.deltaTime;
 			transform.LookAt(transform.position + mov);
-			lastDir = mov;
+			//lastDir = mov;
 			if(controller.isGrounded && Input.GetButton("X"))
 				mov.y = 10f;
 			
