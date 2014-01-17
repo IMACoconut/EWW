@@ -26,7 +26,11 @@ TextureImporter:
     filterMode: -1
     aniso: -1
     mipBias: -1
+<<<<<<< HEAD
     wrapMode: -1
+=======
+    wrapMode: 1
+>>>>>>> origin/master
   nPOTScale: 1
   lightmap: 0
   compressionQuality: 50

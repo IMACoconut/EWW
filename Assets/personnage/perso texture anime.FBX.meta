@@ -213,8 +213,13 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
+<<<<<<< HEAD
       loopTime: 0
       loopBlend: 0
+=======
+      loopTime: 1
+      loopBlend: 1
+>>>>>>> origin/master
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -234,7 +239,11 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: .00999999978
     meshCompression: 0
+<<<<<<< HEAD
     addColliders: 0
+=======
+    addColliders: 1
+>>>>>>> origin/master
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

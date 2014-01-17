@@ -51,6 +51,7 @@
     <Compile Include="Assets\Scripts\CTimer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Assets\Scripts\CameraCollider.cs" />
     <Compile Include="Assets\Scripts\CameraFollower.cs" />
     <Compile Include="Assets\Scripts\CatchableObject.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
@@ -62,6 +63,13 @@
     <Compile Include="Assets\Scripts\LightRoom1Script_Light.cs" />
     <Compile Include="Assets\Scripts\LightRoom1Script_Table.cs" />
     <Compile Include="Assets\Scripts\Room1Script.cs" />
+    <Compile Include="Assets\Scripts\DoorTeleport.cs" />
+    <Compile Include="Assets\Scripts\EndPointScript.cs" />
+    <Compile Include="Assets\Scripts\EndStreetScript.cs" />
+    <Compile Include="Assets\Scripts\GameScript.cs" />
+    <Compile Include="Assets\Scripts\Room1Script.cs" />
+    <Compile Include="Assets\Scripts\Room2_script.cs" />
+    <Compile Include="Assets\Scripts\RoomFoldedSpace_01_script.cs" />
     <Compile Include="Assets\Scripts\StreetGenerator.cs" />
     <Compile Include="Assets\Scripts\StreetScript.cs" />
     <Compile Include="Assets\Scripts\TeleportScript.cs" />

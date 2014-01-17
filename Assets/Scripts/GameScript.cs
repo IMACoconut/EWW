@@ -17,7 +17,11 @@ public class GameScript : MonoBehaviour {
 	public DoorScript currentDoor;
 	
 	public CTimer globalTimer;
+<<<<<<< HEAD
 	
+=======
+    private Vector3 initialSize;
+>>>>>>> origin/master
 	// Use this for initialization
 	void Start () {
 		roomsDone = 0;
@@ -29,6 +33,10 @@ public class GameScript : MonoBehaviour {
 		globalTimer.Interval=1000*60*3;
 	    globalTimer.Enabled=true;
 		globalTimer.Start();
+<<<<<<< HEAD
+=======
+        initialSize = player.transform.localScale;
+>>>>>>> origin/master
 	}
 	
 	// Update is called once per frame
@@ -57,11 +65,19 @@ public class GameScript : MonoBehaviour {
 		generatedStreets.Clear();
 		generatedStreets = null;
 
+<<<<<<< HEAD
+=======
+        player.transform.localScale = initialSize;
+>>>>>>> origin/master
 		EnterRoom();
 	}
 	
 	void EnterStreet() {
 		generateStreets();
+<<<<<<< HEAD
+=======
+        player.transform.localScale = initialSize*0.60f;
+>>>>>>> origin/master
 	}
 	
 	void EnterRoom() {
@@ -70,8 +86,15 @@ public class GameScript : MonoBehaviour {
 		currentLocation = GameObject.Instantiate(rooms[re]) as GameObject;
 
 		Vector3 pos = currentLocation.transform.Find("StartPointScript").transform.position;
+<<<<<<< HEAD
 		pos.y += 2;
 		player.transform.position = pos;
+=======
+       // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
+		pos.y += 2;
+		player.transform.position = pos;
+        player.transform.localRotation = currentLocation.transform.Find("StartPointScript").transform.localRotation;
+>>>>>>> origin/master
 	}
 	
 	void generateStreets() {
@@ -94,4 +117,13 @@ public class GameScript : MonoBehaviour {
 		Debug.Log("Timeout noob!");
 		globalTimer.Stop();
 	}
+<<<<<<< HEAD
+=======
+
+    public void teleportPlayer(GameObject to)
+    {
+        player.transform.position = to.transform.position;
+        player.transform.localRotation = to.transform.localRotation;
+    }
+>>>>>>> origin/master
 }
