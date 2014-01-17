@@ -1,9 +1,7 @@
-/Temp/*
-/obj/*
-!*.asset
-*.csproj
-*.unityproj
-*.sln
-*.suo
+Library/*
+Temp/*
+obj/*
+!.asset
+!/Assets/
 
 !.gitignore

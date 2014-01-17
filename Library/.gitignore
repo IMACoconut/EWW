@@ -1,8 +1,7 @@
-metadata/*/*
-metadata/*
-ScriptAssemblies/*
+/metadata/*/*
+/metadata/*
+/ScriptAssemblies/*
 *
 !*.asset
-!assetDatabase3
 
 !.gitignore
