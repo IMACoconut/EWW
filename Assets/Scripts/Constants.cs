@@ -4,6 +4,7 @@ public class Constants : MonoBehaviour {
 	public static float charSpeed = 10f;
 	private static float baseSpeed = 10f;
 	public static float camDist = 10f;
+    public static float camHeight = 8.5f;
 	private static float baseCamDist = 10f;
 	
 	private static bool debugMode = false;

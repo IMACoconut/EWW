@@ -73,7 +73,7 @@ public class GameScript : MonoBehaviour {
 		currentLocation = GameObject.Instantiate(rooms[re]) as GameObject;
 
 		Vector3 pos = currentLocation.transform.Find("StartPointScript").transform.position;
-        Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
+       // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
 		pos.y += 2;
 		player.transform.position = pos;
         player.transform.localRotation = currentLocation.transform.Find("StartPointScript").transform.localRotation;
@@ -99,4 +99,10 @@ public class GameScript : MonoBehaviour {
 		Debug.Log("Timeout noob!");
 		globalTimer.Stop();
 	}
+
+    public void teleportPlayer(GameObject to)
+    {
+        player.transform.position = to.transform.position;
+        player.transform.localRotation = to.transform.localRotation;
+    }
 }

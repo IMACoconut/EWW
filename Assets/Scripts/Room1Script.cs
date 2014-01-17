@@ -133,10 +133,13 @@ public class Room1Script : MonoBehaviour {
             doorStart.transform.Find("door").renderer.enabled = false;
             doorStart.collider.enabled = false;
         }
-    }
+    } 
 	
 	void OnTriggerEnter() {
-		startRoom = true;
+        if (startRoom)
+            return;
+		
+        startRoom = true;
 		updateLoopValue = true;
 		Debug.Log ("start room");
 	}

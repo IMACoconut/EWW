@@ -4,12 +4,12 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour {
 	
 	public GameObject ball;
-	float theta, phi, maxDist;
+	float theta, phi;
 	// Use this for initialization
 	void Start () {
 		theta = 0;
 		phi = 0;
-        maxDist = Constants.camDist;
+        //maxDist = Constants.camDist;
 	}
 	
 	// Update is called once per frame
@@ -58,7 +58,7 @@ public class CameraFollower : MonoBehaviour {
 		
 		
 		Vector3 look = ball.transform.position;
-		look.y += 7;
+		look.y += Constants.camHeight;
         
 		transform.position = look-CalculateOrbit(Constants.camDist);
 		

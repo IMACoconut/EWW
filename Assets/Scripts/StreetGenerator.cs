@@ -57,7 +57,7 @@ public class StreetGenerator {
 		StreetScript s2 = null;
 		int x2 = s.x;
 		int y2 = s.y;
-        int min = (maxRadius > 2 && System.Math.Sqrt(x2*x2 + y2*y2) > 3.0) ? 1 : 2;
+        //int min = (maxRadius > 2 && System.Math.Sqrt(x2*x2 + y2*y2) > 3.0) ? 1 : 2;
 		if(s.W && !exists (s.x,s.y+1))
 		{
 			y2 = y2+1;
