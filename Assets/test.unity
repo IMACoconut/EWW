@@ -350,6 +350,7 @@ MonoBehaviour:
   objectTaken: {fileID: 0}
   canBeTaken: {fileID: 0}
   speed: 0
+  currentCam: 1
 --- !u!54 &709042001
 Rigidbody:
   m_ObjectHideFlags: 0
