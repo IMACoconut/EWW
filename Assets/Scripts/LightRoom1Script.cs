@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Room2Script : MonoBehaviour
+public class LightRoom1Script : MonoBehaviour
 {
 
     public float lastAngle, currAngle;
@@ -10,8 +10,8 @@ public class Room2Script : MonoBehaviour
     public GameObject player;
     public GameObject doorStart;
     public GameObject doorEnd;
-    public GameObject[] tables;
-    public GameObject etagere;
+    public GameObject[] Lights;
+    
     public GameObject roomCenter;
     public bool startRoom;
     bool solved;
@@ -24,14 +24,14 @@ public class Room2Script : MonoBehaviour
         cubes[1] = GameObject.Find("Cube2");
         cubes[2] = GameObject.Find("Cube3"); */
 
-        tables = new GameObject[7];
-        tables[0] = GameObject.Find("Table1");
-        tables[1] = GameObject.Find("Table2");
-        tables[2] = GameObject.Find("Table3");
-        tables[3] = GameObject.Find("Table4");
-        tables[4] = GameObject.Find("Table5");
-        tables[5] = GameObject.Find("Table6");
-        tables[6] = GameObject.Find("Table7");
+        Lights = new GameObject[7];
+        Lights[0] = GameObject.Find("Light1");
+        Lights[1] = GameObject.Find("Light2");
+        Lights[2] = GameObject.Find("Light3");
+        Lights[3] = GameObject.Find("Light4");
+        Lights[4] = GameObject.Find("Light5");
+        Lights[5] = GameObject.Find("Light6");
+        Lights[6] = GameObject.Find("Light7");
 
         doorStart = GameObject.Find("DoorEntry");
 
@@ -39,7 +39,9 @@ public class Room2Script : MonoBehaviour
         doorEnd.collider.enabled = false;
 
         player = GameObject.Find("Player");
-        etagere = GameObject.Find("Etagere");
+        //player.transform.Translate(-15, 0, 0);
+        //player.transform.Rotate(0 , -90 , 0);
+        
         roomCenter = GameObject.Find("RoomCenter");
         startRoom = false;
         lastAngle = 0;//Vector3.Angle(player.transform.position, roomCenter.transform.position);
@@ -66,13 +68,13 @@ public class Room2Script : MonoBehaviour
 
     bool isSolved()
     {
-        if (tables[0].GetComponent<Room2Script_Table>().off == false &&
-            tables[1].GetComponent<Room2Script_Table>().off == true &&
-            tables[2].GetComponent<Room2Script_Table>().off == false &&
-            tables[3].GetComponent<Room2Script_Table>().off == true &&
-            tables[4].GetComponent<Room2Script_Table>().off == true &&
-            tables[5].GetComponent<Room2Script_Table>().off == false &&
-            tables[6].GetComponent<Room2Script_Table>().off == false)
+        if (Lights[0].GetComponent<LightRoom1Script_Light>().off == false &&
+            Lights[1].GetComponent<LightRoom1Script_Light>().off == true &&
+            Lights[2].GetComponent<LightRoom1Script_Light>().off == false &&
+            Lights[3].GetComponent<LightRoom1Script_Light>().off == true &&
+            Lights[4].GetComponent<LightRoom1Script_Light>().off == true &&
+            Lights[5].GetComponent<LightRoom1Script_Light>().off == false &&
+            Lights[6].GetComponent<LightRoom1Script_Light>().off == false)
         {
             Debug.Log("Problem solved"); //table 1, table 3, table 6, table 7
             return true;

@@ -59,7 +59,7 @@ public class BallPlayer : MonoBehaviour
             right = Input.GetAxis("Left Analog Horizontal");
 
         if (Mathf.Abs(forw) > 0.6 || Mathf.Abs(right) > 0.6)
-            tmpSpeed = 5;
+            tmpSpeed = 3;
 
         Vector3 forwardVec = controlCameraObject.transform.forward;
         forwardVec.y = 0;

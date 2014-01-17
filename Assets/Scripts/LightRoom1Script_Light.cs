@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Room2Script_Table : MonoBehaviour
+public class LightRoom1Script_Light : MonoBehaviour
 {
 
     public bool off = true;
     public bool solution = false;
     public bool collided = false;
     public GameScript mainScript;
+    private Light lightswitch;
     // Use this for initialization
     void Start()
     {
         mainScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
-        audio.Stop();
+        lightswitch = gameObject.GetComponentInChildren<Light>();
+        lightswitch.enabled = false;
+
+
     }
 
     // Update is called once per frame
@@ -23,7 +27,10 @@ public class Room2Script_Table : MonoBehaviour
             if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
             {
                 off = !off;
-                Debug.Log("switch");
+                if (off) lightswitch.enabled = false;
+                else lightswitch.enabled = true;
+                
+                //Debug.Log("switch");
 
             }
         }
@@ -46,15 +53,15 @@ public class Room2Script_Table : MonoBehaviour
         if (player.tag.Equals("Player"))
         {
             collided = true;
-            if(solution) audio.Play(0);
+          
         }
     }
 
     void OnTriggerExit(Collider player)
     {
         collided = false;
-        audio.Stop();
+  
     }
 
-    
+
 }
