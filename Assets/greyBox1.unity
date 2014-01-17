@@ -1053,6 +1053,10 @@ MonoBehaviour:
   objectTaken: {fileID: 0}
   canBeTaken: {fileID: 0}
   speed: 0
+<<<<<<< HEAD
+  currentCam: 1
+=======
+>>>>>>> origin/master
 --- !u!54 &785600117
 Rigidbody:
   m_ObjectHideFlags: 0

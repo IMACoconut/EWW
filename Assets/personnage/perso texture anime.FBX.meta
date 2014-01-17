@@ -179,7 +179,6 @@ ModelImporter:
     4300014: bretelle
     7400000: walk
     9500000: //RootNode
-    11100000: //RootNode
     13700000: Body
     13700002: boucle
     13700004: bretelle
@@ -213,8 +212,8 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -234,7 +233,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: .00999999978
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -264,6 +263,6 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 1
-  additionalBone: 1
+  animationType: 2
+  additionalBone: 0
   userData: 

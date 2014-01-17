@@ -4,12 +4,14 @@ using System.Collections;
 public class CameraFollower : MonoBehaviour {
 	
 	public GameObject ball;
+
 	float theta, phi;
 	// Use this for initialization
 	void Start () {
 		theta = 0;
 		phi = 0;
         //maxDist = Constants.camDist;
+
 	}
 	
 	// Update is called once per frame
@@ -25,7 +27,9 @@ public class CameraFollower : MonoBehaviour {
 
 
             if (tmp1 > 0.2 || tmp1 < -0.2)
+
                 phi += 2 * tmp1;
+
 
             if (phi >= 179.9f)
                 phi = 179.9f;
@@ -38,7 +42,6 @@ public class CameraFollower : MonoBehaviour {
         {
             float tmp = Input.GetAxis("Mouse X") * 0.8f;
             float tmp1 = Input.GetAxis("Mouse Y") * 0.8f;
-
 
             if (tmp > 0.2f || tmp < -0.2f)
                 theta += 2 * tmp;
@@ -55,6 +58,7 @@ public class CameraFollower : MonoBehaviour {
         }
 		
 		
+
 		
 		
 		Vector3 look = ball.transform.position;
@@ -90,4 +94,5 @@ public class CameraFollower : MonoBehaviour {
         float y = dist * Mathf.Cos(phi * Mathf.PI / 180f);
         return new Vector3(x, y, z);
     }
+
 }

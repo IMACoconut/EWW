@@ -1,12 +1,29 @@
+<<<<<<< HEAD
+/Temp/*
+/obj/*
+/Library/*
+!*.asset
+*.csproj
+*.unityproj
+*.sln
+<<<<<<< HEAD
+=======
+*.suo
+>>>>>>> origin/master
+=======
 Library/*
 Temp/*
 obj/*
 !.asset
 !/Assets/
+<<<<<<< HEAD
 *.sln
 *.suo
 *.csproj
 Assembly-CSharp.pidb
 EWW.userprefs
+=======
+>>>>>>> origin/master
+>>>>>>> origin/Moumou
 
 !.gitignore
