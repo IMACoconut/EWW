@@ -12,6 +12,7 @@ public class CameraFollower : MonoBehaviour {
 		phi = 0;
         //maxDist = Constants.camDist;
 
+
 	}
 	
 	// Update is called once per frame
@@ -62,7 +63,7 @@ public class CameraFollower : MonoBehaviour {
 		
 		
 		Vector3 look = ball.transform.position;
-		look.y += Constants.camHeight;
+        look.y += 0.5f * ball.transform.lossyScale.y;
         
 		transform.position = look-CalculateOrbit(Constants.camDist);
 		

@@ -7,7 +7,9 @@ public class BallPlayer : MonoBehaviour
     // Use this for initialization
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
-
+    private GameObject controlCameraObject;
+    private GameObject MainCam;
+    private GameObject ironSight;
     public int currentCam = 1;
 
     private Vector3 lastDir;
@@ -20,8 +22,11 @@ public class BallPlayer : MonoBehaviour
 
         camSwap(1);
         //rigidbody.mass = 30;
-
+        MainCam = GameObject.Find("Main Camera");
+        ironSight = GameObject.Find("ironSight");
+        controlCameraObject = MainCam;
         lastDir = Vector3.zero;
+        Screen.lockCursor = true;
 
     }
 
@@ -31,9 +36,9 @@ public class BallPlayer : MonoBehaviour
     {
         CharacterController controller = GetComponent<CharacterController>();
 
-        var controlCameraObject = GameObject.Find("Main Camera");
-        if (currentCam == 1) controlCameraObject = GameObject.Find("Main Camera");
-        else controlCameraObject = GameObject.Find("ironSight");
+        
+        if (currentCam == 1) controlCameraObject = MainCam;
+        else controlCameraObject = ironSight;
 
         //if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
         float forw = 0f;
@@ -67,6 +72,9 @@ public class BallPlayer : MonoBehaviour
         Vector3 rightVec = controlCameraObject.transform.right;
         rightVec.y = 0;
         rightVec.Normalize();
+
+        if (currentCam == 2) transform.right = rightVec;
+
 
         mov = forwardVec * forw * -1 + rightVec * right;
         mov.Normalize();
@@ -143,19 +151,21 @@ public class BallPlayer : MonoBehaviour
        //     objectTaken.rigidbody.MovePosition(move);
        */
 
+        //if (Input.GetMouseButtonDown(1)) { rightclicked = true; } if (Input.GetMouseButtonUp(1)) { rightclicked = false; }
 
-
-        if (Input.GetKey("1"))
+        if (Input.GetMouseButtonUp(1))
         {
-            Debug.Log("main camera");
+            //Debug.Log("main camera");
             camSwap(1);
             currentCam = 1;
+			
         }
-        if (Input.GetKey("2"))
+        if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("iron sight");
+            //Debug.Log("iron sight");
             camSwap(2);
             currentCam = 2;
+			
 
         }
 

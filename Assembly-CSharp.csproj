@@ -60,14 +60,16 @@
      <Compile Include="Assets\Scripts\LightRoom1Script.cs" />
      <Compile Include="Assets\Scripts\LightRoom1Script_Light.cs" />
      <Compile Include="Assets\Scripts\LightRoom1Script_Table.cs" />
+     <Compile Include="Assets\Scripts\Mouselook.cs" />
+     <Compile Include="Assets\Scripts\Raycast.cs" />
      <Compile Include="Assets\Scripts\Room1Script.cs" />
      <Compile Include="Assets\Scripts\RoomFoldedSpace_01_script.cs" />
+     <Compile Include="Assets\Scripts\RoomGameplayTest.cs" />
      <Compile Include="Assets\Scripts\StreetGenerator.cs" />
      <Compile Include="Assets\Scripts\StreetScript.cs" />
      <Compile Include="Assets\Scripts\TeleportScript.cs" />
      <Compile Include="Assets\Scripts\ValveScript.cs" />
      <Compile Include="Assets\Scripts\VisualTrick1.cs" />
-     <Compile Include="Assets\Scripts\ironSight.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
