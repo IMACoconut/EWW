@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\BallPlayer.cs" />
-     <Compile Include="Assets\Scripts\CTimer.cs" />
      <Compile Include="Assets\Scripts\CameraCollider.cs" />
      <Compile Include="Assets\Scripts\CameraFollower.cs" />
      <Compile Include="Assets\Scripts\CatchableObject.cs" />
@@ -60,6 +59,8 @@
      <Compile Include="Assets\Scripts\LightRoom1Script.cs" />
      <Compile Include="Assets\Scripts\LightRoom1Script_Light.cs" />
      <Compile Include="Assets\Scripts\LightRoom1Script_Table.cs" />
+     <Compile Include="Assets\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\RealTimer.cs" />
      <Compile Include="Assets\Scripts\Room1Script.cs" />
      <Compile Include="Assets\Scripts\RoomFoldedSpace_01_script.cs" />
      <Compile Include="Assets\Scripts\StreetGenerator.cs" />

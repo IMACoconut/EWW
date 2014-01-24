@@ -31,6 +31,12 @@ public class BallPlayer : MonoBehaviour
     {
         CharacterController controller = GetComponent<CharacterController>();
 
+        if (Constants.pause)
+        {
+            controller.Move(new Vector3(0, 0, 0));
+            return;
+        }
+
         var controlCameraObject = GameObject.Find("Main Camera");
         if (currentCam == 1) controlCameraObject = GameObject.Find("Main Camera");
         else controlCameraObject = GameObject.Find("ironSight");
@@ -76,14 +82,14 @@ public class BallPlayer : MonoBehaviour
         lastDir = mov;
 
         if (controller.isGrounded && Input.GetButton("X"))
-            mov.y = 10f;
+            mov.y += 10f;
 
 
         //} else {
         //	mov = lastDir;	
         //}
 
-        mov.y -= 9.81f * Time.deltaTime;
+        mov.y -= 9.81f * Time.deltaTime*3;
 
         controller.Move(mov);
 
@@ -106,44 +112,6 @@ public class BallPlayer : MonoBehaviour
 
 
         }
-
-        /*
-        if(Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("Left Analog Horizontal") < -0.2f)
-            rigidbody.AddForce(Vector3.left);
-        else if(Input.GetKey(KeyCode.RightArrow) || Input.GetAxis("Left Analog Horizontal") > 0.2f)
-            rigidbody.AddForce(Vector3.right);
-		
-        if(Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
-            rigidbody.AddForce(Vector3.forward);
-        else if(Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("Left Analog Vertical") > 0.2f)
-            rigidbody.AddForce(Vector3.back);
-=======
-        
-		if(controller.velocity.magnitude > 0.1f && !animation.IsPlaying("walk")) {
-			animation.Play("walk");
-		} else if(controller.velocity.magnitude < 0.1f){
-				animation.Stop();
-		}
-		
-		/*
-		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("Left Analog Horizontal") < -0.2f)
-			rigidbody.AddForce(Vector3.left);
-		else if(Input.GetKey(KeyCode.RightArrow) || Input.GetAxis("Left Analog Horizontal") > 0.2f)
-			rigidbody.AddForce(Vector3.right);
-		
-		if(Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
-			rigidbody.AddForce(Vector3.forward);
-		else if(Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("Left Analog Vertical") > 0.2f)
-			rigidbody.AddForce(Vector3.back);
->>>>>>> origin/master
-
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("X"))
-            GrabObject();
-       // if (objectTaken != null)
-       //     objectTaken.rigidbody.MovePosition(move);
-       */
-
-
 
         if (Input.GetKey("1"))
         {

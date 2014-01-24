@@ -18,7 +18,9 @@ public class LightRoom1Script_Table : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (Constants.pause)
+            return;
+
 
     }
 

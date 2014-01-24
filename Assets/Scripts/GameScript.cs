@@ -16,34 +16,94 @@ public class GameScript : MonoBehaviour {
 	public DoorScript door;
 	public DoorScript currentDoor;
 	
-	public CTimer globalTimer;
+	public RealTimer globalTimer;
+
+    private enum Menu {
+        Main,
+        Options
+    };
 
     private Vector3 initialSize;
-
+    private Menu m_menu;
 	// Use this for initialization
 	void Start () {
 		roomsDone = 0;
 		maxRooms = 3;
 		//player = GameObject.Find("Player");
+        Constants.pause = false;
 		EnterRoom();
-		globalTimer = new CTimer();
-		globalTimer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
-		globalTimer.Interval=1000*60*3;
-	    globalTimer.Enabled=true;
+		globalTimer = new RealTimer();
+		globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
+        globalTimer.delay = 1000*60*3;
 		globalTimer.Start();
 
         initialSize = player.transform.localScale;
-
+        m_menu = Menu.Main;
+        Screen.lockCursor = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+        globalTimer.Update();
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
+        {
+            Screen.lockCursor = false;
+            if (!globalTimer.IsPaused())
+            {
+                Pause();
+            }
+        }
 	}
+
+    void Resume()
+    {
+        globalTimer.Resume();
+        Constants.pause = false;
+        Screen.lockCursor = true;
+    }
+
+    void Pause()
+    {
+        globalTimer.Pause();
+        Constants.pause = true;
+        Screen.lockCursor = false;
+    }
 	
 	void OnGUI() {
-		GUI.Box(new Rect(0,0,120,25), globalTimer.TimeLeft.ToString());
-	}
+        if(!Constants.pause)
+    		GUI.Box(new Rect(0,0,120,25), globalTimer.TimeLeft().ToString());
+        else if(m_menu == Menu.Main)
+        {
+            int w = Screen.width/2;
+            int h = Screen.height/2;
+            if (GUI.Button(new Rect(w-75, h-60, 150, 40), "Resume"))
+                Resume();
+            if (GUI.Button(new Rect(w - 75, h - 10, 150, 40), "Options"))
+                m_menu = Menu.Options;
+            if (GUI.Button(new Rect(w-75, h+70, 150, 40), "Back to main menu"))
+                Application.LoadLevel("menu");
+        }
+        else if (m_menu == Menu.Options)
+        {
+            int w = Screen.width/2;
+            int h = Screen.height/2;
+            Constants.useController = GUI.Toggle(new Rect(w-80, h-110, 80, 20), Constants.useController, "Controller");
+            Constants.useController = !GUI.Toggle(new Rect(w, h - 110, 75, 20), !Constants.useController, "Mouse");
+
+            GUI.Label(new Rect(w-75, h-80, 150,40), "Sensitivity");
+            Constants.sensitivity = GUI.HorizontalSlider(new Rect(w-75, h-60,150,20), Constants.sensitivity, .1f,10f);
+            GUI.Label(new Rect(w + 80, h - 65, 80, 40), "" + Constants.sensitivity);
+            
+            Constants.invertCamera = GUI.Toggle(new Rect(w - 75, h - 45, 150, 20), Constants.invertCamera, "Inverse camera");
+            
+            GUI.Label(new Rect(w - 75, h - 10, 150, 40), "Volume");
+            Constants.volume = GUI.HorizontalSlider(new Rect(w - 75, h+10, 150, 40), Constants.volume, 0f, 1f);
+            GUI.Label(new Rect(w + 80, h+5, 80, 40), "" + Constants.volume);
+
+            if (GUI.Button(new Rect(w - 75, h + 70, 150, 40), "Back"))
+                m_menu = Menu.Main;
+        }
+    }
 	
 	public void LeaveRoom() {
 		roomsDone++;
@@ -77,7 +137,6 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	void EnterRoom() {
-		Debug.Log("enter room");
 		int re = Random.Range(0, rooms.GetLength(0));
 		currentLocation = GameObject.Instantiate(rooms[re]) as GameObject;
 
@@ -98,8 +157,7 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	public void addTime(int time) {
-		Debug.Log("addtime");
-		globalTimer.Interval = time;
+        globalTimer.delay = time;
 		globalTimer.Start();
 		currentDoor.locked = false;
 	}

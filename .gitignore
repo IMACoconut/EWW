@@ -1,6 +1,8 @@
 /Temp/*
 /obj/*
 /Library/*
+/Debug/*
+/Builds/*
 !*.asset
 *.csproj
 *.unityproj

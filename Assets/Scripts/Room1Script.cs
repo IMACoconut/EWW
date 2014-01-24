@@ -18,9 +18,9 @@ public class Room1Script : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cubes = new GameObject[3];
-		cubes[0] = GameObject.Find("Cube1");
-		cubes[1] = GameObject.Find("Cube2");
-		cubes[2] = GameObject.Find("Cube3");
+		cubes[0] = GameObject.Find("FlowerPot1");
+        cubes[1] = GameObject.Find("FlowerPot2");
+        cubes[2] = GameObject.Find("FlowerPot3");
 		doorStart = GameObject.Find("DoorEntry");
 		doorEnd = GameObject.Find("DoorExit");
 		player = GameObject.Find("Player");
@@ -37,6 +37,9 @@ public class Room1Script : MonoBehaviour {
 	void Update () {
 		if(!startRoom)
 			return;
+        if (Constants.pause)
+            return;
+
 
         Vector3 pos = player.transform.position - roomCenter.transform.position;
         currAngle = Constants.RealAngle(pos, -roomCenter.transform.right, -roomCenter.transform.forward);
@@ -56,22 +59,20 @@ public class Room1Script : MonoBehaviour {
     {
         if (loop == 0 && currAngle < 20)
         {
-            etagere.renderer.enabled = false;
-            etagere.collider.enabled = false;
-        } else if(loop == -1 && currAngle > 350) {
-            etagere.renderer.enabled = true;
-            etagere.collider.enabled = true;
+            ShowRoom(etagere, false);
         }
-        
+        else if (loop == -1 && currAngle > 350)
+        {
+            ShowRoom(etagere, true);
+        }
+
         if (loop == 2 && currAngle > 350)
         {
-            etagere.renderer.enabled = false;
-            etagere.collider.enabled = false;
+            ShowRoom(etagere, false);
         }
         else if (loop == 3 && currAngle < 20)
         {
-            etagere.renderer.enabled = true;
-            etagere.collider.enabled = true;
+            ShowRoom(etagere, true);
         }
 
         for (int i = 0; i < 3; ++i)
@@ -117,7 +118,7 @@ public class Room1Script : MonoBehaviour {
             doorStart.transform.Find("door").renderer.enabled = true;
             doorStart.collider.enabled = true;
         }
-        else if(loop == 0 && currAngle > 50)
+        else if (loop == 0 && currAngle > 50)
         {
             doorStart.transform.Find("door").renderer.enabled = false;
             doorStart.collider.enabled = false;
@@ -133,7 +134,18 @@ public class Room1Script : MonoBehaviour {
             doorStart.transform.Find("door").renderer.enabled = false;
             doorStart.collider.enabled = false;
         }
-    } 
+    }
+
+    void ShowRoom(GameObject room, bool show)
+    {
+        Renderer[] childsR = room.GetComponentsInChildren<Renderer>();
+        Collider[] childsC = room.GetComponentsInChildren<Collider>();
+
+        foreach (Renderer r in childsR)
+            r.enabled = show;
+        foreach (Collider c in childsC)
+            c.enabled = show;
+    }
 	
 	void OnTriggerEnter() {
         if (startRoom)

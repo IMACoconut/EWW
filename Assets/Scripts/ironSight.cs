@@ -18,6 +18,8 @@ public class ironSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Constants.pause)
+            return;
 
         if (Input.GetJoystickNames().Length > 0)
         {

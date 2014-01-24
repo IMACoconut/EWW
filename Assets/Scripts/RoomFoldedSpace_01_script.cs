@@ -56,6 +56,9 @@ public class RoomFoldedSpace_01_script : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Constants.pause)
+            return;
+
         if (!startRoom)
             return;
 
@@ -65,9 +68,6 @@ public class RoomFoldedSpace_01_script : MonoBehaviour {
         currAngle2 = Constants.RealAngle(pos, -roomCenter2.transform.right, -roomCenter2.transform.forward);
         IncreaseLoop();
         UpdateLoop();
-        Debug.Log(lastAngle1);
-        Debug.Log(currAngle1);
-        Debug.Log(loop1);
         lastAngle1 = currAngle1;
         lastAngle2 = currAngle2;
     }

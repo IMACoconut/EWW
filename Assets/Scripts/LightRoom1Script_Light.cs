@@ -22,6 +22,9 @@ public class LightRoom1Script_Light : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Constants.pause)
+            return;
+
         if (collided)
         {
             if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))

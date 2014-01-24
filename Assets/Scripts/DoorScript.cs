@@ -13,7 +13,10 @@ public class DoorScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(collided && !locked) {
+        if (Constants.pause)
+            return;
+        if (collided && !locked)
+        {
 			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
 			{
 				mainScript.LeaveStreet();

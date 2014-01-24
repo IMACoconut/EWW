@@ -114,7 +114,9 @@ public class StreetGenerator {
 	}
 	
 	public ArrayList Generate(GameScript game, StreetScript[] streets, int radius) {
-		if(placed != null)
+        Debug.Log("Begin " + Random.seed);
+        
+        if(placed != null)
 			placed.Clear();
 		
 		placed = new ArrayList();
@@ -190,6 +192,7 @@ public class StreetGenerator {
 		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
 		game.currentDoor.transform.position = a.position;
 		game.currentDoor.transform.rotation = a.rotation;
+        game.currentDoor.transform.localScale *= Constants.cityScale;
 		return true;
 	}
 }

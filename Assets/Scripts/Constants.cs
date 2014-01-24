@@ -7,13 +7,64 @@ public class Constants : MonoBehaviour {
 
     public static float camHeight = 8.5f;
 	private static float baseCamDist = 10f;
+    public static float cityScale = 0.6f;
 
+    public static float camRotateSpeed = 2f;
+    private static bool street = false;
+
+    private static GameScript generalScript;
+    public static bool pause = false;
 	
 	private static bool debugMode = false;
+    public static float sensitivity = 1.0f;
+    public static float volume = 1.0f;
+    public static bool invertCamera = false;
+    public static bool useController = true;
+    
+    
+
+  /*  public enum Action
+    {
+        Pause   = 0,
+        Use     = 1,
+        Jump    = 2,
+        Aim     = 3,
+        Left    = 4,
+        Up      = 5,
+        Down    = 6,
+        Right   = 7
+    }
+
+    private struct ActionMap
+    {
+        virtual bool isDown() { return false; };
+    }
+
+    private struct ControllerMap : ActionMap
+    {
+        public string button;
+        public bool isDown() {
+            return Input.GetButtonDown(button);
+        }
+    }
+   */
+
+
+    void Start()
+    {
+        generalScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
+        
+    }
 	
 	void Update() {
+        if (Constants.pause)
+            return;
+
 		if(Input.GetKeyDown(KeyCode.F2))
 			EnableDebug(!debugMode);
+
+        if (Input.GetKeyDown(KeyCode.P))
+            NextStep();
 	}
 	
 	void EnableDebug(bool b) {
@@ -40,5 +91,27 @@ public class Constants : MonoBehaviour {
         else
             return 360 - Vector3.Angle(a, b);
     }
+
+    public static void NextStep()
+    {
+        if (street)
+            generalScript.LeaveStreet();
+        else
+            generalScript.LeaveRoom();
+
+        street = !street;
+    }
+
+   /* public bool GetButton(Button b)
+    {
+        if (useController)
+        {
+            return controllerMapping[(int)b];
+        }
+        else
+        {
+            return mouseKeyboardMapping[(int)b];
+        }
+    }*/
 
 }
