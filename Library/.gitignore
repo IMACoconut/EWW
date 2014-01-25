@@ -1,7 +1,0 @@
-/metadata/*/*
-/metadata/*
-/ScriptAssemblies/*
-*
-!*.asset
-
-!.gitignore
