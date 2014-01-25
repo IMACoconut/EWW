@@ -5,14 +5,4 @@
 /Builds/*
 !*.asset
 
-Assembly-CSharp-vs.csproj
-Assembly-CSharp.csproj
-*.unityproj
-EWW-csharp.sln
-EWW.sln
-EWW-csharp.v12.suo
-Assembly-CSharp.pidb
-EWW.userprefs
-
-
 !.gitignore
