@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Temp/*
 /obj/*
 /Library/*
@@ -11,3 +12,6 @@
 *.pidb
 
 !.gitignore
+=======
+.gitignore
+>>>>>>> fe45fd15d96fb358056d3e6f32e548dafeed8d06
