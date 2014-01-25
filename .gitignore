@@ -1,21 +1,13 @@
-<<<<<<< HEAD
 /Temp/*
 /obj/*
 /Library/*
+/Debug/*
+/Builds/*
 !*.asset
-*.csproj
-*.unityproj
-*.sln
-<<<<<<< HEAD
-=======
 *.suo
->>>>>>> origin/master
-=======
-Library/*
-Temp/*
-obj/*
-!.asset
-!/Assets/
->>>>>>> origin/master
+*.sln
+*.csproj
+*.userprefs
+*.pidb
 
 !.gitignore

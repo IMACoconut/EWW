@@ -60,7 +60,6 @@
     <Compile Include="Assets\Scripts\EndPointScript.cs" />
     <Compile Include="Assets\Scripts\EndStreetScript.cs" />
     <Compile Include="Assets\Scripts\GameScript.cs" />
-    <Compile Include="Assets\Scripts\GrabAndDrag.cs" />
     <Compile Include="Assets\Scripts\LightRoom1Script.cs" />
     <Compile Include="Assets\Scripts\LightRoom1Script_Light.cs" />
     <Compile Include="Assets\Scripts\LightRoom1Script_Table.cs" />
@@ -74,6 +73,7 @@
     <Compile Include="Assets\Scripts\TeleportScript.cs" />
     <Compile Include="Assets\Scripts\ValveScript.cs" />
     <Compile Include="Assets\Scripts\VisualTrick1.cs" />
+    <Compile Include="Assets\Scripts\curve.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
