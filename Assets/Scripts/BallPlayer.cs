@@ -83,7 +83,7 @@ public class BallPlayer : MonoBehaviour
         transform.LookAt(transform.position + mov);
         lastDir = mov;
 
-        if (controller.isGrounded && Input.GetButton("X"))
+        if (controller.isGrounded && (Input.GetButton("X") || Input.GetKeyDown("space")))
             mov.y = 10f;
 
 
@@ -160,7 +160,7 @@ public class BallPlayer : MonoBehaviour
             currentCam = 1;
 			
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) )
         {
             //Debug.Log("iron sight");
             camSwap(2);
