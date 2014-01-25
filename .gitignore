@@ -4,10 +4,13 @@
 /Debug/*
 /Builds/*
 !*.asset
-*.csproj
+
+Assembly-CSharp-vs.csproj
+Assembly-CSharp.csproj
 *.unityproj
-*.sln
-*.suo
+EWW-csharp.sln
+EWW.sln
+EWW-csharp.v12.suo
 Assembly-CSharp.pidb
 EWW.userprefs
 
