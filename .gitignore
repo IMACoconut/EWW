@@ -4,5 +4,10 @@
 /Debug/*
 /Builds/*
 !*.asset
+*.suo
+*.sln
+*.csproj
+*.userprefs
+*.pidb
 
 !.gitignore
