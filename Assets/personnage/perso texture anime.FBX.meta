@@ -1,0 +1,268 @@
+fileFormatVersion: 2
+guid: e98b15789bdd7e14fb2c0fff05ce07b0
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Body
+    100002: boucle
+    100004: bretelle
+    100006: Camera002
+    100008: Camera002.Target
+    100010: chaussures
+    100012: Circle001
+    100014: coque
+    100016: gants
+    100018: Hero_
+    100020: Hero_1Bone005
+    100022: Hero_1Bone006
+    100024: Hero_1Bone006 1
+    100026: Hero_Bone002
+    100028: Hero_Bone003
+    100030: Hero_Bone004
+    100032: Hero_Head
+    100034: Hero_HeadBone001
+    100036: Hero_LCalf
+    100038: Hero_LCollarbone
+    100040: Hero_LDigit11
+    100042: Hero_LDigit11 1
+    100044: Hero_LDigit12
+    100046: Hero_LDigit12 1
+    100048: Hero_LDigit13
+    100050: Hero_LDigit21
+    100052: Hero_LDigit22
+    100054: Hero_LDigit23
+    100056: Hero_LDigit31
+    100058: Hero_LDigit32
+    100060: Hero_LDigit33
+    100062: Hero_LDigit41
+    100064: Hero_LDigit42
+    100066: Hero_LDigit43
+    100068: Hero_LDigit51
+    100070: Hero_LDigit52
+    100072: Hero_LDigit53
+    100074: Hero_LFoot
+    100076: Hero_LForearm
+    100078: Hero_LPalm
+    100080: Hero_LPlatform
+    100082: Hero_LThigh
+    100084: Hero_LUpperarm
+    100086: Hero_Neck1
+    100088: Hero_Neck2
+    100090: Hero_Pelvis
+    100092: Hero_RCalf
+    100094: Hero_RCollarbone002
+    100096: Hero_RDigit11
+    100098: Hero_RDigit11 1
+    100100: Hero_RDigit12
+    100102: Hero_RDigit12 1
+    100104: Hero_RDigit13
+    100106: Hero_RDigit21
+    100108: Hero_RDigit22
+    100110: Hero_RDigit23
+    100112: Hero_RDigit31
+    100114: Hero_RDigit32
+    100116: Hero_RDigit33
+    100118: Hero_RDigit41
+    100120: Hero_RDigit42
+    100122: Hero_RDigit43
+    100124: Hero_RDigit51
+    100126: Hero_RDigit52
+    100128: Hero_RDigit53
+    100130: Hero_RFoot
+    100132: Hero_RForearm
+    100134: Hero_Ribcage
+    100136: Hero_RPalm002
+    100138: Hero_RPlatform
+    100140: Hero_RThigh
+    100142: Hero_RUpperarm002
+    100144: Hero_Spine1
+    100146: Hero_Spine2
+    100148: Hero_Spine3
+    100150: Hero_Spine4
+    100152: lanieres
+    100154: //RootNode
+    100156: PhotometricLight001
+    100158: PhotometricLight002
+    100160: PhotometricLight003
+    100162: PhotometricLight004
+    100164: tete
+    400000: Body
+    400002: boucle
+    400004: bretelle
+    400006: Camera002
+    400008: Camera002.Target
+    400010: chaussures
+    400012: Circle001
+    400014: coque
+    400016: gants
+    400018: Hero_
+    400020: Hero_1Bone005
+    400022: Hero_1Bone006
+    400024: Hero_1Bone006 1
+    400026: Hero_Bone002
+    400028: Hero_Bone003
+    400030: Hero_Bone004
+    400032: Hero_Head
+    400034: Hero_HeadBone001
+    400036: Hero_LCalf
+    400038: Hero_LCollarbone
+    400040: Hero_LDigit11
+    400042: Hero_LDigit11 1
+    400044: Hero_LDigit12
+    400046: Hero_LDigit12 1
+    400048: Hero_LDigit13
+    400050: Hero_LDigit21
+    400052: Hero_LDigit22
+    400054: Hero_LDigit23
+    400056: Hero_LDigit31
+    400058: Hero_LDigit32
+    400060: Hero_LDigit33
+    400062: Hero_LDigit41
+    400064: Hero_LDigit42
+    400066: Hero_LDigit43
+    400068: Hero_LDigit51
+    400070: Hero_LDigit52
+    400072: Hero_LDigit53
+    400074: Hero_LFoot
+    400076: Hero_LForearm
+    400078: Hero_LPalm
+    400080: Hero_LPlatform
+    400082: Hero_LThigh
+    400084: Hero_LUpperarm
+    400086: Hero_Neck1
+    400088: Hero_Neck2
+    400090: Hero_Pelvis
+    400092: Hero_RCalf
+    400094: Hero_RCollarbone002
+    400096: Hero_RDigit11
+    400098: Hero_RDigit11 1
+    400100: Hero_RDigit12
+    400102: Hero_RDigit12 1
+    400104: Hero_RDigit13
+    400106: Hero_RDigit21
+    400108: Hero_RDigit22
+    400110: Hero_RDigit23
+    400112: Hero_RDigit31
+    400114: Hero_RDigit32
+    400116: Hero_RDigit33
+    400118: Hero_RDigit41
+    400120: Hero_RDigit42
+    400122: Hero_RDigit43
+    400124: Hero_RDigit51
+    400126: Hero_RDigit52
+    400128: Hero_RDigit53
+    400130: Hero_RFoot
+    400132: Hero_RForearm
+    400134: Hero_Ribcage
+    400136: Hero_RPalm002
+    400138: Hero_RPlatform
+    400140: Hero_RThigh
+    400142: Hero_RUpperarm002
+    400144: Hero_Spine1
+    400146: Hero_Spine2
+    400148: Hero_Spine3
+    400150: Hero_Spine4
+    400152: lanieres
+    400154: //RootNode
+    400156: PhotometricLight001
+    400158: PhotometricLight002
+    400160: PhotometricLight003
+    400162: PhotometricLight004
+    400164: tete
+    4300000: Body
+    4300002: boucle
+    4300004: gants
+    4300006: lanieres
+    4300008: chaussures
+    4300010: tete
+    4300012: coque
+    4300014: bretelle
+    7400000: walk
+    9500000: //RootNode
+    13700000: Body
+    13700002: boucle
+    13700004: bretelle
+    13700006: chaussures
+    13700008: coque
+    13700010: gants
+    13700012: lanieres
+    13700014: tete
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: walk
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
