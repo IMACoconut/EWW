@@ -81,7 +81,7 @@ public class BallPlayer : MonoBehaviour
         transform.LookAt(transform.position + mov);
         lastDir = mov;
 
-        if (controller.isGrounded && Input.GetButton("X"))
+		if (controller.isGrounded && Input.GetButton("X") || Input.GetKeyDown("space"))
             mov.y += 10f;
 
 
