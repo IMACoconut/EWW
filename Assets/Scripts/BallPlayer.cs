@@ -161,7 +161,12 @@ public class BallPlayer : MonoBehaviour
             mov.Normalize();
             mov *= Constants.charSpeed * tmpSpeed;
             mov *= Time.deltaTime;
-            transform.LookAt(transform.position + mov);
+            Vector3 tmp = mov;
+            if(forw > 0){
+                tmp.x = -mov.x;
+                tmp.z = -mov.z;
+            }
+            transform.LookAt(transform.position + tmp);
             lastDir = mov;
         }
         else if(forw !=0)
@@ -217,7 +222,7 @@ public class BallPlayer : MonoBehaviour
 			animation.CrossFade("fall", 0.1f);
 		else if (controller.velocity.magnitude > 0.1f)
         {
-			if(forw >= 0.7f * velocity)
+			if(Mathf.Abs(forw) > 0.7f * velocity)
             	animation.CrossFade("run", 0.1f);
 			else
 				animation.CrossFade("walk", 0.1f);
