@@ -10,7 +10,7 @@ public class Room1Script : MonoBehaviour {
 	public GameObject doorStart;
 	public GameObject doorEnd;
 	public GameObject[] cubes;
-	public GameObject etagere;
+	public GameObject etagere, e2_broken, e2_fixed;
 	public GameObject roomCenter;
     public GameObject pillar;
 	public bool startRoom;
@@ -25,12 +25,16 @@ public class Room1Script : MonoBehaviour {
 		doorEnd = GameObject.Find("DoorExit");
 		player = GameObject.Find("Player");
 		etagere = GameObject.Find("Etagere");
+        e2_broken = GameObject.Find("E2_broken");
+        e2_fixed = GameObject.Find("E2_fixed");
 		roomCenter = GameObject.Find("RoomCenter");
         pillar = GameObject.Find("Pillar");
 		startRoom = false;
 		lastAngle = Vector3.Angle(player.transform.position, roomCenter.transform.position);
 		loop = -1;
 		updateLoopValue = false;
+
+        ShowRoom(e2_fixed, false);
 	}
 	
 	// Update is called once per frame
@@ -81,11 +85,22 @@ public class Room1Script : MonoBehaviour {
             {
                 cubes[i].renderer.enabled = false;
                 cubes[i].collider.enabled = false;
+                if (loop == 2)
+                {
+                    ShowRoom(e2_fixed, true);
+                    ShowRoom(e2_broken, false);
+                }
             }
             else if (loop == i && currAngle < 140)
             {
                 cubes[i].renderer.enabled = true;
                 cubes[i].collider.enabled = true;
+
+                if (loop == 2)
+                {
+                    ShowRoom(e2_fixed, false);
+                    ShowRoom(e2_broken, true);
+                }
             }
         }
 
@@ -140,6 +155,10 @@ public class Room1Script : MonoBehaviour {
     {
         Renderer[] childsR = room.GetComponentsInChildren<Renderer>();
         Collider[] childsC = room.GetComponentsInChildren<Collider>();
+        if (room.renderer != null)
+            room.renderer.enabled = show;
+        if (room.collider != null)
+            room.collider.enabled = show;
 
         foreach (Renderer r in childsR)
             r.enabled = show;
