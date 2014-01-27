@@ -3,7 +3,7 @@
 /Library/*
 /Debug/*
 /Builds/*
-!*.asset
+!/ProjectSettings/*.asset
 *.suo
 *.sln
 *.csproj
