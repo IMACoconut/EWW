@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraFollower : MonoBehaviour {
 	
-	public GameObject ball;
+	public BallPlayer Player;
 
 	float theta, phi;
 	// Use this for initialization
@@ -16,21 +16,19 @@ public class CameraFollower : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Constants.pause)
-            return;
-
+        
         if (Input.GetJoystickNames().Length > 0)
         {
             float tmp = Input.GetAxis("Right Analog Horizontal");
             float tmp1 = Input.GetAxis("Right Analog Vertical");
 
             if (tmp > 0.2f || tmp < -0.2f)
-                theta += 2 * tmp * Constants.camRotateSpeed;
+                theta += 2 * tmp;
 
 
             if (tmp1 > 0.2 || tmp1 < -0.2)
 
-                phi += 2 * tmp1 * Constants.camRotateSpeed;
+                phi += 2 * tmp1;
 
 
             if (phi >= 179.9f)
@@ -42,15 +40,15 @@ public class CameraFollower : MonoBehaviour {
         }
         else
         {
-            float tmp = Input.GetAxis("Mouse X") * 0.8f * Constants.camRotateSpeed;
-            float tmp1 = Input.GetAxis("Mouse Y") * 0.8f * Constants.camRotateSpeed;
+            float tmp = Input.GetAxis("Mouse X") * 0.8f;
+            float tmp1 = Input.GetAxis("Mouse Y") * 0.8f;
 
             if (tmp > 0.2f || tmp < -0.2f)
                 theta += 2 * tmp;
 
 
             if (tmp1 > 0.2 || tmp1 < -0.2)
-                phi += 2 * tmp1;
+                phi -= 2 * tmp1;
 
             if (phi >= 179.9f)
                 phi = 179.9f;
@@ -58,13 +56,14 @@ public class CameraFollower : MonoBehaviour {
                 phi = 90f;
 
         }
-		
-		
 
-		
-		
-		Vector3 look = ball.transform.position;
-		look.y += 0.5f*ball.transform.lossyScale.y;
+        if (Player.currentRotate) {
+            theta -= Player.angle;
+           
+        }
+
+		Vector3 look = Player.transform.position;
+		look.y += Constants.camHeight;
         
 		transform.position = look-CalculateOrbit(Constants.camDist);
 		
