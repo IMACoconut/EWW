@@ -10,19 +10,21 @@ public class BallPlayer : MonoBehaviour
 
     public int currentCam = 1;
 	public bool run;
-	public bool walk;
-	public bool jump;
+    public bool walk;
+    public bool jump;
+    public bool jumpAnime;
 	public bool lockVar;
     public bool currentRotate;
     public float angle;
 
     private Vector3 lastDir;
-    private float distToGround;
+    //private float distToGround;
     private const float jumpPower = 10.0f;
     private float currentJump;
 
     private float velocity = 1f;
     private float maniability = 2f;
+    private float jumpTime = 1f;
 
     bool IsGrounded(){
          CharacterController controller = GetComponent<CharacterController>();
@@ -78,7 +80,7 @@ public class BallPlayer : MonoBehaviour
         lastDir = Vector3.zero;
 
         // get the distance to ground
-        distToGround = 0;
+       // distToGround = 0;
         //distToGround = collider.bounds.extents.y;
 
     }
@@ -142,61 +144,72 @@ public class BallPlayer : MonoBehaviour
             currentRotate = true;
         }
 
-        if (Mathf.Abs(forw) > 0.6 || Mathf.Abs(angle) > 0.6)
-            tmpSpeed = 3;
+       
 
-        //roatation input appliqué au personnage
-        transform.Rotate(0, angle, 0);
-
-        //réorientation du personnage par rapport à la caméra
-        Vector3 forwardVec = controlCameraObject.transform.forward;
-        forwardVec.y = 0;
-        forwardVec.Normalize();
-
-        float angleCamera = ContAngle(transform.forward, forwardVec, transform.up);
-
-        if ((angleCamera < 10f && angleCamera > -10f) || (angleCamera <= 360f && angleCamera > 350f) || (angleCamera < -350f && angleCamera >= -360f))
+        if (jumpAnime)
         {
-            mov = forwardVec * forw * -1;
-            mov.Normalize();
-            mov *= Constants.charSpeed * tmpSpeed;
-            mov *= Time.deltaTime;
-            Vector3 tmp = mov;
-            if(forw > 0){
-                tmp.x = -mov.x;
-                tmp.z = -mov.z;
+            mov = lastDir;
+        }
+        else
+        {
+            if (Mathf.Abs(forw) > 0.6 || Mathf.Abs(angle) > 0.6)
+                tmpSpeed = 3;
+
+            //roatation input appliqué au personnage
+            transform.Rotate(0, angle, 0);
+
+            //réorientation du personnage par rapport à la caméra
+            Vector3 forwardVec = controlCameraObject.transform.forward;
+            forwardVec.y = 0;
+            forwardVec.Normalize();
+
+            float angleCamera = ContAngle(transform.forward, forwardVec, transform.up);
+
+            if ((angleCamera < 10f && angleCamera > -10f) || (angleCamera <= 360f && angleCamera > 350f) || (angleCamera < -350f && angleCamera >= -360f))
+            {
+                mov = forwardVec * forw * -1;
+                mov.Normalize();
+                mov *= Constants.charSpeed * tmpSpeed;
+                mov *= Time.deltaTime;
+
+                Vector3 tmp = mov;
+                if (forw > 0)
+                {
+                    tmp.x = -mov.x;
+                    tmp.z = -mov.z;
+                }
+                transform.LookAt(transform.position + tmp);
+                lastDir = mov;
             }
-            transform.LookAt(transform.position + tmp);
-            lastDir = mov;
+            else if (forw != 0)
+            {
+                Debug.Log(angleCamera);
+                if (angleCamera > 0)
+                    transform.Rotate(0, -10f, 0);
+                else
+                    transform.Rotate(0, 10f, 0);
+            }
         }
-        else if(forw !=0)
-        {
-            Debug.Log(angleCamera);
-            if(angleCamera > 0)
-                transform.Rotate(0, -10f, 0);
-            else
-                transform.Rotate(0, 10f, 0);
-        }
-
 		//jump
         if (IsGrounded())
         {
-            if (Input.GetButton("X") || Input.GetKeyDown("space"))
-            {
-                // rigidbody.AddForce(Vector3.up * 10.0f);
-                jump = true;
-            }
-            else
-            {
-                jump = false;
-                currentJump = 0f;
-            }
-            Debug.Log("grounded");
+            jump = false;
+            jumpAnime = false;
+            currentJump = 0f;
+            jumpTime += Time.deltaTime;
         }
-        else
-            Debug.Log("i fall");
-
-
+        if ((Input.GetButton("X") || Input.GetKey(KeyCode.Space)) && jumpTime >= 0.2f)
+        {
+            // rigidbody.AddForce(Vector3.up * 10.0f);
+            jump = true;
+            jumpTime = 0f;
+            jumpAnime = true;
+        }
+        if (!(Input.GetButton("X") || Input.GetKey(KeyCode.Space)))
+        {
+            jump = false;
+            currentJump = 0f;
+        }
         if (jump && currentJump < jumpPower)
         {
             currentJump += 9.81f * Time.deltaTime * 2f;
@@ -216,7 +229,7 @@ public class BallPlayer : MonoBehaviour
             GrabObject();
 
         //gestion des animations
-        if (jump)
+        if (jumpAnime)
             animation.CrossFade("jump", 0.1f);
 		else if(!IsGrounded())
 			animation.CrossFade("fall", 0.1f);
