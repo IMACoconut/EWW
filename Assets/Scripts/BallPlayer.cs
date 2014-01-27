@@ -106,30 +106,17 @@ public class BallPlayer : MonoBehaviour
             //le perso court ?
         run = false;
         float runFactor = 0.7f;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetAxis("run")>0f)
         {
             run = true;
             runFactor = 1f;
         }
             //direction
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            forw = -1 * velocity * runFactor;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        { 
-            forw = 1 * velocity * runFactor; 
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            angle = 1 * maniability;
+   
+        forw = -1 * velocity * runFactor * Input.GetAxis("Vertical");
+        angle = 1 * maniability * Input.GetAxis("Horizontal");
+        if(angle != 0)
             currentRotate = true;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            angle = -1 * maniability;
-            currentRotate = true;
-        }
 
         float tmpSpeed = 1f;
         Vector3 mov = Vector3.zero;
@@ -183,7 +170,7 @@ public class BallPlayer : MonoBehaviour
             }
             else if (forw != 0)
             {
-                Debug.Log(angleCamera);
+                //Debug.Log(angleCamera);
                 if (angleCamera > 0)
                     transform.Rotate(0, -10f, 0);
                 else
@@ -198,14 +185,14 @@ public class BallPlayer : MonoBehaviour
             currentJump = 0f;
             jumpTime += Time.deltaTime;
         }
-        if ((Input.GetButton("X") || Input.GetKey(KeyCode.Space)) && jumpTime >= 0.2f)
+        if ((Input.GetButton("X") || Input.GetAxis("Jump") > 0) && jumpTime >= 0.2f)
         {
             // rigidbody.AddForce(Vector3.up * 10.0f);
             jump = true;
             jumpTime = 0f;
             jumpAnime = true;
         }
-        if (!(Input.GetButton("X") || Input.GetKey(KeyCode.Space)))
+        if (!(Input.GetButton("X") || Input.GetAxis("Jump") > 0))
         {
             jump = false;
             currentJump = 0f;
