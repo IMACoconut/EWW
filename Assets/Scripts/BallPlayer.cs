@@ -7,7 +7,9 @@ public class BallPlayer : MonoBehaviour
     // Use this for initialization
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
-
+    private GameObject controlCameraObject;
+    private GameObject MainCam;
+    private GameObject ironSight;
     public int currentCam = 1;
 
     private Vector3 lastDir;
@@ -20,8 +22,11 @@ public class BallPlayer : MonoBehaviour
 
         camSwap(1);
         //rigidbody.mass = 30;
-
+        MainCam = GameObject.Find("Main Camera");
+        ironSight = GameObject.Find("ironSight");
+        controlCameraObject = MainCam;
         lastDir = Vector3.zero;
+        Screen.lockCursor = true;
 
     }
 
@@ -31,15 +36,9 @@ public class BallPlayer : MonoBehaviour
     {
         CharacterController controller = GetComponent<CharacterController>();
 
-        if (Constants.pause)
-        {
-            controller.Move(new Vector3(0, 0, 0));
-            return;
-        }
 
-        var controlCameraObject = GameObject.Find("Main Camera");
-        if (currentCam == 1) controlCameraObject = GameObject.Find("Main Camera");
-        else controlCameraObject = GameObject.Find("ironSight");
+        if (currentCam == 1) controlCameraObject = MainCam;
+        else controlCameraObject = ironSight;
 
         //if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
         float forw = 0f;
@@ -74,6 +73,9 @@ public class BallPlayer : MonoBehaviour
         rightVec.y = 0;
         rightVec.Normalize();
 
+        if (currentCam == 2) transform.right = rightVec;
+
+
         mov = forwardVec * forw * -1 + rightVec * right;
         mov.Normalize();
         mov *= Constants.charSpeed * tmpSpeed;
@@ -81,15 +83,15 @@ public class BallPlayer : MonoBehaviour
         transform.LookAt(transform.position + mov);
         lastDir = mov;
 
-        if (controller.isGrounded && Input.GetButton("X"))
-            mov.y += 10f;
+        if (controller.isGrounded && (Input.GetButton("X") || Input.GetKeyDown("space")))
+            mov.y = 10f;
 
 
         //} else {
         //	mov = lastDir;	
         //}
 
-        mov.y -= 9.81f * Time.deltaTime*3;
+        mov.y -= 9.81f * Time.deltaTime;
 
         controller.Move(mov);
 
@@ -113,17 +115,57 @@ public class BallPlayer : MonoBehaviour
 
         }
 
-        if (Input.GetKey("1"))
+        /*
+        if(Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("Left Analog Horizontal") < -0.2f)
+            rigidbody.AddForce(Vector3.left);
+        else if(Input.GetKey(KeyCode.RightArrow) || Input.GetAxis("Left Analog Horizontal") > 0.2f)
+            rigidbody.AddForce(Vector3.right);
+		
+        if(Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
+            rigidbody.AddForce(Vector3.forward);
+        else if(Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("Left Analog Vertical") > 0.2f)
+            rigidbody.AddForce(Vector3.back);
+=======
+        
+		if(controller.velocity.magnitude > 0.1f && !animation.IsPlaying("walk")) {
+			animation.Play("walk");
+		} else if(controller.velocity.magnitude < 0.1f){
+				animation.Stop();
+		}
+		
+		/*
+		if(Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("Left Analog Horizontal") < -0.2f)
+			rigidbody.AddForce(Vector3.left);
+		else if(Input.GetKey(KeyCode.RightArrow) || Input.GetAxis("Left Analog Horizontal") > 0.2f)
+			rigidbody.AddForce(Vector3.right);
+		
+		if(Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
+			rigidbody.AddForce(Vector3.forward);
+		else if(Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("Left Analog Vertical") > 0.2f)
+			rigidbody.AddForce(Vector3.back);
+>>>>>>> origin/master
+
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("X"))
+            GrabObject();
+       // if (objectTaken != null)
+       //     objectTaken.rigidbody.MovePosition(move);
+       */
+
+        //if (Input.GetMouseButtonDown(1)) { rightclicked = true; } if (Input.GetMouseButtonUp(1)) { rightclicked = false; }
+
+        if (Input.GetMouseButtonUp(1))
         {
-            Debug.Log("main camera");
+            //Debug.Log("main camera");
             camSwap(1);
             currentCam = 1;
+
         }
-        if (Input.GetKey("2"))
+        if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("iron sight");
+            //Debug.Log("iron sight");
             camSwap(2);
             currentCam = 2;
+
 
         }
 
@@ -155,8 +197,7 @@ public class BallPlayer : MonoBehaviour
             objectTaken.Drop(this);
         }
 
-        if(canBeTaken != null)
-
+        if (canBeTaken != null)
         {
             Debug.Log("catch");
             canBeTaken.Take(this);
