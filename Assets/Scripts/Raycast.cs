@@ -74,7 +74,7 @@ public class Raycast : MonoBehaviour
         Plane plane = new Plane(-transform.forward, position);
         float distance ;
             if (plane.Raycast(ray, out distance)) {
-                grabbed.rigidbody.position = ray.origin + ray.direction * limGrab;
+                grabbed.rigidbody.MovePosition( ray.origin + ray.direction * 15f);
                 grabbed.rigidbody.rotation = transform.rotation;
             }
     }
@@ -94,17 +94,19 @@ public class Raycast : MonoBehaviour
         List<Transform> bones;
         bones = new List<Transform>();
         // Debug.Log(Input.mousePosition.x + " " + Input.mousePosition.y + " " + Input.mousePosition.z);
-       if(grabbed.parent.tag == "Curvable") bones.Add(grabbed.parent);
+       
         bones.Add(grabbed);
        bones.Add(grabbed.GetComponentInChildren<Transform>());
+       bones.Add(grabbed.GetComponentInChildren<Transform>().GetComponentInChildren<Transform>());
 
 
         float alpha = - Mathf.Atan(bones[0].collider.bounds.size.y) / (radius*10f) ;
+        alpha *= 2f;
         //Debug.Log(holdingTime);
         if (direction == 3 || direction == 1 ) alpha = alpha * -1f;
        for (int i = 1; i < bones.Count; i++)
         {
-            //Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
+            Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
 
             bones[i].RotateAround(rotationaxis, alpha);
            
