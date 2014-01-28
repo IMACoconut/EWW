@@ -91,7 +91,7 @@ public class GameScript : MonoBehaviour {
             Constants.useController = !GUI.Toggle(new Rect(w, h - 110, 75, 20), !Constants.useController, "Mouse");
 
             GUI.Label(new Rect(w-75, h-80, 150,40), "Sensitivity");
-            Constants.sensitivity = GUI.HorizontalSlider(new Rect(w-75, h-60,150,20), Constants.sensitivity, .1f,10f);
+            Constants.sensitivity = GUI.HorizontalSlider(new Rect(w-75, h-60,150,20), Constants.sensitivity, .1f,3.0f);
             GUI.Label(new Rect(w + 80, h - 65, 80, 40), "" + Constants.sensitivity);
             
             Constants.invertCamera = GUI.Toggle(new Rect(w - 75, h - 45, 150, 20), Constants.invertCamera, "Inverse camera");

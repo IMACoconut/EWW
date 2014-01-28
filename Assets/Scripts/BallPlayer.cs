@@ -15,18 +15,22 @@ public class BallPlayer : MonoBehaviour
     public bool walk;
     public bool jump;
     public bool jumpAnime;
-	public bool lockVar;
+	public bool lockVar = false;
     public bool currentRotate;
+    public bool curve = false;
     public float angle;
 
     private Vector3 lastDir;
-    //private float distToGround;
-    private const float jumpPower = 10.0f;
+    private float distToGround;
+    private const float jumpPower = 15.0f;
     private float currentJump;
 
     private float velocity = 1f;
     private float maniability = 2f;
     private float jumpTime = 1f;
+    private float fallTime = 0f;
+
+    private float debug = 0;
 
     bool IsGrounded(){
          CharacterController controller = GetComponent<CharacterController>();
@@ -86,7 +90,7 @@ public class BallPlayer : MonoBehaviour
 
         // get the distance to ground
        // distToGround = 0;
-        //distToGround = collider.bounds.extents.y;
+       // distToGround = collider.bounds.extents.y;
 
     }
 
@@ -98,51 +102,51 @@ public class BallPlayer : MonoBehaviour
 
         if (currentCam == 1) controlCameraObject = MainCam;
         else controlCameraObject = ironSight;
-
-        //if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("Left Analog Vertical") < -0.2f)
+       
         float forw = 0f;
 
-        angle = 0f;
+        if (!Input.GetMouseButton(1)) angle = 0f;
         currentRotate = false;
-
-        //récupération des input clavier
-
-            //le perso court ?
-        run = false;
-        float runFactor = 0.7f;
-        if (Input.GetAxis("run")>0f)
-        {
-            run = true;
-            runFactor = 1f;
-        }
-            //direction
-   
-        forw = -1 * velocity * runFactor * Input.GetAxis("Vertical");
-        angle = 1 * maniability * Input.GetAxis("Horizontal");
-        if(angle != 0)
-            currentRotate = true;
-
         float tmpSpeed = 1f;
         Vector3 mov = Vector3.zero;
 
-        //input manettes
-        if (Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
-            forw = Input.GetAxis("Left Analog Vertical") * velocity;
-
-        if (Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
+        if (!curve)
         {
-            angle = Input.GetAxis("Left Analog Horizontal") * maniability;
-            currentRotate = true;
-        }
+            //récupération des input clavier
 
+            //le perso court ?
+            run = false;
+            float runFactor = 0.7f;
+            if (Input.GetAxis("run") > 0f)
+            {
+                run = true;
+                runFactor = 1f;
+            }
+            //direction
+            forw = -1 * velocity * runFactor * Input.GetAxis("Vertical");
+            angle += maniability * Input.GetAxis("Horizontal");
+            if (angle != 0)
+                currentRotate = true;
+
+            //input manettes
+            if (Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
+                forw = Input.GetAxis("Left Analog Vertical") * velocity;
+
+            if (Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
+            {
+                angle += Input.GetAxis("Left Analog Horizontal") * maniability;
+                currentRotate = true;
+            }
+        }
        
 
         if (jumpAnime)
         {
-            mov = lastDir;
+           // mov = lastDir;
+           // angle = 0;
         }
-        else
-        {
+      //  else
+       // {
             if (Mathf.Abs(forw) > 0.6 || Mathf.Abs(angle) > 0.6)
                 tmpSpeed = 3;
 
@@ -180,75 +184,85 @@ public class BallPlayer : MonoBehaviour
                 else
                     transform.Rotate(0, 10f, 0);
             }
-        }
-		//jump
-        if (IsGrounded())
+      //  }
+        if (!lockVar)
         {
-            jump = false;
-            jumpAnime = false;
-            currentJump = 0f;
-            jumpTime += Time.deltaTime;
+            //jump
+            if (IsGrounded())
+            {
+                jump = false;
+                jumpAnime = false;
+                currentJump = 0f;
+                jumpTime += Time.deltaTime;
+            }
+            if ((Input.GetButton("X") || Input.GetAxis("Jump") > 0) && jumpTime >= 0.2f)
+            {
+                // rigidbody.AddForce(Vector3.up * 10.0f);
+                jump = true;
+                jumpTime = 0f;
+                jumpAnime = true;
+            }
+            if (!(Input.GetButton("X") || Input.GetAxis("Jump") > 0))
+            {
+                jump = false;
+                currentJump = 0f;
+            }
+            if (jump && currentJump < jumpPower)
+            {
+                currentJump += 9.81f * Time.deltaTime * 6f;
+                mov.y += 9.81f * Time.deltaTime * 6f;
+            }
         }
-        if ((Input.GetButton("X") || Input.GetAxis("Jump") > 0) && jumpTime >= 0.2f)
-        {
-            // rigidbody.AddForce(Vector3.up * 10.0f);
-            jump = true;
-            jumpTime = 0f;
-            jumpAnime = true;
-        }
-        if (!(Input.GetButton("X") || Input.GetAxis("Jump") > 0))
-        {
-            jump = false;
-            currentJump = 0f;
-        }
-        if (jump && currentJump < jumpPower)
-        {
-            currentJump += 9.81f * Time.deltaTime * 2f;
-            mov.y += 9.81f * Time.deltaTime * 2f;
-        }
-
 		// gravity
         if (!(IsGrounded()))
-        {
-            mov.y -= 9.81f * Time.deltaTime;
-        }
-        
+            fallTime += Time.deltaTime;
+        else
+            fallTime = 0;
+        mov.y -= 9.81f * Time.deltaTime * 3f;
+
+       // Debug.Log(controller.bounds.max.y);
+
         // application du mouvement du personnage
         controller.Move(mov);
 
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("X"))
-            GrabObject();
-
-        //gestion des animations
-        if (jumpAnime)
-            animation.CrossFade("jump", 0.1f);
-		else if(!IsGrounded())
-			animation.CrossFade("fall", 0.1f);
-		else if (controller.velocity.magnitude > 0.1f)
-        {
-			if(Mathf.Abs(forw) > 0.7f * velocity)
-            	animation.CrossFade("run", 0.1f);
-			else
-				animation.CrossFade("walk", 0.1f);
-        }
-		else
-			animation.CrossFade("idle", 0.1f);
-
+        //vue iron sight
+        Vector3 rightVec = controlCameraObject.transform.right;
+        rightVec.y = 0;
+        rightVec.Normalize();
+        if (currentCam == 2) transform.right = rightVec;
         if (Input.GetMouseButtonUp(1))
         {
             //Debug.Log("main camera");
-            camSwap(1);
-            currentCam = 1;
-
+            /*camSwap(1);
+            currentCam = 1;*/
+            lockVar = false;
+            curve = false;
         }
         if (Input.GetMouseButtonDown(1))
         {
             //Debug.Log("iron sight");
-            camSwap(2);
-            currentCam = 2;
-
-
+            /*camSwap(2);
+            currentCam = 2;*/
+            lockVar = true;
         }
+
+        //gestion des animations
+        //3sec
+        if(fallTime > 2f)
+            animation.CrossFade("fall", 0.1f);
+        else if (lockVar)
+            animation.CrossFade("posLock", 0.1f);
+        else if (jumpAnime)
+            animation.CrossFade("jump", 0.1f);
+        else if (controller.velocity.magnitude > 0.1f)
+        {
+            if (Mathf.Abs(forw) > 0.7f * velocity)
+                animation.CrossFade("run", 0.1f);
+            else
+                animation.CrossFade("walk", 0.1f);
+        }
+        else
+            animation.CrossFade("idle", 0.1f);
 
     }
     void camSwap(int currentCam)

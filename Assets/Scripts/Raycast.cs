@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class Raycast : MonoBehaviour
 {
+    public BallPlayer Player;
     public RaycastHit hit;
     private Ray ray, ray2;
     private Vector3 vec;
@@ -25,47 +26,48 @@ public class Raycast : MonoBehaviour
 
     void Update()
     {
-        
-        // Find the centre of the Screen
-        vec.x = (float)Screen.width / 2;
-        vec.y = (float)Screen.height / 2;
-        vec.z = 0;
-
-        if (gameObject.camera.enabled)
+        if (Input.GetMouseButton(1))
         {
+            // Find the centre of the Screen
+            vec.x = (float)Screen.width / 2;
+            vec.y = (float)Screen.height / 2;
+            vec.z = 0;
 
-            ray = gameObject.camera.ScreenPointToRay(vec);
-
-
-            if (Physics.Raycast(ray, out hit))
+            if (gameObject.camera.enabled)
             {
-                Debug.DrawLine(transform.position, hit.point, Color.red);
-                //Debug.Log("hit"); 
-                if ((Input.GetMouseButtonDown(0) ) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
+
+                ray = gameObject.camera.ScreenPointToRay(vec);
+
+
+                if (Physics.Raycast(ray, out hit))
                 {
-                    grabbed = hit.transform;
-                    grabDistance = hit.distance;
-                    Debug.Log(hit.distance);
-                    
+                    Debug.DrawLine(transform.position, hit.point, Color.red);
+                    //Debug.Log("hit"); 
+                    if ((Input.GetMouseButtonDown(0)) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
+                    {
+                        grabbed = hit.transform;
+                        grabDistance = hit.distance;
+                        Debug.Log(hit.distance);
+
+                    }
+
+                    collider1 = hit.collider;
+
+                    //Debug.Log(collider1.name); 
                 }
-                    
-                collider1 = hit.collider;
 
-                //Debug.Log(collider1.name); 
             }
+            /* if (Input.GetKeyDown(KeyCode.LeftControl)) alt = true;
+            else if (Input.GetKeyUp(KeyCode.LeftControl)) alt = false; */
 
+            if (Input.GetKeyDown(KeyCode.Z)) direction = 0; //haut
+            else if (Input.GetKeyDown(KeyCode.Q)) direction = 1; // gauche
+            else if (Input.GetKeyDown(KeyCode.D)) direction = 2; // droite
+            else if (Input.GetKeyDown(KeyCode.S)) direction = 3; // bas
+
+
+            UpdateHoldDrag();
         }
-        /* if (Input.GetKeyDown(KeyCode.LeftControl)) alt = true;
-        else if (Input.GetKeyUp(KeyCode.LeftControl)) alt = false; */
-
-        if (Input.GetKeyDown(KeyCode.Z)) direction = 0; //haut
-        else if (Input.GetKeyDown(KeyCode.Q)) direction = 1; // gauche
-        else if (Input.GetKeyDown(KeyCode.D)) direction = 2; // droite
-        else if (Input.GetKeyDown(KeyCode.S)) direction = 3; // bas
-       
-
-        UpdateHoldDrag();
-       
     }
 
     void Drag() {
@@ -124,7 +126,10 @@ public class Raycast : MonoBehaviour
                 if (grabbed.tag == "Grabable" && hit.distance <= limGrab)
                     Drag();
                 else if (grabbed.tag == "Curvable")
+                {
                     Curve();
+                    Player.curve = true;
+                }
             }
             else
                 Grab();
