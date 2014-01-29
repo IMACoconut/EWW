@@ -43,7 +43,7 @@ public class Raycast : MonoBehaviour
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red);
                     //Debug.Log("hit"); 
-                    if ((Input.GetMouseButtonDown(0)) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
+                    if ((Input.GetAxis("fire") > 0) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
                     {
                         grabbed = hit.transform;
                         grabDistance = hit.distance;
@@ -60,10 +60,10 @@ public class Raycast : MonoBehaviour
             /* if (Input.GetKeyDown(KeyCode.LeftControl)) alt = true;
             else if (Input.GetKeyUp(KeyCode.LeftControl)) alt = false; */
 
-            if (Input.GetKeyDown(KeyCode.Z)) direction = 0; //haut
-            else if (Input.GetKeyDown(KeyCode.Q)) direction = 1; // gauche
-            else if (Input.GetKeyDown(KeyCode.D)) direction = 2; // droite
-            else if (Input.GetKeyDown(KeyCode.S)) direction = 3; // bas
+            if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical") > 0.2f) direction = 0; //haut
+            else if (Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Left Analog Horizontal") > 0.2f) direction = 1; // gauche
+            else if (Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Left Analog Horizontal") < -0.2f) direction = 2; // droite
+            else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical") < -0.2f) direction = 3; // bas
 
 
             UpdateHoldDrag();
@@ -119,7 +119,7 @@ public class Raycast : MonoBehaviour
 
     void UpdateHoldDrag()
     {
-        if (Input.GetAxis("fire") == 1)
+        if (Input.GetAxis("fire") >0)
         {
             holdingTime += Time.deltaTime;
             if (grabbed)

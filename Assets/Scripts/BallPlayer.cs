@@ -34,11 +34,14 @@ public class BallPlayer : MonoBehaviour
     private float fallTime = 0f;
 
     private float debug = 0;
+    public bool isGround = false;
 
     bool IsGrounded(){
          CharacterController controller = GetComponent<CharacterController>();
       //return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
-         return controller.velocity.y < 0.0001 && controller.velocity.y > -0.0001;
+         
+         //return controller.velocity.y < 0.01 && controller.velocity.y > -0.01;
+         return isGround;
     }
 
     //returns -1 when to the left, 1 to the right, and 0 for forward/backward
@@ -199,14 +202,14 @@ public class BallPlayer : MonoBehaviour
                 currentJump = 0f;
                 jumpTime += Time.deltaTime;
             }
-            if ((Input.GetButton("X") || Input.GetAxis("Jump") > 0) && jumpTime >= 0.2f)
+            if ((Input.GetAxis("Jump") > 0) && jumpTime >= 0.2f)
             {
                 // rigidbody.AddForce(Vector3.up * 10.0f);
                 jump = true;
                 jumpTime = 0f;
                 jumpAnime = true;
             }
-            if (!(Input.GetButton("X") || Input.GetAxis("Jump") > 0))
+            if (!(Input.GetAxis("Jump") > 0))
             {
                 jump = false;
                 currentJump = 0f;
@@ -215,8 +218,10 @@ public class BallPlayer : MonoBehaviour
             {
                 currentJump += 9.81f * Time.deltaTime * 6f;
                 mov.y += 9.81f * Time.deltaTime * 6f;
+                
             }
         }
+        
 		// gravity
         if (!(IsGrounded()))
             fallTime += Time.deltaTime;
@@ -230,17 +235,18 @@ public class BallPlayer : MonoBehaviour
         // application du mouvement du personnage
         controller.Move(mov);
 
+        isGround = controller.isGrounded;
+
         //vue iron sight
         Vector3 rightVec = controlCameraObject.transform.right;
         rightVec.y = 0;
         rightVec.Normalize();
         if (currentCam == 2) transform.right = rightVec;
-        if (Input.GetMouseButtonUp(1))
-        {
+        if (Input.GetAxis("lock") == 0)        {
             lockVar = false;
             curve = false;
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetAxis("lock") > 0)
         {
             lockVar = true;
         }

@@ -61,12 +61,14 @@ public class CameraFollower : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        float tmp, tmp1;
+        float tmp = 0f, tmp1 = 0f;
 
         if (Input.GetJoystickNames().Length > 0)
         {
-            tmp = Input.GetAxis("Right Analog Horizontal");
-            tmp1 = Input.GetAxis("Right Analog Vertical");
+            if (Input.GetAxis("Right Analog Horizontal") < -0.2f || Input.GetAxis("Right Analog Horizontal") > 0.2f)
+                tmp = Input.GetAxis("Right Analog Horizontal");
+            if (Input.GetAxis("Right Analog Vertical") < -0.2f || Input.GetAxis("Right Analog Vertical") > 0.2f)
+                tmp1 = Input.GetAxis("Right Analog Vertical");
         }
         else
         {
@@ -151,7 +153,7 @@ public class CameraFollower : MonoBehaviour {
 
     void OnGUI()
     {
-        if (Time.time != 0 && Time.timeScale != 0 && gameObject.camera.enabled && Input.GetMouseButton(1))
+        if (Time.time != 0 && Time.timeScale != 0 && gameObject.camera.enabled && Input.GetAxis("lock") > 0)
             GUI.DrawTexture(new Rect(Screen.width / 2 - (reticle.width * 0.5f), Screen.height / 2 - (reticle.height * 0.5f), reticle.width, reticle.height), reticle);
     }
 
