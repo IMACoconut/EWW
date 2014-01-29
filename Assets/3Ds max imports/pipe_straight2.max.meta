@@ -2,7 +2,17 @@ fileFormatVersion: 2
 guid: eadad196512b76145b563f0bb39b75e5
 ModelImporter:
   serializedVersion: 16
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    100000: Mesh001
+    100002: pipe straight
+    100004: //RootNode
+    400000: Mesh001
+    400002: pipe straight
+    400004: //RootNode
+    2300000: Mesh001
+    3300000: Mesh001
+    4300000: Mesh001
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -21,7 +31,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0
+    globalScale: .00999999978
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
