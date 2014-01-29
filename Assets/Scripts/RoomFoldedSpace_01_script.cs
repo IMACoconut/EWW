@@ -10,7 +10,7 @@ public class RoomFoldedSpace_01_script : MonoBehaviour {
     public int loop1, loop2;
     public float currAngle1, lastAngle1, currAngle2, lastAngle2;
 
-    private GameObject firstHalf, firstRoom, secondRoom, passage1, passage2;
+    private GameObject firstRoom, secondRoom, passage1, passage2, passage3, passage4, passage5;
 
     // Use this for initialization
 	void Start () {
@@ -19,17 +19,16 @@ public class RoomFoldedSpace_01_script : MonoBehaviour {
     }
 
     public void Restart() {
-        
-
-        firstHalf = GameObject.Find("FirstHalf");
         firstRoom = GameObject.Find("FirstRoom");
         secondRoom = GameObject.Find("SecondRoom");
-        passage1 = GameObject.Find("Passage1");
-        passage2 = GameObject.Find("Passage2");
+        passage1 = firstRoom.transform.FindChild("Passage1").gameObject;
+        passage2 = firstRoom.transform.FindChild("Passage2").gameObject;
+        passage3 = secondRoom.transform.FindChild("Passage1").gameObject;
+        passage4 = secondRoom.transform.FindChild("Passage2").gameObject;
+        passage5 = secondRoom.transform.FindChild("Passage3").gameObject;
         ShowRoom(passage1, true);
         ShowRoom(passage2, true);
         ShowRoom(firstRoom, true);
-        ShowRoom(firstHalf, false);
         ShowRoom(secondRoom, false);        
         
         player = GameObject.Find("Player");
@@ -83,36 +82,41 @@ public class RoomFoldedSpace_01_script : MonoBehaviour {
             ShowRoom(passage1, true);
         }
 
-        if (loop1 == 0 && currAngle1 > 80 && currAngle1 < 90)
+        if (loop1 == 0 && currAngle1 > 70 && currAngle1 < 80)
         {
-            ShowRoom(firstHalf, true);
+            ShowRoom(secondRoom, true);
+            ShowRoom(passage3, false);
+            ShowRoom(passage5, false);
+            ShowRoom(passage4, true);
             ShowRoom(passage2, false);
         }
-        else if (loop1 == 0 && currAngle1 < 80 && currAngle1 > 70)
+        else if (loop1 == 0 && currAngle1 < 70 && currAngle1 > 60)
         {
-            ShowRoom(firstHalf, false);
+            ShowRoom(secondRoom, false);
             ShowRoom(passage2, true);
+            ShowRoom(passage3, true);
+            ShowRoom(passage3, true);
+            ShowRoom(passage4, false);
         }
 
         if (loop2 == -1 && currAngle2 > 280 && currAngle2 < 290)
         {
-            ShowRoom(firstHalf, false);
-            ShowRoom(secondRoom, true);
-            ShowRoom(secondRoom.transform.Find("Passage").gameObject, false);
+            ShowRoom(passage4, false);
+            ShowRoom(passage5, true);
         }
         else if (loop2 == -1 && currAngle2 < 280 && currAngle2 > 270)
         {
-            ShowRoom(firstHalf, true);
-            ShowRoom(secondRoom, false);
+            ShowRoom(passage4, true);
+            ShowRoom(passage5, false);
         }
 
         if (loop2 == 0 && currAngle2 < 10)
         {
-            ShowRoom(secondRoom.transform.Find("Passage").gameObject, true);
+            ShowRoom(passage3, true);
         }
         else if (loop2 == -1 && currAngle2 > 350)
         {
-            ShowRoom(secondRoom.transform.Find("Passage").gameObject, false);
+            ShowRoom(passage3, false);
         }
         /*if (loop2 == 0 && currAngle1 > 265 && currAngle1 < 270)
         {

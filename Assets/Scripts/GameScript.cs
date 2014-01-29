@@ -26,15 +26,18 @@ public class GameScript : MonoBehaviour {
     private Vector3 initialSize;
     private Menu m_menu;
 	// Use this for initialization
+    void Awake()
+    {
+        globalTimer = new RealTimer();
+        globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
+    }
 	void Start () {
 		roomsDone = 0;
 		maxRooms = 3;
 		//player = GameObject.Find("Player");
         Constants.pause = false;
 		EnterRoom();
-		globalTimer = new RealTimer();
-		globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
-        globalTimer.delay = 1000*60*3;
+        globalTimer.delay = 1000 * 60 * 3;
 		globalTimer.Start();
 
         initialSize = player.transform.localScale;
@@ -68,6 +71,7 @@ public class GameScript : MonoBehaviour {
         Constants.pause = true;
         Screen.lockCursor = false;
     }
+
 	
 	void OnGUI() {
         if(!Constants.pause)
@@ -106,10 +110,10 @@ public class GameScript : MonoBehaviour {
     }
 	
 	public void LeaveRoom() {
+        Debug.Log("leaveroom");
 		roomsDone++;
 		GameObject.Destroy(currentLocation);
 		currentLocation = null;
-		
 		EnterStreet();
 	}
 	
@@ -129,6 +133,7 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	void EnterStreet() {
+        Debug.Log("enterstreet");
 		generateStreets();
 
 
