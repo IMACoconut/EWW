@@ -121,17 +121,17 @@ public class BallPlayer : MonoBehaviour
             //le perso court ?
             run = false;
             float runFactor = 0.7f;
-            if (Input.GetAxis("run") > 0f)
+            if (Input.GetAxisRaw("run") == 1)
             {
                 run = true;
                 runFactor = 1f;
             }
             //direction
-            forw = -1 * velocity * runFactor * Input.GetAxis("Vertical");
+            forw = -1 * velocity * runFactor * Input.GetAxisRaw("Vertical");
             if(lockVar)
-                lat = velocity * Input.GetAxis("Horizontal");
+                lat = velocity * Input.GetAxisRaw("Horizontal");
             else
-                angle += maniability * Input.GetAxis("Horizontal");
+                angle += maniability * Input.GetAxisRaw("Horizontal");
 
             if (angle != 0)
                 currentRotate = true;
@@ -197,9 +197,9 @@ public class BallPlayer : MonoBehaviour
                 transform.Rotate(0, 10f, 0);
         }
 
+        //jump
         if (!lockVar)
         {
-            //jump
             if (IsGrounded())
             {
                 jump = false;
@@ -232,7 +232,8 @@ public class BallPlayer : MonoBehaviour
             fallTime = 0;
         mov.y -= 9.81f * Time.deltaTime * 3f;
 
-       // Debug.Log(controller.bounds.max.y);
+        //Debug.Log(controller.bounds.max.y);
+        //Debug.Log(collider.bounds.extents.y);
 
         // application du mouvement du personnage
         controller.Move(mov);
@@ -244,17 +245,11 @@ public class BallPlayer : MonoBehaviour
         if (currentCam == 2) transform.right = rightVec;
         if (Input.GetMouseButtonUp(1))
         {
-            //Debug.Log("main camera");
-            /*camSwap(1);
-            currentCam = 1;*/
             lockVar = false;
             curve = false;
         }
         if (Input.GetMouseButtonDown(1))
         {
-            //Debug.Log("iron sight");
-            /*camSwap(2);
-            currentCam = 2;*/
             lockVar = true;
         }
 
@@ -290,8 +285,7 @@ public class BallPlayer : MonoBehaviour
             idleTime += Time.deltaTime;
         else
             idleTime = animation["idleAss"].length;
-        
-        Debug.Log(idleTime);
+
     }
     void camSwap(int currentCam)
     {
