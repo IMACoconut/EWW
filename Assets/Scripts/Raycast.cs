@@ -26,7 +26,7 @@ public class Raycast : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetAxis("lock") == 1)
         {
             // Find the centre of the Screen
             vec.x = (float)Screen.width / 2;
@@ -119,7 +119,8 @@ public class Raycast : MonoBehaviour
 
     void UpdateHoldDrag()
     {
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetAxis("fire") == 1)
+        {
             holdingTime += Time.deltaTime;
             if (grabbed)
             {

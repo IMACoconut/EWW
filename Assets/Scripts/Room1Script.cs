@@ -105,12 +105,12 @@ public class Room1Script : MonoBehaviour {
         }
 
 
-        if (loop == -1 && currAngle < 240)
+        if (loop == -1 && currAngle > 240 && currAngle < 260)
         {
             doorEnd.transform.Find("door").renderer.enabled = true;
             doorEnd.collider.enabled = true;
         }
-        else if (loop == -1 && currAngle > 240)
+        else if (loop == -1 && currAngle < 280 && currAngle > 260)
         {
             doorEnd.transform.Find("door").renderer.enabled = false;
             doorEnd.collider.enabled = false;

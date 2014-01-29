@@ -4,6 +4,8 @@
 /Debug/*
 /Builds/*
 !/ProjectSettings/*.asset
+test.unity
+test.unity.meta
 *.suo
 *.sln
 *.csproj

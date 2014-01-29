@@ -8,11 +8,51 @@ public class CameraFollower : MonoBehaviour {
     private float rotateY = 0;
     public Texture reticle;
 
+    private float smooth = 7f;
+    private bool iron = false;
+
 
 	float theta, phi;
+
+    public float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
+    {
+        Vector3 perp = Vector3.Cross(fwd, targetDir);
+        float dir = Vector3.Dot(perp, up);
+        if (dir > 0.0f)
+        {
+            return 1.0f;
+        }
+        else if (dir < 0.0f)
+        {
+            return -1.0f;
+        }
+        else
+        {
+            return 0.0f;
+        }
+    }
+
+    float ContAngle(Vector3 fwd, Vector3 targetDir, Vector3 upDir)
+    {
+
+        float result = Vector3.Angle(fwd, targetDir);
+
+        //The AngleDir function is the one from the other thread.
+        if (AngleDir(fwd, targetDir, upDir) == 1)
+        {
+            return result - 360f;
+        }
+        else
+        {
+            return result;
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
-		theta = 0;
+		theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
+        if (theta >= 0)
+            theta = 360 - theta;
 		phi = 0;
         //maxDist = Constants.camDist;
 
@@ -34,17 +74,27 @@ public class CameraFollower : MonoBehaviour {
             tmp1 = Input.GetAxis("Mouse Y") * Constants.sensitivity;
         }
         
-        if (Input.GetMouseButton(1))
+        if (Input.GetAxis("lock") == 1)
         {
             //print(posCam.position);
-            transform.position = posCam.position;
+            transform.position = Vector3.Lerp(transform.position, posCam.position, smooth * Time.deltaTime);
             transform.LookAt(lookAtCam);
             Player.angle = tmp;
             rotateY += tmp1;
             transform.Rotate(-rotateY, 0, 0);
+            iron = true;
         }
         else
         {
+            if (iron)
+            {
+                theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
+                if (theta >= 0)
+                    theta = 360 - theta;
+                Debug.Log(theta);
+                phi = 0;
+                iron = false;
+            }
             rotateY = 0;
 
             if (tmp > 0.2f || tmp < -0.2f)
@@ -61,14 +111,14 @@ public class CameraFollower : MonoBehaviour {
             if (Player.currentRotate)
             {
                 theta -= Player.angle;
-
             }
 
             Vector3 look = Player.transform.position;
+
             look.y += Constants.camHeight;
 
-            transform.position = look - CalculateOrbit(Constants.camDist);
-
+            transform.position = Vector3.Lerp(transform.position, look - CalculateOrbit(Constants.camDist), smooth * Time.deltaTime);
+            
             transform.LookAt(look);
         }
 	}

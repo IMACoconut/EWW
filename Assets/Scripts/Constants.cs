@@ -15,7 +15,7 @@ public class Constants : MonoBehaviour {
     private static GameScript generalScript;
     public static bool pause = false;
 	
-	private static bool debugMode = false;
+	public static bool debugMode = false;
     public static float sensitivity = 1.0f;
     public static float volume = 1.0f;
     public static bool invertCamera = false;
