@@ -55,9 +55,6 @@ public class PlayerRef : MonoBehaviour {
 		theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
         if (theta >= 0)
             theta = 360 - theta;
-		phi = 0;
-        //maxDist = Constants.camDist;
-
 	}
 	
 	// Update is called once per frame
@@ -66,21 +63,16 @@ public class PlayerRef : MonoBehaviour {
             return;
 
         tmp = 0f;
-        tmp1 = 0f;
         int invert = Constants.invertCamera ? -1 : 1;
 
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Horizontal") < -0.2f || Input.GetAxis("Right Analog Horizontal") > 0.2f)
                 tmp = Input.GetAxis("Right Analog Horizontal") * invert;
-            if (Input.GetAxis("Right Analog Vertical") < -0.2f || Input.GetAxis("Right Analog Vertical") > 0.2f)
-                tmp1 = Input.GetAxis("Right Analog Vertical");
         }
         else
-        {
             tmp = Input.GetAxis("Mouse X") * Constants.sensitivity * invert;
-            tmp1 = Input.GetAxis("Mouse Y") * Constants.sensitivity;
-        }
+         
 
         if (Input.GetAxis("lock") == 1)
         {
@@ -103,7 +95,6 @@ public class PlayerRef : MonoBehaviour {
                 else
                     theta = -180 + theta;
                 Debug.Log(theta);
-                phi = 0;
                 iron = false;
                 rotate = true;
             }
@@ -115,29 +106,16 @@ public class PlayerRef : MonoBehaviour {
             if (tmp > 0.2f || tmp < -0.2f)
                 theta += 2 * tmp;
 
-            if (tmp1 > 0.2 || tmp1 < -0.2)
-                phi -= 2 * tmp1;
-
-            if (phi >= 179.9f)
-                phi = 179.9f;
-            else if (phi < 90.0f)
-                phi = 90f;
-
-            /*if (!Player.currentRotate)
-            {
-                theta -= Player.angle;
-            }*/
+            phi = 90f;
 
             Vector3 look = Player.transform.position;
 
             look.y += Constants.camHeight;
-
-           // if(Player.forw != 0)
-            transform.position = look + (DefaultOrbit(Constants.camDist)/* - CalculateOrbit(1)*/);
-            /*else
-                transform.position = look - CalculateOrbit(Constants.camDist);*/
+            transform.position = look + (DefaultOrbit(Constants.camDist));
 
             transform.LookAt(look);
+
+            //transform.Rotate(-phi, 0, 0);
 
             rotate = false;
         }
