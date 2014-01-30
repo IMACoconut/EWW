@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using System.Collections.Generic;
 
 public class StreetGenerator {
-	ArrayList placed = null;
-	ArrayList open = null;
+    List<StreetScript> placed = new List<StreetScript>();
+    List<StreetScript> open = new List<StreetScript>();
 	int maxRadius;
 	
 	StreetScript getRandomStreet(StreetScript[] streets, int minPath, int maxPath) {
@@ -15,7 +16,7 @@ public class StreetGenerator {
 			}
 		}
 		
-		int r = Random.Range(0, tmp.Count);
+		int r = Random.Range(0, tmp.Count-1);
 		StreetScript ret = StreetScript.Instantiate((StreetScript)tmp[r]) as StreetScript;
 		if(ret == null)
 			Debug.Log("generating null street!");
@@ -112,18 +113,14 @@ public class StreetGenerator {
 			s.open = false;
 		}
 	}
-	
-	public ArrayList Generate(GameScript game, StreetScript[] streets, int radius) {
-        Debug.Log("Begin " + Random.seed);
+
+    public List<StreetScript> Generate(GameScript game, StreetScript[] streets, int radius)
+    {
+        /*Random.seed = 1039656428;*/
+        Debug.Log("Seed: " + Random.seed);
         
-        if(placed != null)
-			placed.Clear();
-		
-		placed = new ArrayList();
-		if(open!=null)
-			open.Clear();
-		
-		open = new ArrayList();
+		placed.Clear();
+		open.Clear();
 		maxRadius = radius;
 		
 		StreetScript first = getRandomStreet(streets, 2, 3);
@@ -136,60 +133,33 @@ public class StreetGenerator {
 			tmp++;
 		}
 		
-		
-		
 		foreach(StreetScript s in placed)
 			s.transform.position = new Vector3(25.6f*3*s.x, 0, 25.6f*3*s.y);
-		
-		
+
 		game.currentValve = ValveScript.Instantiate(game.valve) as ValveScript;
 		game.currentValve.useEnabled = true;
-		
-		int val;
-		do {
-			val = Random.Range(1, placed.Count);	
-		} while(!placeValve(game, val));
-		
+
+        GameObject[] valveAttach = GameObject.FindGameObjectsWithTag("ValvePlace");
+        placeValve(game, valveAttach, Random.Range(1,valveAttach.Length-1));
+
 		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
 		game.currentDoor.locked = true;
-		
-		int val2;
-		do {
-			val2 = Random.Range(1, placed.Count);
-		} while(val2 == val || !placeDoor(game, val2));
-		
+
+        GameObject[] doorAttach = GameObject.FindGameObjectsWithTag("Attachment");
+        placeDoor(game, doorAttach, Random.Range(1, doorAttach.Length-1));
+
 		return placed;
 	}
 	
-	bool placeValve(GameScript game, int pos) {
-		StreetScript s = (StreetScript)placed[pos];
-		Transform[] children = s.transform.GetComponentsInChildren<Transform>();
-		ArrayList tmp = new ArrayList();
-		
-		foreach(Transform c in children)
-			if(c.gameObject.tag.StartsWith("ValvePlace"))
-				tmp.Add(c);
-		if(tmp.Count <= 0)
-			return false;
-		
-		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
+	bool placeValve(GameScript game, GameObject[] valves, int pos) {
+		Transform a = valves[pos].transform;
 		game.currentValve.transform.position = a.position;
 		game.currentValve.transform.rotation = a.rotation;
 		return true;
 	}
 	
-	bool placeDoor(GameScript game, int pos) {
-		StreetScript s = (StreetScript)placed[pos];
-		Transform[] children = s.transform.GetComponentsInChildren<Transform>();
-		ArrayList tmp = new ArrayList();
-		
-		foreach(Transform c in children)
-			if(c.gameObject.tag.StartsWith("Attachment"))
-				tmp.Add(c);
-		if(tmp.Count <= 0)
-			return false;
-		
-		Transform a = (Transform)tmp[Random.Range(0,tmp.Count)];
+	bool placeDoor(GameScript game, GameObject[] valves, int pos) {
+		Transform a = valves[pos].transform;
 		game.currentDoor.transform.position = a.position;
 		game.currentDoor.transform.rotation = a.rotation;
         game.currentDoor.transform.localScale *= Constants.cityScale;
