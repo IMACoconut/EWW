@@ -106,23 +106,8 @@ public class PlayerRef : MonoBehaviour {
             if (tmp > 0.2f || tmp < -0.2f)
                 theta += 2 * tmp;
 
-<<<<<<< HEAD
-            if (tmp1 > 0.2 || tmp1 < -0.2)
-                phi -= 2 * tmp1;
 
-            if (phi >= 179.9f)
-                phi = 179.9f;
-            else if (phi < 90.0f)
-                phi = 90f;
-
-			phi = 90;
-            /*if (!Player.currentRotate)
-            {
-                theta -= Player.angle;
-            }*/
-=======
             phi = 90f;
->>>>>>> origin/master
 
             Vector3 look = Player.transform.position;
 
