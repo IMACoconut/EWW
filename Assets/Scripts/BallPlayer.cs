@@ -282,7 +282,7 @@ public class BallPlayer : MonoBehaviour
 
         //gestion des animations
         idle = false;
-        if(fallTime > 2f)
+        if(fallTime > 2f || (!jumpAnime && !IsGrounded()))
             animation.CrossFade("fall", 0.1f);
         else if (lockVar)
             animation.CrossFade("posLock", 0.1f);
