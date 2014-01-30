@@ -128,7 +128,7 @@ public class GameScript : MonoBehaviour {
 		generatedStreets = null;
 
 
-        player.transform.localScale = initialSize;
+        //player.transform.localScale = initialSize;
 
 		EnterRoom();
 	}
@@ -138,7 +138,7 @@ public class GameScript : MonoBehaviour {
 		generateStreets();
 
 
-        player.transform.localScale = initialSize*0.60f;
+        //player.transform.localScale = initialSize*0.60f;
 
 	}
 	

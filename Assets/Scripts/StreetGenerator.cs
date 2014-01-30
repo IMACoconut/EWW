@@ -117,6 +117,8 @@ public class StreetGenerator {
     public List<StreetScript> Generate(GameScript game, StreetScript[] streets, int radius)
     {
         /*Random.seed = 1039656428;*/
+        /* Random.seed = -331318947;*/
+        Random.seed = -2098638175; 
         Debug.Log("Seed: " + Random.seed);
         
 		placed.Clear();
@@ -132,15 +134,21 @@ public class StreetGenerator {
 			placeStreet(streets);
 			tmp++;
 		}
-		
-		foreach(StreetScript s in placed)
-			s.transform.position = new Vector3(25.6f*3*s.x, 0, 25.6f*3*s.y);
+
+        foreach (StreetScript s in placed)
+        {
+
+            s.transform.position = new Vector3(25.6f * 3 * s.x * Constants.cityScale, 0, 25.6f * 3 * s.y * Constants.cityScale);
+            s.transform.localScale *= Constants.cityScale; 
+        }
+            
 
 		game.currentValve = ValveScript.Instantiate(game.valve) as ValveScript;
 		game.currentValve.useEnabled = true;
-
+        game.currentValve.transform.localScale *= Constants.cityScale;
         GameObject[] valveAttach = GameObject.FindGameObjectsWithTag("ValvePlace");
-        placeValve(game, valveAttach, Random.Range(1,valveAttach.Length-1));
+        int val = Random.Range(1, valveAttach.Length - 1); 
+        placeValve(game, valveAttach, val );
 
 		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
 		game.currentDoor.locked = true;
@@ -162,7 +170,7 @@ public class StreetGenerator {
 		Transform a = valves[pos].transform;
 		game.currentDoor.transform.position = a.position;
 		game.currentDoor.transform.rotation = a.rotation;
-        game.currentDoor.transform.localScale *= Constants.cityScale;
+       
 		return true;
 	}
 }
