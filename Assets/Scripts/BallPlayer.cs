@@ -36,6 +36,7 @@ public class BallPlayer : MonoBehaviour
     private float maniability = 2f;
     private float jumpTime = 1f;
     private float fallTime = 0f;
+    private float smooth = 15f;
 
     private Vector3 lateralDirection;
 
@@ -154,10 +155,6 @@ public class BallPlayer : MonoBehaviour
 
             if (lat != 0)
             {
-               /* if (!currentRotate)
-                {
-                    lateralDirection = controlCameraObject.transform.forward;
-                }*/
                 currentRotate = true;
             }
             else
@@ -178,17 +175,11 @@ public class BallPlayer : MonoBehaviour
         {
             lateralDirection.y = 0;
             lateralDirection.Normalize();
-            float tmp = ContAngle(lateralDirection, controller.transform.forward, transform.up);
-           // Debug.Log(tmp);
-            if (!((tmp < -355) || tmp > 355 || (tmp < 5 && tmp > 0) || (tmp < 0 && tmp > -5)))
-            {
-                if (tmp < 0)
-                    transform.Rotate(0, -5, 0);
-                else
-                    transform.Rotate(0, 5, 0);
-            }
+         
+            SmoothLookAt(lateralDirection);
+
             Vector3 tmpVec;
-            tmpVec = controller.transform.forward /* lat*/;
+            tmpVec = controller.transform.forward;
             tmpVec.y = 0;
             tmpVec.Normalize();
             tmpVec *= Constants.charSpeed * Time.deltaTime * tmpSpeed;
@@ -346,5 +337,14 @@ public class BallPlayer : MonoBehaviour
             Debug.Log("catch");
             canBeTaken.Take(this);
         }
+    }
+
+    void SmoothLookAt(Vector3 target)
+    {
+        // Create a rotation based on the relative position of the player being the forward vector.
+        Quaternion lookAtRotation = Quaternion.LookRotation(target, Vector3.up);
+
+        // Lerp the camera's rotation between it's current rotation and the rotation that looks at the player.
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookAtRotation, smooth * Time.deltaTime);
     }
 }
