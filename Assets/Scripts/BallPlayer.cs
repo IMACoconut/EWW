@@ -7,9 +7,11 @@ public class BallPlayer : MonoBehaviour
     // Use this for initialization
     public CatchableObject objectTaken;
     public CatchableObject canBeTaken;
+    public PlayerRef repere;
     private GameObject controlCameraObject;
     private GameObject MainCam;
     private GameObject ironSight;
+
     public int currentCam = 1;
 	public bool run;
     public bool walk;
@@ -17,9 +19,11 @@ public class BallPlayer : MonoBehaviour
     public bool jumpAnime;
     public bool idle = false;
 	public bool lockVar = false;
-    public bool currentRotate;
+    public bool currentRotate = true;
     public bool curve = false;
     public float angle;
+    public float forw;
+    public float lat;
 
     private float idleTime = 0;
 
@@ -32,6 +36,8 @@ public class BallPlayer : MonoBehaviour
     private float maniability = 2f;
     private float jumpTime = 1f;
     private float fallTime = 0f;
+
+    private Vector3 lateralDirection;
 
     private float debug = 0;
     public bool isGround = false;
@@ -104,16 +110,19 @@ public class BallPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Constants.pause)
+            return;
+
         CharacterController controller = GetComponent<CharacterController>();
 
         if (currentCam == 1) controlCameraObject = MainCam;
         else controlCameraObject = ironSight;
        
-        float forw = 0f;
-        float lat = 0f;
+        forw = 0f;
+        lat = 0f;
 
         if (Input.GetAxis("lock") != 1) angle = 0f;
-        currentRotate = false;
+
         Vector3 mov = Vector3.zero;
 
         if (!curve)
@@ -129,38 +138,69 @@ public class BallPlayer : MonoBehaviour
                 runFactor = 0.7f;
             }
             //direction
-            forw = -1 * velocity * runFactor * Input.GetAxisRaw("Vertical");
+            forw = velocity * runFactor * Input.GetAxisRaw("Vertical");
             lat = velocity * runFactor * Input.GetAxisRaw("Horizontal");
-
-            if (angle != 0)
-                currentRotate = true;
 
             //input manettes
             if (Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
-                forw = Input.GetAxis("Left Analog Vertical") * velocity;
+                forw = Input.GetAxis("Left Analog Vertical") * velocity * -1;
 
             if (Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
             {
                 lat = Input.GetAxis("Left Analog Horizontal") * velocity;
             }
+
+            if (lat != 0)
+            {
+               /* if (!currentRotate)
+                {
+                    lateralDirection = controlCameraObject.transform.forward;
+                }*/
+                currentRotate = true;
+            }
+            else
+                currentRotate = false;
+            lateralDirection = forw * repere.transform.forward + lat * repere.transform.right;
         }
 
 
-        float tmpSpeedF = 1f;
-        float tmpSpeedL = 1f;
-        if (Mathf.Abs(forw) > 0.7)
-            tmpSpeedF = 3;
-        if (Mathf.Abs(lat) > 0.7)
-            tmpSpeedL = 2;
+        float tmpSpeed = 1f;
+        if (Mathf.Abs(forw) > 0.7 || Mathf.Abs(lat) > 0.7)
+            tmpSpeed = 3;
 
         //roatation input appliqué au personnage
         transform.Rotate(0, angle, 0);
-        Vector3 lateral = controlCameraObject.transform.right;
-        lateral *= lat * Constants.charSpeed * Time.deltaTime;
-        //Debug.Log(lat);
-        controller.Move(lateral * tmpSpeedL);
 
-        //réorientation du personnage par rapport à la caméra
+        //deplacement
+        if (!lockVar && (forw != 0 || lat != 0))
+        {
+            lateralDirection.y = 0;
+            lateralDirection.Normalize();
+            float tmp = ContAngle(lateralDirection, controller.transform.forward, transform.up);
+           // Debug.Log(tmp);
+            if (!((tmp < -355) || tmp > 355 || (tmp < 5 && tmp > 0) || (tmp < 0 && tmp > -5)))
+            {
+                if (tmp < 0)
+                    transform.Rotate(0, -5, 0);
+                else
+                    transform.Rotate(0, 5, 0);
+            }
+            Vector3 tmpVec;
+            tmpVec = controller.transform.forward /* lat*/;
+            tmpVec.y = 0;
+            tmpVec.Normalize();
+            tmpVec *= Constants.charSpeed * Time.deltaTime * tmpSpeed;
+            controller.Move(tmpVec);
+        }
+        else //déplacement lateral du lock
+        {
+            Vector3 lateral = controlCameraObject.transform.right;
+            lateral *= lat * Constants.charSpeed * Time.deltaTime;
+                    //Debug.Log(lat);
+            controller.Move(lateral * tmpSpeed);
+        }
+        
+       /* //réorientation du personnage par rapport à la caméra
         Vector3 forwardVec = controlCameraObject.transform.forward;
         forwardVec.y = 0;
         forwardVec.Normalize();
@@ -191,7 +231,7 @@ public class BallPlayer : MonoBehaviour
             else
                 transform.Rotate(0, 10f, 0);
         }
-
+        */
         //jump
         if (!lockVar)
         {
@@ -261,7 +301,7 @@ public class BallPlayer : MonoBehaviour
             animation.CrossFade("jump", 0.1f);
         else if (Mathf.Abs(forw) > 0.1f || Mathf.Abs(lat) > 0.1)
         {
-            if (Mathf.Abs(forw) > 0.7f * velocity)
+            if (Mathf.Abs(forw) > 0.7f * velocity || Mathf.Abs(lat) > 0.7f * velocity)
             {
                 animation.CrossFade("run", 0.1f);
                 animation["run"].speed = 2f;
