@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Timers;
+using System.Collections.Generic;
 
 public class GameScript : MonoBehaviour {
 	
@@ -10,7 +11,7 @@ public class GameScript : MonoBehaviour {
 	public GameObject[] rooms;
 	public StreetScript[] streets;
 	public GameObject currentLocation;
-	public ArrayList generatedStreets;
+    public List<StreetScript> generatedStreets;
 	public ValveScript valve;
 	public ValveScript currentValve;
 	public DoorScript door;
