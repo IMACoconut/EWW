@@ -194,12 +194,23 @@ public class BallPlayer : MonoBehaviour
             tmpVec *= Constants.charSpeed * Time.deltaTime * tmpSpeed;
             controller.Move(tmpVec);
         }
-        else //déplacement lateral du lock
+        else //déplacement du lock
         {
             Vector3 lateral = controlCameraObject.transform.right;
-            lateral *= lat * Constants.charSpeed * Time.deltaTime;
-                    //Debug.Log(lat);
-            controller.Move(lateral * tmpSpeed);
+            Vector3 forward = controlCameraObject.transform.forward;
+
+            lateral.y = 0;
+            lateral.Normalize();
+            lateral *= lat;
+
+            forward.y = 0;
+            forward.Normalize();
+            forward *= forw;
+
+            Vector3 movLat = lateral + forward;
+            movLat.Normalize();
+            movLat *= Constants.charSpeed * Time.deltaTime;
+            controller.Move(movLat * tmpSpeed);
         }
         
        /* //réorientation du personnage par rapport à la caméra
