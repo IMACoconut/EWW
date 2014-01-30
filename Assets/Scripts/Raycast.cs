@@ -83,36 +83,36 @@ public class Raycast : MonoBehaviour
 
     void Curve()
     {
-        Vector3 size = grabbed.collider.bounds.size*3f;
-        
-        Vector3 rotationaxis ;
+        Vector3 size = grabbed.collider.bounds.size * 3f;
+
+        Vector3 rotationaxis;
 
         if (direction == 0 || direction == 3) rotationaxis = Vector3.Cross(ray.direction, Vector3.up);
         else { rotationaxis = ray.direction; rotationaxis.y = 0f; }
 
         /* On part du principe qu'en y on a la hauteur de l'objet */
         //Debug.Log(direction);
-        float radius = 2f * Mathf.PI * (size.y) ;
+        float radius = 2f * Mathf.PI * (size.y);
         List<Transform> bones;
         bones = new List<Transform>();
         // Debug.Log(Input.mousePosition.x + " " + Input.mousePosition.y + " " + Input.mousePosition.z);
-       if(grabbed.parent.tag == "Curvable") bones.Add(grabbed.parent);
+
         bones.Add(grabbed);
-       bones.Add(grabbed.GetComponentInChildren<Transform>());
+        bones.Add(grabbed.GetComponentInChildren<Transform>());
+        bones.Add(grabbed.GetComponentInChildren<Transform>().GetComponentInChildren<Transform>());
 
 
-        float alpha = - Mathf.Atan(bones[0].collider.bounds.size.y) / (radius*10f) ;
+        float alpha = -Mathf.Atan(bones[0].collider.bounds.size.y) / (radius * 10f);
+        alpha *= 2f;
         //Debug.Log(holdingTime);
-        if (direction == 3 || direction == 1 ) alpha = alpha * -1f;
-       for (int i = 1; i < bones.Count; i++)
+        if (direction == 3 || direction == 1) alpha = alpha * -1f;
+        for (int i = 1; i < bones.Count; i++)
         {
-            //Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
+            Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
 
             bones[i].RotateAround(rotationaxis, alpha);
-           
+
         }
-
-
 
     }
 

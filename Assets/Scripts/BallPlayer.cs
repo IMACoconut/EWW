@@ -123,6 +123,7 @@ public class BallPlayer : MonoBehaviour
 
         if (Input.GetAxis("lock") != 1) angle = 0f;
 
+
         Vector3 mov = Vector3.zero;
 
         if (!curve)
@@ -132,6 +133,7 @@ public class BallPlayer : MonoBehaviour
             //le perso court ?
             run = true;
             float runFactor = 1f;
+
             if (Input.GetAxisRaw("run") == 1)
             {
                 run = false;
@@ -206,32 +208,7 @@ public class BallPlayer : MonoBehaviour
         forwardVec.Normalize();
 
         float angleCamera = ContAngle(transform.forward, forwardVec, transform.up);
-
-        if ((angleCamera < 10f && angleCamera > -10f) || (angleCamera <= 360f && angleCamera > 350f) || (angleCamera < -350f && angleCamera >= -360f))
-        {
-            mov = forwardVec * forw * -1;
-            mov.Normalize();
-            mov *= Constants.charSpeed * tmpSpeedF;
-            mov *= Time.deltaTime;
-
-            Vector3 tmp = mov;
-            if (forw > 0)
-            {
-                tmp.x = -mov.x;
-                tmp.z = -mov.z;
-            }
-            transform.LookAt(transform.position + tmp);
-            lastDir = mov;
-        }
-        else if (forw != 0 && !lockVar)
-        {
-            //Debug.Log(angleCamera);
-            if (angleCamera > 0)
-                transform.Rotate(0, -10f, 0);
-            else
-                transform.Rotate(0, 10f, 0);
-        }
-        */
+*/
         //jump
         if (!lockVar)
         {
@@ -282,6 +259,7 @@ public class BallPlayer : MonoBehaviour
         rightVec.y = 0;
         rightVec.Normalize();
         if (currentCam == 2) transform.right = rightVec;
+
         if (Input.GetAxis("lock") == 0)        {
             lockVar = false;
             curve = false;

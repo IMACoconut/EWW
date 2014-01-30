@@ -7,7 +7,7 @@ public class Constants : MonoBehaviour {
 
     public static float camHeight = 8.5f;
 	private static float baseCamDist = 10f;
-    public static float cityScale = 0.6f;
+    public static float cityScale = 1f/0.6f;
 
     public static float camRotateSpeed = 2f;
     private static bool street = false;

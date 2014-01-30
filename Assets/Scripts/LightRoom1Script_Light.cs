@@ -8,13 +8,15 @@ public class LightRoom1Script_Light : MonoBehaviour
     public bool solution = false;
     public bool collided = false;
     public GameScript mainScript;
-    private Light lightswitch;
+    private Light[] lightswitch;
+
     // Use this for initialization
     void Start()
     {
         mainScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
-        lightswitch = gameObject.GetComponentInChildren<Light>();
-        lightswitch.enabled = false;
+        lightswitch = gameObject.GetComponentsInChildren<Light>();
+        for (int i = 0; i < lightswitch.Length; i++) { lightswitch[i].enabled = false; }
+    
 
 
     }
@@ -30,8 +32,8 @@ public class LightRoom1Script_Light : MonoBehaviour
             if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
             {
                 off = !off;
-                if (off) lightswitch.enabled = false;
-                else lightswitch.enabled = true;
+                if (off) { for (int i = 0; i < lightswitch.Length; i++) { lightswitch[i].enabled = false; } }
+                else { for (int i = 0; i < lightswitch.Length; i++) { lightswitch[i].enabled = true; } } 
                 
                 //Debug.Log("switch");
 

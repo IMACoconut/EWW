@@ -11,8 +11,9 @@ public class LightRoom1Script : MonoBehaviour
     public GameObject doorStart;
     public GameObject doorEnd;
     public GameObject[] Lights;
-    
+    public GameObject bulblight;
     public GameObject roomCenter;
+    private Light bulb; 
     public bool startRoom;
     bool solved;
 
@@ -34,14 +35,15 @@ public class LightRoom1Script : MonoBehaviour
         Lights[6] = GameObject.Find("Light7");
 
         doorStart = GameObject.Find("DoorEntry");
-
+        bulblight = GameObject.Find("bulblight");
+        bulb = bulblight.GetComponentInChildren<Light>();
+        bulb.color = Color.red;
         doorEnd = GameObject.Find("DoorExit");
         doorEnd.collider.enabled = false;
-
+        
         player = GameObject.Find("Player");
         //player.transform.Translate(-15, 0, 0);
         //player.transform.Rotate(0 , -90 , 0);
-        
         roomCenter = GameObject.Find("RoomCenter");
         startRoom = false;
         lastAngle = 0;//Vector3.Angle(player.transform.position, roomCenter.transform.position);
@@ -58,7 +60,10 @@ public class LightRoom1Script : MonoBehaviour
 
         solved = isSolved();
 
-        if (solved) doorEnd.collider.enabled = true;
+        if (solved) { doorEnd.collider.enabled = true;
+        bulb.color = Color.green;  
+            
+        }
      
 
         
@@ -76,7 +81,7 @@ public class LightRoom1Script : MonoBehaviour
             Lights[5].GetComponent<LightRoom1Script_Light>().off == false &&
             Lights[6].GetComponent<LightRoom1Script_Light>().off == false)
         {
-            Debug.Log("Problem solved"); //table 1, table 3, table 6, table 7
+            //Debug.Log("Problem solved"); //table 1, table 3, table 6, table 7
             return true;
         }
         else {// Debug.Log("Problem not solved, noob");  

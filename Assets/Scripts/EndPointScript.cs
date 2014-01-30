@@ -19,7 +19,8 @@ public class EndPointScript : MonoBehaviour {
 		if(collided) {
 			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
 			{
-				mainScript.LeaveRoom();
+                Debug.Log("Ingrid, est-ce que tu bug après le cinéma");
+                mainScript.LeaveRoom();
 			}
 		}
 	}
