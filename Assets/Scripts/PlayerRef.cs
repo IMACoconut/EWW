@@ -123,6 +123,7 @@ public class PlayerRef : MonoBehaviour {
             else if (phi < 90.0f)
                 phi = 90f;
 
+			phi = 90;
             /*if (!Player.currentRotate)
             {
                 theta -= Player.angle;
