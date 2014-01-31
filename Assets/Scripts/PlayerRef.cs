@@ -104,7 +104,7 @@ public class PlayerRef : MonoBehaviour {
             rotateY = 0;
 
             if (tmp > 0.2f || tmp < -0.2f)
-                theta += 2 * tmp;
+                theta -= 2 * tmp;
 
 
             phi = 90f;

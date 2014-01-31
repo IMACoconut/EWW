@@ -78,7 +78,7 @@ public class CameraFollower : MonoBehaviour {
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Vertical") < -0.2f || Input.GetAxis("Right Analog Vertical") > 0.2f)
-                tmp1 = Input.GetAxis("Right Analog Vertical");
+                tmp1 = -1*Input.GetAxis("Right Analog Vertical");
         }
         else
             tmp1 = Input.GetAxis("Mouse Y") * Constants.sensitivity;
