@@ -105,7 +105,7 @@ public class Raycast : MonoBehaviour
         float alpha = -Mathf.Atan(bones[0].collider.bounds.size.y) / (radius * 10f);
         alpha *= 2f;
         //Debug.Log(holdingTime);
-        if (direction == 3 || direction == 2) alpha = alpha * -1f;
+        if (direction == 0 || direction == 2) alpha = alpha * -1f;
         for (int i = 0; i < bones.Count; i++)
         {
             Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);

@@ -31,10 +31,11 @@ public class GameScript : MonoBehaviour {
     {
         globalTimer = new RealTimer();
         globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
+		reshuffle();
     }
 	void Start () {
 		roomsDone = 0;
-		maxRooms = 3;
+		maxRooms = 4;
 		//player = GameObject.Find("Player");
         Constants.pause = false;
 		EnterRoom();
@@ -44,6 +45,28 @@ public class GameScript : MonoBehaviour {
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
         Screen.lockCursor = true;
+
+	}
+
+	void reshuffle()
+	{
+		
+		// Knuth shuffle algorithm :: courtesy of Wikipedia :)
+		
+		for (int t = 0; t < rooms.Length; t++ )
+			
+		{
+			
+			GameObject tmp = rooms[t];
+			
+			int r = Random.Range(t, rooms.Length);
+			
+			rooms[t] = rooms[r];
+			
+			rooms[r] = tmp;
+			
+		}
+		
 	}
 	
 	// Update is called once per frame
@@ -113,9 +136,14 @@ public class GameScript : MonoBehaviour {
 	public void LeaveRoom() {
         Debug.Log("leaveroom");
 		roomsDone++;
-		GameObject.Destroy(currentLocation);
-		currentLocation = null;
-		EnterStreet();
+		if(roomsDone >= maxRooms) {
+			Application.LoadLevel("menu");
+		}
+		else {
+			GameObject.Destroy(currentLocation);
+			currentLocation = null;
+			EnterStreet();
+		}
 	}
 	
 	public void LeaveStreet() {
@@ -144,7 +172,7 @@ public class GameScript : MonoBehaviour {
 	
 	void EnterRoom() {
 		int re = Random.Range(0, rooms.GetLength(0));
-		currentLocation = GameObject.Instantiate(rooms[re]) as GameObject;
+		currentLocation = GameObject.Instantiate(rooms[roomsDone]) as GameObject;
 
 		Vector3 pos = currentLocation.transform.Find("StartPointScript").transform.position;
 
@@ -157,7 +185,7 @@ public class GameScript : MonoBehaviour {
 	
 	void generateStreets() {
 		StreetGenerator generator = new StreetGenerator();
-		generatedStreets = generator.Generate(this, streets, roomsDone+2);
+		generatedStreets = generator.Generate(this, streets, 2);
 		player.transform.position = new Vector3(0,2,0);
 		Debug.Log("generated "+generatedStreets.Count+" streets");
 	}

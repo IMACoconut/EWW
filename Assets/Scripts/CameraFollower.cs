@@ -53,6 +53,11 @@ public class CameraFollower : MonoBehaviour {
         if (theta >= 0)
             theta = 360 - theta;
 		phi = 0;
+
+        transform.position = Player.repere.transform.position;
+        Vector3 look = Player.transform.position;
+        look.y += Constants.camHeight;
+        transform.LookAt(look);
         //maxDist = Constants.camDist;
 
 	}
