@@ -8,7 +8,7 @@ public class PlayerRef : MonoBehaviour {
     private float rotateY = 0;
     public Texture reticle;
 
-    private float tmp = 0f, tmp1 = 0f;
+    private float tmp = 0f;
     private float smooth = 7f;
     private bool iron = false;
     private bool rotate = true;
@@ -76,33 +76,32 @@ public class PlayerRef : MonoBehaviour {
 
         if (Input.GetAxis("lock") == 1)
         {
-            //print(posCam.position);
             transform.position = posCam.position;
             transform.LookAt(lookAtCam);
             Player.angle = tmp;
-            rotateY += tmp1;
-            transform.Rotate(-rotateY, 0, 0);
             iron = true;
         }
         else
         {
             if (iron || Input.GetAxis("LB") > 0)
             {
-                Debug.Log("LB");
                 theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
                 if (theta >= 0)
                     theta = 180 - theta;
                 else
                     theta = -180 + theta;
-                Debug.Log(theta);
                 iron = false;
                 rotate = true;
             }
-            if ((tmp != 0) || (tmp1 != 0))
+            if (tmp != 0)
                 rotate = true;
 
             rotateY = 0;
 
+            theta = ContAngle(Vector3.forward, transform.right, Vector3.up);
+            if (theta < 0)
+                theta *= -1;
+      
             if (tmp > 0.2f || tmp < -0.2f)
                 theta -= 2 * tmp;
 
@@ -141,11 +140,9 @@ public class PlayerRef : MonoBehaviour {
 
     Vector3 DefaultOrbit(float Cdist)
     {
-        //Debug.Log(phi);
         Vector3 result = transform.position - Player.transform.position;
         result.y = 0;
         result.Normalize();
-        //float angle = Constants.RealAngle()
         if(rotate)
             result = Quaternion.FromToRotation(result, CalculateOrbit(1)) * result;
         return Cdist*result ;
