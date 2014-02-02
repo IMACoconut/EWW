@@ -93,21 +93,24 @@ public class PlayerRef : MonoBehaviour {
                 iron = false;
                 rotate = true;
             }
-            if (tmp != 0)
-                rotate = true;
+            else
+            {
+                if (tmp != 0)
+                    rotate = true;
 
-            rotateY = 0;
+                rotateY = 0;
 
-            theta = ContAngle(Vector3.forward, transform.right, Vector3.up);
-            if (theta < 0)
-                theta *= -1;
-      
-            if (tmp > 0.2f || tmp < -0.2f)
-                theta -= 2 * tmp;
+                theta = ContAngle(Vector3.forward, transform.right, Vector3.up);
+                if (theta < 0)
+                    theta *= -1;
 
 
-            phi = 90f;
+                if (tmp > 0.2f || tmp < -0.2f)
+                    theta -= 2 * tmp;
 
+
+                phi = 90f;
+            }
             Vector3 look = Player.transform.position;
 
             look.y += Constants.camHeight;
