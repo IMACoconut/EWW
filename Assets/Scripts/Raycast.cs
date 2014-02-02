@@ -36,7 +36,7 @@ public class Raycast : MonoBehaviour
             if (gameObject.camera.enabled)
             {
 
-                ray = gameObject.camera.ScreenPointToRay(vec);
+                ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)); 
 
 
                 if (Physics.Raycast(ray, out hit))
@@ -60,10 +60,10 @@ public class Raycast : MonoBehaviour
             /* if (Input.GetKeyDown(KeyCode.LeftControl)) alt = true;
             else if (Input.GetKeyUp(KeyCode.LeftControl)) alt = false; */
 
-            if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical") > 0.2f) direction = 0; //haut
+			if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical")< -0.2f ) direction = 0; //haut
             else if (Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Left Analog Horizontal") > 0.2f) direction = 1; // gauche
             else if (Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Left Analog Horizontal") < -0.2f) direction = 2; // droite
-            else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical") < -0.2f) direction = 3; // bas
+			else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical") > 0.2f ) direction = 3; // bas
 
 
             UpdateHoldDrag();
@@ -105,8 +105,8 @@ public class Raycast : MonoBehaviour
         float alpha = -Mathf.Atan(bones[0].collider.bounds.size.y) / (radius * 10f);
         alpha *= 2f;
         //Debug.Log(holdingTime);
-        if (direction == 3 || direction == 1) alpha = alpha * -1f;
-        for (int i = 1; i < bones.Count; i++)
+        if (direction == 3 || direction == 2) alpha = alpha * -1f;
+        for (int i = 0; i < bones.Count; i++)
         {
             Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
 

@@ -8,10 +8,14 @@ public class EndPointScript : MonoBehaviour {
 	private bool collided;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake() {
 		mainScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
 		enabled = true;
 		collided = false;
+	}
+
+	void Start () {
+
 	}
 	
 	// Update is called once per frame
@@ -33,7 +37,10 @@ public class EndPointScript : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider p) {
-		collided = true;
+        if (p.tag.StartsWith("Player"))
+            collided = true;
+        
+        //    Debug.Log("collide");
 	}
 	
 	void OnTriggerExit(Collider player) {

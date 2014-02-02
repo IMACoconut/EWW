@@ -97,6 +97,14 @@ public class PlayerRef : MonoBehaviour {
             {
                 if (tmp != 0)
                     rotate = true;
+<<<<<<< HEAD
+
+                rotateY = 0;
+
+                theta = ContAngle(Vector3.forward, transform.right, Vector3.up);
+                if (theta < 0)
+                    theta *= -1;
+=======
 
                 rotateY = 0;
 
@@ -104,9 +112,15 @@ public class PlayerRef : MonoBehaviour {
                 if (theta < 0)
                     theta *= -1;
 
+>>>>>>> origin/Monia
+
                 if (tmp > 0.2f || tmp < -0.2f)
                     theta -= 2 * tmp;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/Monia
                 phi = 90f;
             }
             Vector3 look = Player.transform.position;
