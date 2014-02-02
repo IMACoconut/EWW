@@ -119,6 +119,8 @@ public class StreetGenerator {
         /*Random.seed = 1039656428;*/
         /* Random.seed = -331318947;*/
         // Random.seed = -2098638175; 
+
+		//Random.seed = 508101336;
         Debug.Log("Seed: " + Random.seed);
         
 		placed.Clear();
