@@ -163,6 +163,18 @@ public class BallPlayer : MonoBehaviour
         }
 
 
+        //mode visée
+        if (Input.GetAxis("lock") == 0)
+        {
+            lockVar = false;
+            curve = false;
+        }
+        if (Input.GetAxis("lock") > 0 && isGround)
+        {
+            lockVar = true;
+            jumpAnime = false;
+        }
+
         float tmpSpeed = 1f;
         if (Mathf.Abs(forw) > 0.7 || Mathf.Abs(lat) > 0.7)
             tmpSpeed = 3;
@@ -189,7 +201,6 @@ public class BallPlayer : MonoBehaviour
             }
             else //déplacement du lock
             {
-                Debug.Log("lol");
                 Vector3 lateral = controlCameraObject.transform.right;
                 Vector3 forward = controlCameraObject.transform.forward;
 
@@ -265,15 +276,6 @@ public class BallPlayer : MonoBehaviour
         rightVec.y = 0;
         rightVec.Normalize();
         if (currentCam == 2) transform.right = rightVec;
-
-        if (Input.GetAxis("lock") == 0)        {
-            lockVar = false;
-            curve = false;
-        }
-        if (Input.GetAxis("lock") > 0)
-        {
-            lockVar = true;
-        }
 
         //gestion des animations
         idle = false;

@@ -74,7 +74,7 @@ public class PlayerRef : MonoBehaviour {
             tmp = Input.GetAxis("Mouse X") * Constants.sensitivity * invert;
          
 
-        if (Input.GetAxis("lock") == 1)
+        if (Player.lockVar)
         {
             transform.position = posCam.position;
             transform.LookAt(lookAtCam);
@@ -163,7 +163,7 @@ public class PlayerRef : MonoBehaviour {
 
     void OnGUI()
     {
-        if (Time.time != 0 && Time.timeScale != 0  && Input.GetAxis("lock") > 0)
+        if (Time.time != 0 && Time.timeScale != 0 && Player.lockVar)
             GUI.DrawTexture(new Rect(Screen.width / 2 - (reticle.width * 0.5f), Screen.height / 2 - (reticle.height * 0.5f), reticle.width, reticle.height), reticle);
     }
 

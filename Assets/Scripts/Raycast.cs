@@ -26,7 +26,7 @@ public class Raycast : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetAxis("lock") == 1)
+        if (Player.lockVar)
         {
             // Find the centre of the Screen
             vec.x = (float)Screen.width / 2;
