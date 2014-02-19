@@ -14,7 +14,7 @@ public class PlayerRef : MonoBehaviour {
     private bool rotate = true;
 
 
-	float theta, phi;
+	public float theta, phi;
 
     public float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
@@ -112,10 +112,12 @@ public class PlayerRef : MonoBehaviour {
 
                 phi = 90f;
             }
+            
+            transform.position = DefaultOrbit(Constants.camDist);
+
             Vector3 look = Player.transform.position;
 
             look.y += Constants.camHeight;
-            transform.position = look + (DefaultOrbit(Constants.camDist));
 
             transform.LookAt(look);
 
@@ -150,7 +152,11 @@ public class PlayerRef : MonoBehaviour {
         result.Normalize();
         if(rotate)
             result = Quaternion.FromToRotation(result, CalculateOrbit(1)) * result;
-        return Cdist*result ;
+
+        Vector3 look = Player.transform.position;
+
+        look.y += Constants.camHeight;
+        return Cdist*result + look;
     }
 
     Vector3 CalculateOrbit(float Cdist)
