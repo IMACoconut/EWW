@@ -163,6 +163,18 @@ public class BallPlayer : MonoBehaviour
         }
 
 
+        //mode visée
+        if (Input.GetAxis("lock") == 0)
+        {
+            lockVar = false;
+            curve = false;
+        }
+        if (Input.GetAxis("lock") > 0 && isGround)
+        {
+            lockVar = true;
+            jumpAnime = false;
+        }
+
         float tmpSpeed = 1f;
         if (Mathf.Abs(forw) > 0.7 || Mathf.Abs(lat) > 0.7)
             tmpSpeed = 3;
@@ -171,37 +183,40 @@ public class BallPlayer : MonoBehaviour
         transform.Rotate(0, angle, 0);
 
         //deplacement
-        if (!lockVar && (forw != 0 || lat != 0))
+        if (forw != 0 || lat != 0)
         {
-            lateralDirection.y = 0;
-            lateralDirection.Normalize();
-         
-            SmoothLookAt(lateralDirection);
+            if (!lockVar)
+            {
+                lateralDirection.y = 0;
+                lateralDirection.Normalize();
 
-            Vector3 tmpVec;
-            tmpVec = controller.transform.forward;
-            tmpVec.y = 0;
-            tmpVec.Normalize();
-            tmpVec *= Constants.charSpeed * Time.deltaTime * tmpSpeed;
-            controller.Move(tmpVec);
-        }
-        else //déplacement du lock
-        {
-            Vector3 lateral = controlCameraObject.transform.right;
-            Vector3 forward = controlCameraObject.transform.forward;
+                SmoothLookAt(lateralDirection);
 
-            lateral.y = 0;
-            lateral.Normalize();
-            lateral *= lat;
+                Vector3 tmpVec;
+                tmpVec = controller.transform.forward;
+                tmpVec.y = 0;
+                tmpVec.Normalize();
+                tmpVec *= Constants.charSpeed * Time.deltaTime * tmpSpeed;
+                controller.Move(tmpVec);
+            }
+            else //déplacement du lock
+            {
+                Vector3 lateral = controlCameraObject.transform.right;
+                Vector3 forward = controlCameraObject.transform.forward;
 
-            forward.y = 0;
-            forward.Normalize();
-            forward *= forw;
+                lateral.y = 0;
+                lateral.Normalize();
+                lateral *= lat;
 
-            Vector3 movLat = lateral + forward;
-            movLat.Normalize();
-            movLat *= Constants.charSpeed * Time.deltaTime;
-            controller.Move(movLat * tmpSpeed);
+                forward.y = 0;
+                forward.Normalize();
+                forward *= forw;
+
+                Vector3 movLat = lateral + forward;
+                movLat.Normalize();
+                movLat *= Constants.charSpeed * Time.deltaTime /3f;
+                controller.Move(movLat * tmpSpeed);
+            }
         }
         
        /* //réorientation du personnage par rapport à la caméra
@@ -262,33 +277,31 @@ public class BallPlayer : MonoBehaviour
         rightVec.Normalize();
         if (currentCam == 2) transform.right = rightVec;
 
-        if (Input.GetAxis("lock") == 0)        {
-            lockVar = false;
-            curve = false;
-        }
-        if (Input.GetAxis("lock") > 0)
-        {
-            lockVar = true;
-        }
-
         //gestion des animations
         idle = false;
         if(fallTime > 1f || (!jumpAnime && !IsGrounded()))
             animation.CrossFade("fall", 0.1f);
-        else if (lockVar)
-            animation.CrossFade("posLock", 0.1f);
         else if (jumpAnime)
             animation.CrossFade("jump", 0.1f);
         else if (Mathf.Abs(forw) > 0.1f || Mathf.Abs(lat) > 0.1)
         {
-            if (Mathf.Abs(forw) > 0.7f * velocity || Mathf.Abs(lat) > 0.7f * velocity)
+
+            if (lockVar)
             {
-                animation.CrossFade("run", 0.1f);
-                animation["run"].speed = 2f;
+                animation.CrossFade("walkLock", 0.1f);
+                animation["walkLock"].speed = 3f;
             }
             else
-                animation.CrossFade("walk", 0.1f);
+                if (Mathf.Abs(forw) > 0.7f * velocity || Mathf.Abs(lat) > 0.7f * velocity)
+                {
+                    animation.CrossFade("run", 0.1f);
+                    animation["run"].speed = 2f;
+                }
+                else
+                    animation.CrossFade("walk", 0.1f);
         }
+        else if (lockVar)
+            animation.CrossFade("posLock", 0.1f);
         else if (Mathf.Repeat(idleTime, 10 + animation["idleAss"].length) >= 0 && Mathf.Repeat(idleTime, 10 + animation["idleAss"].length) <= animation["idleAss"].length)
         {
             animation.CrossFade("idleAss", 0.1f);
