@@ -69,20 +69,24 @@ public class RoomTest2 : MonoBehaviour {
         if (loop1 == 0 && currAngle1 > 10 && currAngle1 < 20)
         {
             ShowRoom(firstRoom, true);
+            ShowRoom(secondRoom, false);
         }
         else if (loop1 == 0 && currAngle1 < 10)
         {
             ShowRoom(firstRoom, false);
+            ShowRoom(secondRoom, true);
         }
 
         if (loop1 == 0 && currAngle1 > 70 && currAngle1 < 80)
         {
             ShowRoom(secondRoom, false);
+            ShowRoom(firstRoom, true);
             
         }
         else if (loop1 == 0 && currAngle1 < 70 && currAngle1 > 60)
         {
             ShowRoom(secondRoom, true);
+            ShowRoom(firstRoom, false);
             
         }
 
