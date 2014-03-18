@@ -61,7 +61,7 @@ public class RoomTest2 : MonoBehaviour {
         lastAngle1 = currAngle1;
         lastAngle2 = currAngle2;
 
-        Debug.Log(loop1 + "  " + currAngle1 + "  " + loop2 + "  " + currAngle2 + "  ");
+        //Debug.Log(loop1 + "  " + currAngle1 + "  " + loop2 + "  " + currAngle2 + "  ");
     }
 
     void UpdateLoop()
