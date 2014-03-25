@@ -42,7 +42,7 @@ public class Raycast : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red);
-                    //Debug.Log("hit"); 
+                    Debug.Log("hit : " + hit.transform.name); 
                     if ((Input.GetAxis("fire") > 0) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
                     {
                         grabbed = hit.transform;
