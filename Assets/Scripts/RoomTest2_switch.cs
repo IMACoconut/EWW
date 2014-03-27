@@ -13,6 +13,7 @@ public class RoomTest2_switch : MonoBehaviour {
 
         player = GameObject.Find("Player");
         on = false;
+        audio.Stop();
        
     }
 
@@ -25,7 +26,8 @@ public class RoomTest2_switch : MonoBehaviour {
             if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("switch");
-                on = !on; 
+                on = !on;
+                audio.Play(0);
 
             }
         }

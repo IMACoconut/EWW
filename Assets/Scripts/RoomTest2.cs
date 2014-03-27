@@ -26,5 +26,6 @@ public class RoomTest2 : MonoBehaviour {
             return;
         startRoom = true;
         Debug.Log("start room");
+
     }
 }
