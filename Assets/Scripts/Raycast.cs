@@ -42,7 +42,7 @@ public class Raycast : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red);
-                    //Debug.Log("hit"); 
+                    Debug.Log("hit : " + hit.transform.name); 
                     if ((Input.GetAxis("fire") > 0) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
                     {
                         grabbed = hit.transform;
@@ -119,6 +119,7 @@ public class Raycast : MonoBehaviour
 
     void UpdateHoldDrag()
     {
+
         if (Input.GetAxis("fire") >0)
         {
             holdingTime += Time.deltaTime;
@@ -126,8 +127,9 @@ public class Raycast : MonoBehaviour
             {
                 if (grabbed.tag == "Grabable" && hit.distance <= limGrab)
                     Drag();
-                else if (grabbed.tag == "Curvable")
+                else if (grabbed.tag == "Curvable" && holdingTime > 0.02f)
                 {
+                    holdingTime = 0f;
                     Curve();
                     Player.curve = true;
                 }
@@ -139,7 +141,7 @@ public class Raycast : MonoBehaviour
 
 
         else { grabbed = null;
-        holdingTime = 0f;
+        
         }
                 
     }

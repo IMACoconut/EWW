@@ -8,6 +8,7 @@ public class CameraFollower : MonoBehaviour {
     private float rotateY = 0;
 
     private float smooth = 7f;
+    private float maxDist = Constants.camDist;
     private bool iron = false;
 
 
@@ -49,11 +50,7 @@ public class CameraFollower : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
-        if (theta >= 0)
-            theta = 360 - theta;
-		phi = 0;
-
+		
         transform.position = Player.repere.transform.position;
         Vector3 look = Player.transform.position;
         look.y += Constants.camHeight;
@@ -68,22 +65,13 @@ public class CameraFollower : MonoBehaviour {
         if (Constants.pause)
             return;
 
-        Vector3 look = Player.transform.position;
-
-        look.y += Constants.camHeight;
-
-        //transform.position = Vector3.Lerp(transform.position, look - CalculateOrbit(Constants.camDist), smooth * Time.deltaTime);
-        transform.position = Vector3.Lerp(transform.position, Player.repere.transform.position, smooth * Time.deltaTime);
-        if (Player.lockVar)
-            transform.LookAt(lookAtCam);
-        else
-            transform.LookAt(look);
+        Collision();
 
         float tmp1 = 0;
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Vertical") < -0.2f || Input.GetAxis("Right Analog Vertical") > 0.2f)
-                tmp1 = -1*Input.GetAxis("Right Analog Vertical");
+                tmp1 = -1 * Input.GetAxis("Right Analog Vertical");
         }
         else
             tmp1 = Input.GetAxis("Mouse Y") * Constants.sensitivity;
@@ -94,38 +82,103 @@ public class CameraFollower : MonoBehaviour {
         else
             rotateY += tmp1;
 
-        if (rotateY >= 45)
-            rotateY = 45;
-        else if (rotateY < -45)
-            rotateY = -45;
+        if (Player.lockVar)
+        {
 
-        transform.Rotate(-rotateY, 0, 0);
+            if (rotateY >= 45)
+                rotateY = 45;
+            else if (rotateY < -45)
+                rotateY = -45;
+
+            transform.position = Vector3.Lerp(transform.position, Player.repere.transform.position, smooth * Time.deltaTime);
+            transform.LookAt(lookAtCam);
+
+            transform.Rotate(-rotateY, 0, 0);
+        }
+        else
+        {
+            if (rotateY >= 170)
+                rotateY = 170;
+            else if (rotateY < 10)
+                rotateY = 10;
+
+            Vector3 look = Player.transform.position;
+            look.y += Constants.camHeight;
+
+            transform.position = Vector3.Lerp(transform.position, Orbit(), smooth * Time.deltaTime);
+            transform.LookAt(look);
+
+           
+        }
+      //  maxDist = Constants.camDist;
 	}
 
     void OnCollisionEnter(Collision h)
     {
-       /* Debug.Log("toto");
+      /*  Debug.Log("toto");
         RaycastHit hit;
-        Vector3 dir = transform.position - ball.transform.position;
-        if(Physics.Raycast(ball.transform.position, dir, out hit)) {
+        Vector3 look = Player.transform.position;
+        Vector3 dir = transform.position - look;
+        if (Physics.Raycast(look, dir, out hit))
+        {
             Debug.Log("collide");
-            Vector3 look = ball.transform.position;
-            transform.position = look-CalculateOrbit(hit.distance-10f);
+            // transform.position = look-CalculateOrbit(hit.distance-10f);
             maxDist = hit.distance;
             //transform.position = ball.transform.position;// (hit.point - ball.transform.position) * 0.8f + ball.transform.position;
         }
         else
         {
-            maxDist = Constants.camDist;
+            // maxDist = Constants.camDist;
         }*/
+    }
+
+    void Collision()
+    {
+        float wDistance = 4f;
+
+        RaycastHit hit;
+        Vector3 look = Player.transform.position;
+        Vector3 dir = transform.position - look;
+
+        if (Physics.Raycast(look, dir, out hit))
+        {
+            //Debug.Log(hit.distance);
+
+            if (hit.distance < Constants.camDist + wDistance)
+            {
+                maxDist = hit.distance - wDistance;
+                if (maxDist < 2f)
+                {
+                    //if (hit.collider.transform.position != Player.transform.position)
+                    maxDist = 2f;
+                }
+            }
+            else
+                maxDist = Constants.camDist;
+        }
+        else
+            maxDist = Constants.camDist;
     }
 
     Vector3 CalculateOrbit(float dist)
     {
-        float x = dist * Mathf.Cos(theta * Mathf.PI / 180f) * Mathf.Sin(phi * Mathf.PI / 180f);
-        float z = dist * Mathf.Sin(theta * Mathf.PI / 180f) * Mathf.Sin(phi * Mathf.PI / 180f);
-        float y = dist * Mathf.Cos(phi * Mathf.PI / 180f);
+        float x = dist * Mathf.Cos(Player.repere.theta * Mathf.PI / 180f) * Mathf.Sin(rotateY * Mathf.PI / 180f);
+        float z = dist * Mathf.Sin(Player.repere.theta * Mathf.PI / 180f) * Mathf.Sin(rotateY * Mathf.PI / 180f);
+        float y = dist * Mathf.Cos(rotateY * Mathf.PI / 180f);
         return new Vector3(x, y, z);
+    }
+
+    Vector3 Orbit()
+    {
+        Vector3 result = Player.repere.transform.position - Player.transform.position;
+        //result.y = 0;
+        result.Normalize();
+        result = Quaternion.FromToRotation(result, CalculateOrbit(1)) * result;
+
+        Vector3 look = Player.transform.position;
+        look.y += Constants.camHeight;
+
+        return look + result * maxDist;
     }
 
 
