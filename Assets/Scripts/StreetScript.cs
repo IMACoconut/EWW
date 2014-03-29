@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class StreetScript : MonoBehaviour {
 	
@@ -8,10 +9,12 @@ public class StreetScript : MonoBehaviour {
 	public bool S;
 	public bool W;
 	public bool open = true;
-	public int x, y;
+    public Vector3 position;
+    public List<GameObject> affiches;
+
 	// Use this for initialization
 	void Start () {
-	
+        position = new Vector3(0, 0, 0);
 	}
 	
 	// Update is called once per frame
@@ -45,4 +48,10 @@ public class StreetScript : MonoBehaviour {
 		S = W;
 		W = tmp;
 	}
+
+    public void OnDestroy()
+    {
+        foreach(GameObject a in affiches)
+            GameObject.Destroy(a);
+    }
 }

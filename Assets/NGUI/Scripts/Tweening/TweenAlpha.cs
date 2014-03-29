@@ -1,6 +1,6 @@
-﻿//----------------------------------------------
+//----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2012 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -9,32 +9,46 @@ using UnityEngine;
 /// Tween the object's alpha.
 /// </summary>
 
-[AddComponentMenu("NGUI/Tween/Alpha")]
+[AddComponentMenu("NGUI/Tween/Tween Alpha")]
 public class TweenAlpha : UITweener
 {
+#if UNITY_3_5
 	public float from = 1f;
 	public float to = 1f;
+#else
+	[Range(0f, 1f)] public float from = 1f;
+	[Range(0f, 1f)] public float to = 1f;
+#endif
 
-	Transform mTrans;
-	UIWidget mWidget;
+	UIRect mRect;
+
+	public UIRect cachedRect
+	{
+		get
+		{
+			if (mRect == null)
+			{
+				mRect = GetComponent<UIRect>();
+				if (mRect == null) mRect = GetComponentInChildren<UIRect>();
+			}
+			return mRect;
+		}
+	}
+
+	[System.Obsolete("Use 'value' instead")]
+	public float alpha { get { return this.value; } set { this.value = value; } }
 
 	/// <summary>
-	/// Current alpha.
+	/// Tween's current value.
 	/// </summary>
 
-	public float alpha { get { return mWidget.alpha; } set { mWidget.alpha = value; } }
+	public float value { get { return cachedRect.alpha; } set { cachedRect.alpha = value; } }
 
 	/// <summary>
-	/// Find all needed components.
+	/// Tween the value.
 	/// </summary>
 
-	void Awake () { mWidget = GetComponentInChildren<UIWidget>(); }
-
-	/// <summary>
-	/// Interpolate and update the alpha.
-	/// </summary>
-
-	override protected void OnUpdate (float factor, bool isFinished) { alpha = Mathf.Lerp(from, to, factor); }
+	protected override void OnUpdate (float factor, bool isFinished) { value = Mathf.Lerp(from, to, factor); }
 
 	/// <summary>
 	/// Start the tweening operation.
@@ -43,7 +57,7 @@ public class TweenAlpha : UITweener
 	static public TweenAlpha Begin (GameObject go, float duration, float alpha)
 	{
 		TweenAlpha comp = UITweener.Begin<TweenAlpha>(go, duration);
-		comp.from = comp.alpha;
+		comp.from = comp.value;
 		comp.to = alpha;
 
 		if (duration <= 0f)
@@ -53,4 +67,7 @@ public class TweenAlpha : UITweener
 		}
 		return comp;
 	}
+
+	public override void SetStartToCurrentValue () { from = value; }
+	public override void SetEndToCurrentValue () { to = value; }
 }
