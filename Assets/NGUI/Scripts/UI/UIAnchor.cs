@@ -1,6 +1,6 @@
-﻿//----------------------------------------------
+//----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2012 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -26,8 +26,6 @@ public class UIAnchor : MonoBehaviour
 		Center,
 	}
 
-	bool mIsWindows = false;
-
 	/// <summary>
 	/// Camera used to determine the anchor bounds. Set automatically if none was specified.
 	/// </summary>
@@ -35,16 +33,10 @@ public class UIAnchor : MonoBehaviour
 	public Camera uiCamera = null;
 
 	/// <summary>
-	/// Widget used to determine the container's bounds. Overwrites the camera-based anchoring if the value was specified.
+	/// Object used to determine the container's bounds. Overwrites the camera-based anchoring if the value was specified.
 	/// </summary>
 
-	public UIWidget widgetContainer = null;
-
-	/// <summary>
-	/// Panel used to determine the container's bounds. Overwrites the widget-based anchoring if the value was specified.
-	/// </summary>
-
-	public UIPanel panelContainer = null;
+	public GameObject container = null;
 
 	/// <summary>
 	/// Side or corner to anchor to.
@@ -53,28 +45,44 @@ public class UIAnchor : MonoBehaviour
 	public Side side = Side.Center;
 
 	/// <summary>
-	/// Whether a half-pixel offset will be applied on windows machines. Most of the time you'll want to leave this as 'true'.
-	/// This value is only used if the widget and panel containers were not specified.
+	/// If set to 'true', UIAnchor will execute once, then will be disabled.
+	/// Screen size changes will still cause the anchor to update itself, even if it's disabled.
 	/// </summary>
 
-	public bool halfPixelOffset = true;
-
-	/// <summary>
-	/// Depth offset applied to the anchored widget. Mainly useful for 3D UIs.
-	/// </summary>
-
-	public float depthOffset = 0f;
+	public bool runOnlyOnce = true;
 
 	/// <summary>
 	/// Relative offset value, if any. For example "0.25" with 'side' set to Left, means 25% from the left side.
 	/// </summary>
 
 	public Vector2 relativeOffset = Vector2.zero;
+	
+	/// <summary>
+	/// Pixel offset value if any. For example "10" in x will move the widget 10 pixels to the right 
+	/// while "-10" in x is 10 pixels to the left based on the pixel values set in UIRoot.
+	/// </summary>
+	
+	public Vector2 pixelOffset = Vector2.zero;
 
+	// Deprecated legacy functionality
+	[HideInInspector][SerializeField] UIWidget widgetContainer;
+
+	Transform mTrans;
 	Animation mAnim;
+	Rect mRect = new Rect();
 	UIRoot mRoot;
+	bool mStarted = false;
 
-	void Awake () { mAnim = animation; }
+	void Awake ()
+	{
+		mTrans = transform;
+		mAnim = animation;
+		UICamera.onScreenResize += ScreenSizeChanged;
+	}
+
+	void OnDestroy () { UICamera.onScreenResize -= ScreenSizeChanged; }
+
+	void ScreenSizeChanged () { if (mStarted && runOnlyOnce) Update(); }
 
 	/// <summary>
 	/// Automatically find the camera responsible for drawing the widgets under this object.
@@ -82,12 +90,21 @@ public class UIAnchor : MonoBehaviour
 
 	void Start ()
 	{
-		mRoot = NGUITools.FindInParents<UIRoot>(gameObject);
-		mIsWindows = (Application.platform == RuntimePlatform.WindowsPlayer ||
-			Application.platform == RuntimePlatform.WindowsWebPlayer ||
-			Application.platform == RuntimePlatform.WindowsEditor);
+		if (container == null && widgetContainer != null)
+		{
+			container = widgetContainer.gameObject;
+			widgetContainer = null;
+#if UNITY_EDITOR
+			NGUITools.SetDirty(this);
+#endif
+		}
 
+		mRoot = NGUITools.FindInParents<UIRoot>(gameObject);
 		if (uiCamera == null) uiCamera = NGUITools.FindCameraForLayer(gameObject.layer);
+		
+		Update();
+
+		mStarted = true;
 	}
 
 	/// <summary>
@@ -98,115 +115,112 @@ public class UIAnchor : MonoBehaviour
 	{
 		if (mAnim != null && mAnim.enabled && mAnim.isPlaying) return;
 
-		Rect rect = new Rect();
 		bool useCamera = false;
 
-		if (panelContainer != null)
+		UIWidget wc = (container == null) ? null : container.GetComponent<UIWidget>();
+		UIPanel pc = (container == null && wc == null) ? null : container.GetComponent<UIPanel>();
+
+		if (wc != null)
 		{
-			if (panelContainer.clipping == UIDrawCall.Clipping.None)
+			Bounds b = wc.CalculateBounds(container.transform.parent);
+
+			mRect.x = b.min.x;
+			mRect.y = b.min.y;
+
+			mRect.width = b.size.x;
+			mRect.height = b.size.y;
+		}
+		else if (pc != null)
+		{
+			if (pc.clipping == UIDrawCall.Clipping.None)
 			{
 				// Panel has no clipping -- just use the screen's dimensions
-				float ratio = (mRoot != null) ? (float)mRoot.manualHeight / Screen.height * 0.5f : 0.5f;
-				rect.xMin = -Screen.width * ratio;
-				rect.yMin = -Screen.height * ratio;
-				rect.xMax = -rect.xMin;
-				rect.yMax = -rect.yMin;
+				float ratio = (mRoot != null) ? (float)mRoot.activeHeight / Screen.height * 0.5f : 0.5f;
+				mRect.xMin = -Screen.width * ratio;
+				mRect.yMin = -Screen.height * ratio;
+				mRect.xMax = -mRect.xMin;
+				mRect.yMax = -mRect.yMin;
 			}
 			else
 			{
-				// Panel has clipping -- use it as the rect
-				Vector4 pos = panelContainer.clipRange;
-				rect.x = pos.x - (pos.z * 0.5f);
-				rect.y = pos.y - (pos.w * 0.5f);
-				rect.width = pos.z;
-				rect.height = pos.w;
+				// Panel has clipping -- use it as the mRect
+				Vector4 pos = pc.finalClipRegion;
+				mRect.x = pos.x - (pos.z * 0.5f);
+				mRect.y = pos.y - (pos.w * 0.5f);
+				mRect.width = pos.z;
+				mRect.height = pos.w;
 			}
 		}
-		else if (widgetContainer != null)
+		else if (container != null)
 		{
-			// Widget is used -- use its bounds as the container's bounds
-			Transform t = widgetContainer.cachedTransform;
-			Vector3 ls = t.localScale;
-			Vector3 lp = t.localPosition;
+			Transform root = container.transform.parent;
+			Bounds b = (root != null) ? NGUIMath.CalculateRelativeWidgetBounds(root, container.transform) :
+				NGUIMath.CalculateRelativeWidgetBounds(container.transform);
 
-			Vector3 size = widgetContainer.relativeSize;
-			Vector3 offset = widgetContainer.pivotOffset;
-			offset.y -= 1f;
-			
-			offset.x *= (widgetContainer.relativeSize.x * ls.x);
-			offset.y *= (widgetContainer.relativeSize.y * ls.y);
-			
-			rect.x = lp.x + offset.x;
-			rect.y = lp.y + offset.y;
-			
-			rect.width = size.x * ls.x;
-			rect.height = size.y * ls.y;
+			mRect.x = b.min.x;
+			mRect.y = b.min.y;
+
+			mRect.width = b.size.x;
+			mRect.height = b.size.y;
 		}
 		else if (uiCamera != null)
 		{
 			useCamera = true;
-			rect = uiCamera.pixelRect;
+			mRect = uiCamera.pixelRect;
 		}
 		else return;
 
-		float cx = (rect.xMin + rect.xMax) * 0.5f;
-		float cy = (rect.yMin + rect.yMax) * 0.5f;
-		Vector3 v = new Vector3(cx, cy, depthOffset);
+		float cx = (mRect.xMin + mRect.xMax) * 0.5f;
+		float cy = (mRect.yMin + mRect.yMax) * 0.5f;
+		Vector3 v = new Vector3(cx, cy, 0f);
 
 		if (side != Side.Center)
 		{
-			if (side == Side.Right || side == Side.TopRight || side == Side.BottomRight) v.x = rect.xMax;
+			if (side == Side.Right || side == Side.TopRight || side == Side.BottomRight) v.x = mRect.xMax;
 			else if (side == Side.Top || side == Side.Center || side == Side.Bottom) v.x = cx;
-			else v.x = rect.xMin;
+			else v.x = mRect.xMin;
 
-			if (side == Side.Top || side == Side.TopRight || side == Side.TopLeft) v.y = rect.yMax;
+			if (side == Side.Top || side == Side.TopRight || side == Side.TopLeft) v.y = mRect.yMax;
 			else if (side == Side.Left || side == Side.Center || side == Side.Right) v.y = cy;
-			else v.y = rect.yMin;
+			else v.y = mRect.yMin;
 		}
 
-		float width  = rect.width;
-		float height = rect.height;
+		float width = mRect.width;
+		float height = mRect.height;
 
-		v.x += relativeOffset.x * width;
-		v.y += relativeOffset.y * height;
+		v.x += pixelOffset.x + relativeOffset.x * width;
+		v.y += pixelOffset.y + relativeOffset.y * height;
 
 		if (useCamera)
 		{
 			if (uiCamera.orthographic)
 			{
-				v.x = Mathf.RoundToInt(v.x);
-				v.y = Mathf.RoundToInt(v.y);
-
-				if (halfPixelOffset && mIsWindows)
-				{
-					v.x -= 0.5f;
-					v.y += 0.5f;
-				}
+				v.x = Mathf.Round(v.x);
+				v.y = Mathf.Round(v.y);
 			}
 
-			// Convert from screen to world coordinates, since the two may not match (UIRoot set to manual size)
+			v.z = uiCamera.WorldToScreenPoint(mTrans.position).z;
 			v = uiCamera.ScreenToWorldPoint(v);
-
-			// Wrapped in an 'if' so the scene doesn't get marked as 'edited' every frame
-			if (transform.position != v) transform.position = v;
 		}
 		else
 		{
-			v.x = Mathf.RoundToInt(v.x);
-			v.y = Mathf.RoundToInt(v.y);
+			v.x = Mathf.Round(v.x);
+			v.y = Mathf.Round(v.y);
 
-			if (panelContainer != null)
+			if (pc != null)
 			{
-				v = panelContainer.transform.TransformPoint(v);
+				v = pc.cachedTransform.TransformPoint(v);
 			}
-			else if (widgetContainer != null)
+			else if (container != null)
 			{
-				Transform t = widgetContainer.transform.parent;
+				Transform t = container.transform.parent;
 				if (t != null) v = t.TransformPoint(v);
 			}
-
-			// Wrapped in an 'if' so the scene doesn't get marked as 'edited' every frame
-			if (transform.position != v) transform.position = v;
+			v.z = mTrans.position.z;
 		}
+
+		// Wrapped in an 'if' so the scene doesn't get marked as 'edited' every frame
+		if (mTrans.position != v) mTrans.position = v;
+		if (runOnlyOnce && Application.isPlaying) enabled = false;
 	}
 }

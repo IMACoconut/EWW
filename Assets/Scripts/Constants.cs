@@ -20,6 +20,8 @@ public class Constants : MonoBehaviour {
     public static float volume = 1.0f;
     public static bool invertCamera = false;
     public static bool useController = true;
+
+    public static float worldScale = 25.6f;
     
     
 

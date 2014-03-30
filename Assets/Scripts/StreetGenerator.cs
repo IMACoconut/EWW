@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using Assets;
 
 public class StreetGenerator {
     List<StreetScript> placed = new List<StreetScript>();
     List<StreetScript> open = new List<StreetScript>();
+   
 	int maxRadius;
 	
 	StreetScript getRandomStreet(StreetScript[] streets, int minPath, int maxPath) {
@@ -27,8 +29,9 @@ public class StreetGenerator {
 		foreach(StreetScript s in placed) {
 			if(s == null)
 				continue;
-		
-			if(s.x == x && s.y == y) {
+
+            if ((int)s.position.x == x && (int)s.position.z == y)
+            {
 				if(s.E && !exists (x, y-1))
 					return true;
 				if(s.W && !exists (x, y+1))
@@ -46,7 +49,7 @@ public class StreetGenerator {
 		foreach(StreetScript s in placed) {
 			if(s == null)
 				continue;
-			if(s.x == x && s.y == y)
+            if (s.position.x == x && s.position.z == y)
 				return true;
 		}
 		
@@ -56,12 +59,12 @@ public class StreetGenerator {
 	void placeStreet(StreetScript[] streets) {
 		StreetScript s = open[0] as StreetScript;
 		StreetScript s2 = null;
-		int x2 = s.x;
-		int y2 = s.y;
+        int x2 = (int)s.position.x;
+        int y2 = (int)s.position.z;
 
         //int min = (maxRadius > 2 && System.Math.Sqrt(x2*x2 + y2*y2) > 3.0) ? 1 : 2;
 
-		if(s.W && !exists (s.x,s.y+1))
+        if (s.W && !exists((int)s.position.x, (int)s.position.z + 1))
 		{
 			y2 = y2+1;
 			if(y2 >= maxRadius)
@@ -70,7 +73,9 @@ public class StreetGenerator {
 				s2 = getRandomStreet(streets, 1,4);
 			while(!s2.E)
 				s2.rotateLeft();
-		} else if(s.E && !exists (s.x, s.y-1)) {
+        }
+        else if (s.E && !exists((int)s.position.x, (int)s.position.z - 1))
+        {
 			y2 = y2-1;
 			if(y2 <= -maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
@@ -78,7 +83,9 @@ public class StreetGenerator {
 				s2 = getRandomStreet(streets, 1,4);
 			while(!s2.W)
 				s2.rotateLeft();
-		} else if(s.N && !exists (s.x+1, s.y)) {
+        }
+        else if (s.N && !exists((int)s.position.x + 1, (int)s.position.z))
+        {
 			x2 = x2+1;
 			if(x2 >= maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
@@ -86,7 +93,9 @@ public class StreetGenerator {
 				s2 = getRandomStreet(streets, 1,4);
 			while(!s2.S)
 				s2.rotateLeft();
-		} else if(s.S && !exists (s.x-1, s.y)) {
+        }
+        else if (s.S && !exists((int)s.position.x - 1, (int)s.position.z))
+        {
 			x2 = x2-1;
 			if(x2 <= -maxRadius)
 				s2 = getRandomStreet(streets, 1,1);
@@ -100,15 +109,16 @@ public class StreetGenerator {
 			return;
 		}
 		
-		s2.x = x2;
-		s2.y = y2;
+		s2.position.x = x2;
+		s2.position.z = y2;
 		placed.Add(s2);
 		if(isOpen(x2, y2))
 			open.Add(s2);
 		else
 			s2.open = false;
-		
-		if(!isOpen (s.x,s.y)) {
+
+        if (!isOpen((int)s.position.x, (int)s.position.z))
+        {
 			open.Remove(s);
 			s.open = false;
 		}
@@ -128,7 +138,6 @@ public class StreetGenerator {
 		maxRadius = radius;
 		
 		StreetScript first = getRandomStreet(streets, 2, 3);
-		first.x = 0; first.y = 0;
 		placed.Add(first);
 		open.Add(first);
 		int tmp = 0;
@@ -140,7 +149,7 @@ public class StreetGenerator {
         foreach (StreetScript s in placed)
         {
 
-            s.transform.position = new Vector3(25.6f * 3 * s.x * Constants.cityScale, 0, 25.6f * 3 * s.y * Constants.cityScale);
+            s.transform.position = new Vector3(Constants.worldScale * 3 * (int)s.position.x * Constants.cityScale, 0, Constants.worldScale * 3 * (int)s.position.z * Constants.cityScale);
             s.transform.localScale *= Constants.cityScale; 
         }
             
@@ -149,15 +158,16 @@ public class StreetGenerator {
 		game.currentValve.useEnabled = true;
         game.currentValve.transform.localScale *= Constants.cityScale;
         GameObject[] valveAttach = GameObject.FindGameObjectsWithTag("ValvePlace");
-        int val = Random.Range(1, valveAttach.Length - 1); 
-        placeValve(game, valveAttach, val );
+        int val = Random.Range(1, valveAttach.Length); 
+        placeValve(game, valveAttach, val);
 
 		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
 		game.currentDoor.locked = true;
 
         GameObject[] doorAttach = GameObject.FindGameObjectsWithTag("Attachment");
         placeDoor(game, doorAttach, Random.Range(1, doorAttach.Length-1));
-
+        val = Random.Range(0, game.rules.Length);
+        game.rules[val].setRuleOnStreets(game, placed, game.currentValve.transform.position, game.currentDoor.transform.position);
 		return placed;
 	}
 	

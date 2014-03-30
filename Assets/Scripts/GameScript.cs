@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Timers;
 using System.Collections.Generic;
+using Assets;
 
 public class GameScript : MonoBehaviour {
 	
@@ -17,6 +18,8 @@ public class GameScript : MonoBehaviour {
 	public ValveScript currentValve;
 	public DoorScript door;
 	public DoorScript currentDoor;
+    public GameObject[] posters;
+    public StreetRule[] rules;
 	
 	public RealTimer globalTimer;
 
@@ -150,6 +153,7 @@ public class GameScript : MonoBehaviour {
 	
 	public void LeaveStreet() {
 		foreach(StreetScript go in generatedStreets) {
+            go.OnDestroy();
 			GameObject.Destroy(go.gameObject);
 		}
 		GameObject.Destroy(currentValve.gameObject);
@@ -214,4 +218,10 @@ public class GameScript : MonoBehaviour {
         player.transform.localRotation = to.transform.localRotation;
     }
 
+    public GameObject getRandomPoster()
+    {
+        int r = Random.Range(0, posters.Length);
+
+        return GameObject.Instantiate(posters[r]) as GameObject;
+    }
 }

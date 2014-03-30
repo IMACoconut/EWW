@@ -1,6 +1,6 @@
-﻿//----------------------------------------------
+//----------------------------------------------
 //            NGUI: Next-Gen UI kit
-// Copyright © 2011-2012 Tasharen Entertainment
+// Copyright © 2011-2014 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
@@ -15,41 +15,44 @@ using System.Collections.Generic;
 [AddComponentMenu("NGUI/UI/Root")]
 public class UIRoot : MonoBehaviour
 {
-	static List<UIRoot> mRoots = new List<UIRoot>();
+	static public List<UIRoot> list = new List<UIRoot>();
 
 	/// <summary>
 	/// List of all UIRoots present in the scene.
 	/// </summary>
 
-	static public List<UIRoot> list { get { return mRoots; } }
-
-	Transform mTrans;
+	public enum Scaling
+	{
+		PixelPerfect,
+		FixedSize,
+		FixedSizeOnMobiles,
+	}
 
 	/// <summary>
-	/// If set to 'true', the UIRoot will be scaled automatically as the resolution changes, and will keep the UI under it
-	/// pixel-perfect. If set to 'false', 'manualHeight' is used instead, and the UI will scale proportionally to screen's height,
-	/// always remaining the same relative size regardless of the resolution changes.
+	/// Type of scaling used by the UIRoot.
 	/// </summary>
 
-	public bool automatic = true;
+	public Scaling scalingStyle = Scaling.PixelPerfect;
 
 	/// <summary>
-	/// Height of the screen when 'automatic' is turned off.
+	/// Height of the screen when the scaling style is set to FixedSize.
 	/// </summary>
 
-	public int manualHeight = 800;
+	public int manualHeight = 720;
 
 	/// <summary>
-	/// If the screen height goes below this value, it will be as if 'automatic' is turned off with the 'manualHeight' set to this value.
+	/// If the screen height goes below this value, it will be as if the scaling style
+	/// is set to FixedSize with manualHeight of this value.
 	/// </summary>
 
 	public int minimumHeight = 320;
 
 	/// <summary>
-	/// If the screen height goes above this value, it will be as if 'automatic' is turned off with the 'manualHeight' set to this value.
+	/// If the screen height goes above this value, it will be as if the scaling style
+	/// is set to FixedSize with manualHeight of this value.
 	/// </summary>
 
-	public int maximumHeight = 1080;
+	public int maximumHeight = 1536;
 
 	/// <summary>
 	/// UI Root's active height, based on the size of the screen.
@@ -60,44 +63,64 @@ public class UIRoot : MonoBehaviour
 		get
 		{
 			int height = Mathf.Max(2, Screen.height);
+			if (scalingStyle == Scaling.FixedSize) return manualHeight;
 
-			if (automatic)
-			{
-				if (height < minimumHeight) return minimumHeight;
-				if (height > maximumHeight) return maximumHeight;
-				return height;
-			}
-			return manualHeight;
+#if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
+			if (scalingStyle == Scaling.FixedSizeOnMobiles)
+				return manualHeight;
+#endif
+			if (height < minimumHeight) return minimumHeight;
+			if (height > maximumHeight) return maximumHeight;
+			return height;
 		}
 	}
 
 	/// <summary>
-	/// Pixel size adjustment. Most of the time it's at 1, unless 'automatic' is turned off.
+	/// Pixel size adjustment. Most of the time it's at 1, unless the scaling style is set to FixedSize.
 	/// </summary>
 
-	public float pixelSizeAdjustment
-	{
-		get
-		{
-			float height = Screen.height;
+	public float pixelSizeAdjustment { get { return GetPixelSizeAdjustment(Screen.height); } }
 
-			if (automatic)
-			{
-				if (height < minimumHeight) return minimumHeight / height;
-				if (height > maximumHeight) return maximumHeight / height;
-				return 1f;
-			}
-			return manualHeight / height;
-		}
+	/// <summary>
+	/// Helper function that figures out the pixel size adjustment for the specified game object.
+	/// </summary>
+
+	static public float GetPixelSizeAdjustment (GameObject go)
+	{
+		UIRoot root = NGUITools.FindInParents<UIRoot>(go);
+		return (root != null) ? root.pixelSizeAdjustment : 1f;
 	}
 
-	void Awake () { mTrans = transform; mRoots.Add(this); }
-	void OnDestroy () { mRoots.Remove(this); }
+	/// <summary>
+	/// Calculate the pixel size adjustment at the specified screen height value.
+	/// </summary>
 
-	void Start ()
+	public float GetPixelSizeAdjustment (int height)
+	{
+		height = Mathf.Max(2, height);
+
+		if (scalingStyle == Scaling.FixedSize)
+			return (float)manualHeight / height;
+
+#if UNITY_IPHONE || UNITY_ANDROID
+		if (scalingStyle == Scaling.FixedSizeOnMobiles)
+			return (float)manualHeight / height;
+#endif
+		if (height < minimumHeight) return (float)minimumHeight / height;
+		if (height > maximumHeight) return (float)maximumHeight / height;
+		return 1f;
+	}
+
+	Transform mTrans;
+
+	protected virtual void Awake () { mTrans = transform; }
+	protected virtual void OnEnable () { list.Add(this); }
+	protected virtual void OnDisable () { list.Remove(this); }
+
+	protected virtual void Start ()
 	{
 		UIOrthoCamera oc = GetComponentInChildren<UIOrthoCamera>();
-		
+
 		if (oc != null)
 		{
 			Debug.LogWarning("UIRoot should not be active at the same time as UIOrthoCamera. Disabling UIOrthoCamera.", oc);
@@ -105,20 +128,31 @@ public class UIRoot : MonoBehaviour
 			oc.enabled = false;
 			if (cam != null) cam.orthographicSize = 1f;
 		}
+		else Update();
 	}
 
 	void Update ()
 	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying && gameObject.layer != 0)
+			UnityEditor.EditorPrefs.SetInt("NGUI Layer", gameObject.layer);
+#endif
 		if (mTrans != null)
 		{
-			float size = 2f / activeHeight;
-			Vector3 ls = mTrans.localScale;
+			float calcActiveHeight = activeHeight;
 
-			if (!(Mathf.Abs(ls.x - size) <= float.Epsilon) ||
-				!(Mathf.Abs(ls.y - size) <= float.Epsilon) ||
-				!(Mathf.Abs(ls.z - size) <= float.Epsilon))
+			if (calcActiveHeight > 0f )
 			{
-				mTrans.localScale = new Vector3(size, size, size);
+				float size = 2f / calcActiveHeight;
+				
+				Vector3 ls = mTrans.localScale;
+	
+				if (!(Mathf.Abs(ls.x - size) <= float.Epsilon) ||
+					!(Mathf.Abs(ls.y - size) <= float.Epsilon) ||
+					!(Mathf.Abs(ls.z - size) <= float.Epsilon))
+				{
+					mTrans.localScale = new Vector3(size, size, size);
+				}
 			}
 		}
 	}
@@ -129,10 +163,15 @@ public class UIRoot : MonoBehaviour
 
 	static public void Broadcast (string funcName)
 	{
-		for (int i = 0, imax = mRoots.Count; i < imax; ++i)
+#if UNITY_EDITOR
+		if (Application.isPlaying)
+#endif
 		{
-			UIRoot root = mRoots[i];
-			if (root != null) root.BroadcastMessage(funcName, SendMessageOptions.DontRequireReceiver);
+			for (int i = 0, imax = list.Count; i < imax; ++i)
+			{
+				UIRoot root = list[i];
+				if (root != null) root.BroadcastMessage(funcName, SendMessageOptions.DontRequireReceiver);
+			}
 		}
 	}
 
@@ -149,9 +188,9 @@ public class UIRoot : MonoBehaviour
 		}
 		else
 		{
-			for (int i = 0, imax = mRoots.Count; i < imax; ++i)
+			for (int i = 0, imax = list.Count; i < imax; ++i)
 			{
-				UIRoot root = mRoots[i];
+				UIRoot root = list[i];
 				if (root != null) root.BroadcastMessage(funcName, param, SendMessageOptions.DontRequireReceiver);
 			}
 		}
