@@ -4,11 +4,12 @@ using System.Collections;
 public class RoomTest2 : MonoBehaviour {
 
     public bool startRoom;
- 
+    BallPlayer Player;
+
     // Use this for initialization
     void Start()
     {
-     
+        Player = GameObject.Find("Player").GetComponent<BallPlayer>();
     }
 
 
@@ -26,6 +27,7 @@ public class RoomTest2 : MonoBehaviour {
             return;
         startRoom = true;
         Debug.Log("start room");
+        Player.LoadAudio = false; 
 
     }
 }

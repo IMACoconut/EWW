@@ -23,11 +23,14 @@ public class Footsteps : MonoBehaviour {
 
         CharacterController controller = Player.GetComponent<CharacterController>();
 
-        if (!Player.run && step && !Player.idle && Player.isGround && hit.gameObject.tag == "metal" ) { if (!Player.audio.isPlaying) StartCoroutine(WalkOnMetal()); }
-        else if (Player.run && step && !Player.idle && Player.isGround && hit.gameObject.tag == "metal" ) { if (!Player.audio.isPlaying) StartCoroutine(RunOnMetal()); }
-        else if (!Player.run && step && !Player.idle && Player.isGround && (hit.gameObject.tag == "concrete" || hit.gameObject.tag == "Untagged") ) { if (!Player.audio.isPlaying) StartCoroutine(WalkOnConcrete()); }
-        else if (Player.run && step && !Player.idle && Player.isGround && (hit.gameObject.tag == "concrete" || hit.gameObject.tag == "Untagged")) { if (!Player.audio.isPlaying) StartCoroutine(RunOnConcrete()); }
-        
+        if (!Player.run && step && !Player.idle && Player.isGround && hit.gameObject.tag == "metal" && !Player.lockVar) { if (!Player.audio.isPlaying) StartCoroutine(WalkOnMetal()); } //walk 
+        else if (Player.run && step && !Player.idle && Player.isGround && hit.gameObject.tag == "metal" && !Player.lockVar) { if (!Player.audio.isPlaying) StartCoroutine(RunOnMetal()); } //run
+        else if (step && !Player.idle && Player.isGround && hit.gameObject.tag == "metal" && Player.lockVar && Player.forw != 0) { if (!Player.audio.isPlaying) StartCoroutine(WalkOnMetal()); } //ironsight
+
+        else if (!Player.run && step && !Player.idle && Player.isGround && (hit.gameObject.tag == "concrete" || hit.gameObject.tag == "Untagged") && !Player.lockVar) { if (!Player.audio.isPlaying) StartCoroutine(WalkOnConcrete()); }
+        else if (Player.run && step && !Player.idle && Player.isGround && (hit.gameObject.tag == "concrete" || hit.gameObject.tag == "Untagged") && !Player.lockVar) { if (!Player.audio.isPlaying) StartCoroutine(RunOnConcrete()); }
+        else if (step && !Player.idle && Player.isGround && (hit.gameObject.tag == "concrete" || hit.gameObject.tag == "Untagged") && Player.lockVar && Player.forw != 0) { if (!Player.audio.isPlaying) StartCoroutine(WalkOnConcrete()); }
+       
     }
 	
 

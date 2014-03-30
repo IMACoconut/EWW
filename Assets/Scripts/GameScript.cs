@@ -8,6 +8,7 @@ public class GameScript : MonoBehaviour {
 	public int roomsDone;
 	public int maxRooms;
 	public GameObject player;
+    private BallPlayer Player; 
 	public GameObject[] rooms;
 	public StreetScript[] streets;
 	public GameObject currentLocation;
@@ -37,6 +38,7 @@ public class GameScript : MonoBehaviour {
 		roomsDone = 0;
 		maxRooms = 4;
 		//player = GameObject.Find("Player");
+        Player = GameObject.Find("Player").GetComponent<BallPlayer>();
         Constants.pause = false;
 		EnterRoom();
         globalTimer.delay = 1000 * 60 * 3;
@@ -162,15 +164,17 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	void EnterStreet() {
+        Player.LoadAudio = true; 
         Debug.Log("enterstreet");
 		generateStreets();
 
-
+        
         //player.transform.localScale = initialSize*0.60f;
 
 	}
 	
 	void EnterRoom() {
+        Player.LoadAudio = true; 
 		int re = Random.Range(0, rooms.GetLength(0));
 		currentLocation = GameObject.Instantiate(rooms[roomsDone]) as GameObject;
 
@@ -180,6 +184,7 @@ public class GameScript : MonoBehaviour {
 		pos.y += 2;
 		player.transform.position = pos;
         player.transform.localRotation = currentLocation.transform.Find("StartPointScript").transform.localRotation;
+        
 
 	}
 	

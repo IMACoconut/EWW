@@ -11,6 +11,7 @@ public class BallPlayer : MonoBehaviour
     private GameObject controlCameraObject;
     private GameObject MainCam;
     private GameObject ironSight;
+    public bool LoadAudio = false; 
 
     public int currentCam = 1;
 	public bool run;

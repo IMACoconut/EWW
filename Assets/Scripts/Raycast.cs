@@ -16,7 +16,7 @@ public class Raycast : MonoBehaviour
     private float limGrab = 20f;
     private bool alt = false;
     private float holdingTime = 0f ;
-    private int direction = 0;
+    private int direction = -1;
 
     void Start()
     {
@@ -42,12 +42,12 @@ public class Raycast : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red);
-                    Debug.Log("hit : " + hit.transform.name); 
+                    //Debug.Log("hit : " + hit.transform.name); 
                     if ((Input.GetAxis("fire") > 0) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
                     {
                         grabbed = hit.transform;
                         grabDistance = hit.distance;
-                        Debug.Log(hit.distance);
+                        //Debug.Log(hit.distance);
 
                     }
 
@@ -59,11 +59,14 @@ public class Raycast : MonoBehaviour
             }
             /* if (Input.GetKeyDown(KeyCode.LeftControl)) alt = true;
             else if (Input.GetKeyUp(KeyCode.LeftControl)) alt = false; */
-
-			if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical")< -0.2f ) direction = 0; //haut
-            else if (Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Left Analog Horizontal") > 0.2f) direction = 1; // gauche
-            else if (Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Left Analog Horizontal") < -0.2f) direction = 2; // droite
-			else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical") > 0.2f ) direction = 3; // bas
+            if (!Player.curve) direction = -1;
+            else {
+                if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical")< -0.2f ) direction = 0; //haut
+                else if (Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Left Analog Horizontal") > 0.2f) direction = 1; // gauche
+                else if (Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Left Analog Horizontal") < -0.2f) direction = 2; // droite
+			    else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical") > 0.2f ) direction = 3; // bas
+            }
+			
 
 
             UpdateHoldDrag();
@@ -83,36 +86,42 @@ public class Raycast : MonoBehaviour
 
     void Curve()
     {
-        Vector3 size = grabbed.collider.bounds.size * 3f;
+        if (direction != -1) {
 
-        Vector3 rotationaxis;
+            Vector3 size = grabbed.collider.bounds.size * 3f;
 
-        if (direction == 0 || direction == 3) rotationaxis = Vector3.Cross(ray.direction, Vector3.up);
-        else { rotationaxis = ray.direction; rotationaxis.y = 0f; }
+            Vector3 rotationaxis;
 
-        /* On part du principe qu'en y on a la hauteur de l'objet */
-        //Debug.Log(direction);
-        float radius = 2f * Mathf.PI * (size.y);
-        List<Transform> bones;
-        bones = new List<Transform>();
-        // Debug.Log(Input.mousePosition.x + " " + Input.mousePosition.y + " " + Input.mousePosition.z);
+            if (direction == 0 || direction == 3) rotationaxis = Vector3.Cross(ray.direction, Vector3.up);
+            else { rotationaxis = ray.direction; rotationaxis.y = 0f; }
 
-        bones.Add(grabbed);
-        bones.Add(grabbed.GetComponentInChildren<Transform>());
-        bones.Add(grabbed.GetComponentInChildren<Transform>().GetComponentInChildren<Transform>());
+            /* On part du principe qu'en y on a la hauteur de l'objet */
+            //Debug.Log(direction);
+            float radius = 2f * Mathf.PI * (size.y);
+            List<Transform> bones;
+            bones = new List<Transform>();
+            // Debug.Log(Input.mousePosition.x + " " + Input.mousePosition.y + " " + Input.mousePosition.z);
+
+            bones.Add(grabbed);
+            bones.Add(grabbed.GetComponentInChildren<Transform>());
+            bones.Add(grabbed.GetComponentInChildren<Transform>().GetComponentInChildren<Transform>());
 
 
-        float alpha = -Mathf.Atan(bones[0].collider.bounds.size.y) / (radius * 10f);
-        alpha *= 2f;
-        //Debug.Log(holdingTime);
-        if (direction == 3 || direction == 2) alpha = alpha * -1f;
-        for (int i = 0; i < bones.Count; i++)
-        {
-            Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
+            float alpha = -Mathf.Atan(bones[0].collider.bounds.size.y) / (radius * 10f);
+            alpha *= 2f;
+            //Debug.Log(holdingTime);
+            if (direction == 3 || direction == 2) alpha = alpha * -1f;
+            for (int i = 0; i < bones.Count; i++)
+            {
+                //Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
 
-            bones[i].RotateAround(rotationaxis, alpha);
+                bones[i].RotateAround(rotationaxis, alpha);
 
-        }
+            }
+        
+        
+        
+        }  
 
     }
 
