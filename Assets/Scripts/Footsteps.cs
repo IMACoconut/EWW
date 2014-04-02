@@ -40,7 +40,7 @@ public class Footsteps : MonoBehaviour {
 	step = false;
     Player.audio.clip = metal[Random.Range(0, metal.GetLength(0))];
     Player.audio.panLevel = 0.86f; 
-    Player.audio.volume = .8f;
+    Player.audio.volume = .5f;
     Player.audio.Play();
     yield return new WaitForSeconds(audioStepLengthWalk);
 	step = true;
@@ -51,7 +51,7 @@ public class Footsteps : MonoBehaviour {
 	step = false;
     Player.audio.clip = metal[Random.Range(0, metal.GetLength(0))];
     Player.audio.panLevel = 0.86f; 
-    Player.audio.volume = .9f;
+    Player.audio.volume = .7f;
     Player.audio.Play();
     yield return new WaitForSeconds(audioStepLengthRun);
 	step = true;
@@ -63,7 +63,7 @@ public class Footsteps : MonoBehaviour {
         step = false;
         Player.audio.clip = concrete[Random.Range(0, concrete.GetLength(0))];
         Player.audio.panLevel = 0.86f;
-        Player.audio.volume = .8f;
+        Player.audio.volume = .7f;
         Player.audio.Play();
         yield return new WaitForSeconds(audioStepLengthWalk);
         step = true;
@@ -74,7 +74,7 @@ public class Footsteps : MonoBehaviour {
         step = false;
         Player.audio.clip = concrete[Random.Range(0, concrete.GetLength(0))];
         Player.audio.panLevel = 0.86f;
-        Player.audio.volume = .9f;
+        Player.audio.volume = .8f;
         Player.audio.Play();
         yield return new WaitForSeconds(audioStepLengthRun);
         step = true;
