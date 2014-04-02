@@ -1,25 +1,39 @@
 fileFormatVersion: 2
-guid: 0fa4d875117a90e469684c07021a8573
+guid: 31bd1d0998bfab045b9ae8001385da5a
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: Box001
-    100002: //RootNode
-    100004: Object001
-    400000: Box001
-    400002: //RootNode
-    400004: Object001
-    2300000: Box001
-    2300002: Object001
-    2300004: //RootNode
-    3300000: Box001
-    3300002: Object001
-    3300004: //RootNode
+    100000: Bone001
+    100002: Bone002
+    100004: Bone003
+    100006: Bone004
+    100008: Bone005
+    100010: Bone006
+    100012: Box001
+    100014: //RootNode
+    100016: IK Chain001
+    100018: IK Chain002
+    100020: IK Chain003
+    100022: IK Chain004
+    100024: IK Chain005
+    400000: Bone001
+    400002: Bone002
+    400004: Bone003
+    400006: Bone004
+    400008: Bone005
+    400010: Bone006
+    400012: Box001
+    400014: //RootNode
+    400016: IK Chain001
+    400018: IK Chain002
+    400020: IK Chain003
+    400022: IK Chain004
+    400024: IK Chain005
     4300000: Box001
-    4300002: Object001
     9500000: //RootNode
+    13700000: Box001
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
