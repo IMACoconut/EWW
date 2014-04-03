@@ -154,30 +154,25 @@ public class StreetGenerator {
         }
             
 
-		game.currentValve = ValveScript.Instantiate(game.valve) as ValveScript;
+		/*game.currentValve = ValveScript.Instantiate(game.valve) as ValveScript;
 		game.currentValve.useEnabled = true;
         game.currentValve.transform.localScale *= Constants.cityScale;
         GameObject[] valveAttach = GameObject.FindGameObjectsWithTag("ValvePlace");
         int val = Random.Range(1, valveAttach.Length); 
-        placeValve(game, valveAttach, val);
-
-		game.currentDoor = DoorScript.Instantiate(game.door) as DoorScript;
-		game.currentDoor.locked = true;
+        placeValve(game, valveAttach, val);*/
+        GameObject d = GameObject.Instantiate(game.door) as GameObject;
+		game.setCurrentDoor(d);
+		game.getCurrentDoor().locked = true;
+        game.currentDoor.transform.localScale *= Constants.cityScale;
+        game.getCurrentValve().useEnabled = true;
 
         GameObject[] doorAttach = GameObject.FindGameObjectsWithTag("Attachment");
         placeDoor(game, doorAttach, Random.Range(1, doorAttach.Length-1));
-        val = Random.Range(0, game.rules.Length);
-        game.rules[val].setRuleOnStreets(game, placed, game.currentValve.transform.position, game.currentDoor.transform.position);
+        int val = Random.Range(0, game.rules.Length);
+        game.rules[val].setRuleOnStreets(game, placed, game.getCurrentValve().transform.position, game.getCurrentDoor().transform.position);
 		return placed;
 	}
-	
-	bool placeValve(GameScript game, GameObject[] valves, int pos) {
-		Transform a = valves[pos].transform;
-		game.currentValve.transform.position = a.position;
-		game.currentValve.transform.rotation = a.rotation;
-		return true;
-	}
-	
+		
 	bool placeDoor(GameScript game, GameObject[] valves, int pos) {
 		Transform a = valves[pos].transform;
 		game.currentDoor.transform.position = a.position;
