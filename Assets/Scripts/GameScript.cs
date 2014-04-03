@@ -14,15 +14,16 @@ public class GameScript : MonoBehaviour {
 	public StreetScript[] streets;
 	public GameObject currentLocation;
     public List<StreetScript> generatedStreets;
-	public ValveScript valve;
-	public ValveScript currentValve;
-	public DoorScript door;
-	public DoorScript currentDoor;
+	public GameObject door;
+	public GameObject currentDoor;
     public GameObject[] posters;
     public StreetRule[] rules;
     public FadeInOut ScreenFader;  
 	
 	public RealTimer globalTimer;
+
+    protected DoorScript doorScript;
+    protected ValveScript valveScript;
 
     private enum Menu {
         Main,
@@ -52,7 +53,7 @@ public class GameScript : MonoBehaviour {
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
         Screen.lockCursor = true;
-
+        
 	}
 
 	void reshuffle()
@@ -159,7 +160,6 @@ public class GameScript : MonoBehaviour {
             go.OnDestroy();
 			GameObject.Destroy(go.gameObject);
 		}
-		GameObject.Destroy(currentValve.gameObject);
 		GameObject.Destroy(currentDoor.gameObject);
 		generatedStreets.Clear();
 		generatedStreets = null;
@@ -206,7 +206,7 @@ public class GameScript : MonoBehaviour {
 	public void addTime(int time) {
         globalTimer.delay = time;
 		globalTimer.Start();
-		currentDoor.locked = false;
+		doorScript.locked = false;
 	}
 	
 	// Specify what you want to happen when the Elapsed event is raised.
@@ -227,5 +227,22 @@ public class GameScript : MonoBehaviour {
         int r = Random.Range(0, posters.Length);
 
         return GameObject.Instantiate(posters[r]) as GameObject;
+    }
+
+    public void setCurrentDoor(GameObject d)
+    {
+        currentDoor = d;
+        doorScript = currentDoor.GetComponentInChildren<DoorScript>();
+        valveScript = currentDoor.GetComponentInChildren<ValveScript>();
+    }
+
+    public DoorScript getCurrentDoor()
+    {
+        return doorScript;
+    }
+
+    public ValveScript getCurrentValve()
+    {
+        return valveScript;
     }
 }
