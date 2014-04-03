@@ -20,6 +20,7 @@ public class GameScript : MonoBehaviour {
 	public DoorScript currentDoor;
     public GameObject[] posters;
     public StreetRule[] rules;
+    public FadeInOut ScreenFader;  
 	
 	public RealTimer globalTimer;
 
@@ -42,6 +43,7 @@ public class GameScript : MonoBehaviour {
 		maxRooms = 4;
 		//player = GameObject.Find("Player");
         Player = GameObject.Find("Player").GetComponent<BallPlayer>();
+        ScreenFader = GameObject.Find("ScreenFader").GetComponent<FadeInOut>();
         Constants.pause = false;
 		EnterRoom();
         globalTimer.delay = 1000 * 60 * 3;
@@ -147,6 +149,7 @@ public class GameScript : MonoBehaviour {
 		else {
 			GameObject.Destroy(currentLocation);
 			currentLocation = null;
+            
 			EnterStreet();
 		}
 	}
@@ -163,11 +166,11 @@ public class GameScript : MonoBehaviour {
 
 
         //player.transform.localScale = initialSize;
-
 		EnterRoom();
 	}
 	
 	void EnterStreet() {
+        ScreenFader.sceneStarting = true; 
         Player.LoadAudio = true; 
         Debug.Log("enterstreet");
 		generateStreets();
@@ -178,7 +181,8 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	void EnterRoom() {
-        Player.LoadAudio = true; 
+        Player.LoadAudio = true;
+        ScreenFader.sceneStarting = true; 
 		int re = Random.Range(0, rooms.GetLength(0));
 		currentLocation = GameObject.Instantiate(rooms[roomsDone]) as GameObject;
 
