@@ -16,7 +16,7 @@ public class Constants : MonoBehaviour {
     public static bool pause = false;
 	
 	public static bool debugMode = false;
-    public static float sensitivity = 1.0f;
+    public static float sensitivity = 2.0f;
     public static float volume = 1.0f;
     public static bool invertCamera = false;
     public static bool useController = true;

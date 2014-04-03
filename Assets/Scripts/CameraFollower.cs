@@ -71,7 +71,7 @@ public class CameraFollower : MonoBehaviour {
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Vertical") < -0.2f || Input.GetAxis("Right Analog Vertical") > 0.2f)
-                tmp1 = -1 * Input.GetAxis("Right Analog Vertical");
+                tmp1 = -1 * Input.GetAxis("Right Analog Vertical") * Constants.sensitivity;
         }
         else
             tmp1 = Input.GetAxis("Mouse Y") * Constants.sensitivity;
@@ -143,7 +143,7 @@ public class CameraFollower : MonoBehaviour {
         if (Physics.Raycast(look, dir, out hit))
         {
             //Debug.Log(hit.distance);
-
+            //Debug.Log(hit.collider.gameObject.name);
             if (hit.distance < Constants.camDist + wDistance)
             {
                 maxDist = hit.distance - wDistance;
