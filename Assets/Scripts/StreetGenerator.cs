@@ -131,6 +131,7 @@ public class StreetGenerator {
         // Random.seed = -2098638175; 
 
 		//Random.seed = 508101336;
+        Random.seed = 1708748809;
         Debug.Log("Seed: " + Random.seed);
         
 		placed.Clear();
@@ -163,11 +164,11 @@ public class StreetGenerator {
         GameObject d = GameObject.Instantiate(game.door) as GameObject;
 		game.setCurrentDoor(d);
 		game.getCurrentDoor().locked = true;
-        game.currentDoor.transform.localScale *= Constants.cityScale;
+        //game.currentDoor.transform.localScale *= Constants.cityScale;
         game.getCurrentValve().useEnabled = true;
 
         GameObject[] doorAttach = GameObject.FindGameObjectsWithTag("Attachment");
-        placeDoor(game, doorAttach, Random.Range(1, doorAttach.Length-1));
+        placeDoor(game, doorAttach, Random.Range(0, doorAttach.Length));
         int val = Random.Range(0, game.rules.Length);
         game.rules[val].setRuleOnStreets(game, placed, game.getCurrentValve().transform.position, game.getCurrentDoor().transform.position);
 		return placed;
