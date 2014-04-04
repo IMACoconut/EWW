@@ -33,7 +33,7 @@ public class FadeInOut : MonoBehaviour {
         {
             StopCoroutine("StartScene");
         }
-        Debug.Log(sceneStarting);
+        //Debug.Log(sceneStarting);
             
 
     }
@@ -63,7 +63,7 @@ public class FadeInOut : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         // Fade the texture to clear.
         FadeToClear();
-        Debug.Log(guiTexture.color.a);
+        //Debug.Log(guiTexture.color.a);
 
         // If the texture is almost clear...
         if (guiTexture.color.a <= 0.05f)
@@ -86,7 +86,7 @@ public class FadeInOut : MonoBehaviour {
     {
         // Make sure the texture is enabled.
         guiTexture.enabled = false;
-        Debug.Log(guiTexture.color.a);
+        //Debug.Log(guiTexture.color.a);
 
         // Start fading towards black.
         FadeToBlack();
