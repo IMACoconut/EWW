@@ -183,8 +183,8 @@ public class GameScript : MonoBehaviour {
 	void EnterRoom() {
         Player.LoadAudio = true;
         ScreenFader.sceneStarting = true; 
-		int re = Random.Range(0, rooms.GetLength(0));
-		currentLocation = GameObject.Instantiate(rooms[roomsDone]) as GameObject;
+		int re = Random.Range(0, rooms.Length);
+		currentLocation = GameObject.Instantiate(rooms[re]) as GameObject;
 
 		Vector3 pos = currentLocation.transform.Find("StartPointScript").transform.position;
 

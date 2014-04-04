@@ -79,7 +79,6 @@ public class Raycast : MonoBehaviour
         Plane plane = new Plane(-transform.forward, position);
         float distance ;
             if (plane.Raycast(ray, out distance)) {
-                grabbed.rigidbody.useGravity = false; 
                 grabbed.rigidbody.position = ray.origin + ray.direction * limGrab;
                 grabbed.rigidbody.rotation = transform.rotation;
                 
