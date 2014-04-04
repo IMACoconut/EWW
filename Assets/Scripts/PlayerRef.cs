@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerRef : MonoBehaviour {
-	
-	public BallPlayer Player;
+public class PlayerRef : MonoBehaviour
+{
+
+    public BallPlayer Player;
     public Transform posCam, lookAtCam;
     private float rotateY = 0;
     public Texture reticle;
@@ -14,7 +15,7 @@ public class PlayerRef : MonoBehaviour {
     private bool rotate = true;
 
 
-	public float theta, phi;
+    public float theta, phi;
 
     public float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
@@ -50,15 +51,17 @@ public class PlayerRef : MonoBehaviour {
         }
     }
 
-	// Use this for initialization
-	void Start () {
-		theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
+    // Use this for initialization
+    void Start()
+    {
+        theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
         if (theta >= 0)
             theta = 360 - theta;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Constants.pause)
             return;
 
@@ -68,11 +71,11 @@ public class PlayerRef : MonoBehaviour {
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Horizontal") < -0.2f || Input.GetAxis("Right Analog Horizontal") > 0.2f)
-                tmp = Input.GetAxis("Right Analog Horizontal") * invert * Constants.sensitivity;
+                tmp = Input.GetAxis("Right Analog Horizontal") * invert;
         }
         else
             tmp = Input.GetAxis("Mouse X") * Constants.sensitivity * invert;
-         
+
 
         if (Player.lockVar)
         {
@@ -113,7 +116,7 @@ public class PlayerRef : MonoBehaviour {
 
                 phi = 90f;
             }
-            
+
             transform.position = DefaultOrbit(Constants.camDist);
 
             Vector3 look = Player.transform.position;
@@ -126,24 +129,24 @@ public class PlayerRef : MonoBehaviour {
 
             rotate = false;
         }
-	}
+    }
 
     void OnCollisionEnter(Collision h)
     {
-       /* Debug.Log("toto");
-        RaycastHit hit;
-        Vector3 dir = transform.position - ball.transform.position;
-        if(Physics.Raycast(ball.transform.position, dir, out hit)) {
-            Debug.Log("collide");
-            Vector3 look = ball.transform.position;
-            transform.position = look-CalculateOrbit(hit.distance-10f);
-            maxDist = hit.distance;
-            //transform.position = ball.transform.position;// (hit.point - ball.transform.position) * 0.8f + ball.transform.position;
-        }
-        else
-        {
-            maxDist = Constants.camDist;
-        }*/
+        /* Debug.Log("toto");
+         RaycastHit hit;
+         Vector3 dir = transform.position - ball.transform.position;
+         if(Physics.Raycast(ball.transform.position, dir, out hit)) {
+             Debug.Log("collide");
+             Vector3 look = ball.transform.position;
+             transform.position = look-CalculateOrbit(hit.distance-10f);
+             maxDist = hit.distance;
+             //transform.position = ball.transform.position;// (hit.point - ball.transform.position) * 0.8f + ball.transform.position;
+         }
+         else
+         {
+             maxDist = Constants.camDist;
+         }*/
     }
 
     Vector3 DefaultOrbit(float Cdist)
@@ -151,21 +154,21 @@ public class PlayerRef : MonoBehaviour {
         Vector3 result = transform.position - Player.transform.position;
         result.y = 0;
         result.Normalize();
-        if(rotate)
+        if (rotate)
             result = Quaternion.FromToRotation(result, CalculateOrbit(1)) * result;
 
         Vector3 look = Player.transform.position;
 
         look.y += Constants.camHeight;
-        return Cdist*result + look;
+        return Cdist * result + look;
     }
 
     Vector3 CalculateOrbit(float Cdist)
     {
-         float x = Cdist * Mathf.Cos(theta * Mathf.PI / 180f) * Mathf.Sin(phi * Mathf.PI / 180f);
-         float z = Cdist * Mathf.Sin(theta * Mathf.PI / 180f) * Mathf.Sin(phi * Mathf.PI / 180f);
-         float y = Cdist * Mathf.Cos(phi * Mathf.PI / 180f);
-         return new Vector3(x, y, z);
+        float x = Cdist * Mathf.Cos(theta * Mathf.PI / 180f) * Mathf.Sin(phi * Mathf.PI / 180f);
+        float z = Cdist * Mathf.Sin(theta * Mathf.PI / 180f) * Mathf.Sin(phi * Mathf.PI / 180f);
+        float y = Cdist * Mathf.Cos(phi * Mathf.PI / 180f);
+        return new Vector3(x, y, z);
     }
 
     void OnGUI()

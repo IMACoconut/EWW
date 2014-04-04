@@ -11,15 +11,15 @@ public class BallPlayer : MonoBehaviour
     private GameObject controlCameraObject;
     private GameObject MainCam;
     private GameObject ironSight;
-    public bool LoadAudio = false; 
+    public bool LoadAudio = false;
 
     public int currentCam = 1;
-	public bool run;
+    public bool run;
     public bool walk;
     public bool jump;
     public bool jumpAnime;
     public bool idle = false;
-	public bool lockVar = false;
+    public bool lockVar = false;
     public bool currentRotate = true;
     public bool curve = false;
     public float angle;
@@ -44,12 +44,13 @@ public class BallPlayer : MonoBehaviour
     private float debug = 0;
     public bool isGround = false;
 
-    bool IsGrounded(){
-         CharacterController controller = GetComponent<CharacterController>();
-      //return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
-         
-         //return controller.velocity.y < 0.01 && controller.velocity.y > -0.01;
-         return isGround;
+    bool IsGrounded()
+    {
+        CharacterController controller = GetComponent<CharacterController>();
+        //return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+
+        //return controller.velocity.y < 0.01 && controller.velocity.y > -0.01;
+        return isGround;
     }
 
     //returns -1 when to the left, 1 to the right, and 0 for forward/backward
@@ -71,16 +72,17 @@ public class BallPlayer : MonoBehaviour
         }
     }
 
-    float ContAngle(Vector3 fwd, Vector3 targetDir, Vector3 upDir) {
+    float ContAngle(Vector3 fwd, Vector3 targetDir, Vector3 upDir)
+    {
 
-        float result = Vector3.Angle(fwd, targetDir);    
+        float result = Vector3.Angle(fwd, targetDir);
 
         //The AngleDir function is the one from the other thread.
-        if (AngleDir(fwd, targetDir, upDir) == 1) 
+        if (AngleDir(fwd, targetDir, upDir) == 1)
         {
             return result - 360f;
-        } 
-        else 
+        }
+        else
         {
             return result;
         }
@@ -103,8 +105,8 @@ public class BallPlayer : MonoBehaviour
         Screen.lockCursor = true;
 
         // get the distance to ground
-       // distToGround = 0;
-       // distToGround = collider.bounds.extents.y;
+        // distToGround = 0;
+        // distToGround = collider.bounds.extents.y;
 
     }
 
@@ -119,7 +121,7 @@ public class BallPlayer : MonoBehaviour
 
         if (currentCam == 1) controlCameraObject = MainCam;
         else controlCameraObject = ironSight;
-       
+
         forw = 0f;
         lat = 0f;
 
@@ -215,18 +217,18 @@ public class BallPlayer : MonoBehaviour
 
                 Vector3 movLat = lateral + forward;
                 movLat.Normalize();
-                movLat *= Constants.charSpeed * Time.deltaTime /3f;
+                movLat *= Constants.charSpeed * Time.deltaTime / 3f;
                 controller.Move(movLat * tmpSpeed);
             }
         }
-        
-       /* //réorientation du personnage par rapport à la caméra
-        Vector3 forwardVec = controlCameraObject.transform.forward;
-        forwardVec.y = 0;
-        forwardVec.Normalize();
 
-        float angleCamera = ContAngle(transform.forward, forwardVec, transform.up);
-*/
+        /* //réorientation du personnage par rapport à la caméra
+         Vector3 forwardVec = controlCameraObject.transform.forward;
+         forwardVec.y = 0;
+         forwardVec.Normalize();
+
+         float angleCamera = ContAngle(transform.forward, forwardVec, transform.up);
+ */
         //jump
         if (!lockVar)
         {
@@ -253,11 +255,11 @@ public class BallPlayer : MonoBehaviour
             {
                 currentJump += 9.81f * Time.deltaTime * 6f;
                 mov.y += 9.81f * Time.deltaTime * 6f;
-                
+
             }
         }
-        
-		// gravity
+
+        // gravity
         if (!(IsGrounded()))
             fallTime += Time.deltaTime;
         else
@@ -280,7 +282,7 @@ public class BallPlayer : MonoBehaviour
 
         //gestion des animations
         idle = false;
-        if(fallTime > 1f || (!jumpAnime && !IsGrounded()))
+        if (fallTime > 1f || (!jumpAnime && !IsGrounded()))
             animation.CrossFade("fall", 0.1f);
         else if (jumpAnime)
             animation.CrossFade("jump", 0.1f);

@@ -1,18 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraFollower : MonoBehaviour {
-	
-	public BallPlayer Player;
+public class CameraFollower : MonoBehaviour
+{
+
+    public BallPlayer Player;
     public Transform /*posCam,*/ lookAtCam;
-    private float rotateY = 0;
+    private float rotateY = 90;
+    private float rotateY2;
 
     private float smooth = 7f;
     private float maxDist = Constants.camDist;
+    private float collisionLockF = 0;
+    private float collisionLockL = 0;
     private bool iron = false;
 
 
-	float theta, phi;
+    float theta, phi;
 
     public float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
@@ -48,91 +52,134 @@ public class CameraFollower : MonoBehaviour {
         }
     }
 
-	// Use this for initialization
-	void Start () {
-		
+    // Use this for initialization
+    void Start()
+    {
+
         transform.position = Player.repere.transform.position;
         Vector3 look = Player.transform.position;
         look.y += Constants.camHeight;
         transform.LookAt(look);
+        rotateY = 90;
         //maxDist = Constants.camDist;
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         if (Constants.pause)
             return;
 
         Collision();
 
+        //récupération de l'input axe vertical
         float tmp1 = 0;
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Vertical") < -0.2f || Input.GetAxis("Right Analog Vertical") > 0.2f)
-                tmp1 = -1 * Input.GetAxis("Right Analog Vertical") * Constants.sensitivity;
+                tmp1 = -1 * Input.GetAxis("Right Analog Vertical");
         }
         else
             tmp1 = Input.GetAxis("Mouse Y") * Constants.sensitivity;
 
+        //reset position camera
         if (Input.GetAxis("LB") > 0)
-            rotateY = 0;
-
+            rotateY = 90;
+        //prise en compte des inputs vertical
         else
             rotateY += tmp1;
-
+        //on borne les valeurs
+        if (rotateY >= 170)
+            rotateY = 170;
+        else if (rotateY < 10)
+            rotateY = 10;
+        //camera visée
         if (Player.lockVar)
         {
-
-            if (rotateY >= 45)
-                rotateY = 45;
-            else if (rotateY < -45)
-                rotateY = -45;
-
-            transform.position = Vector3.Lerp(transform.position, Player.repere.transform.position, smooth * Time.deltaTime);
+            rotateY2 = rotateY - 90;
+            //Vector3 correction = Vector3.Normalize(lookAtCam.position - Player.repere.transform.position);
+            transform.position = Vector3.Lerp(transform.position, Player.repere.transform.position + (this.transform.forward * collisionLockF) - (this.transform.right * collisionLockL), smooth * Time.deltaTime);
             transform.LookAt(lookAtCam);
 
-            transform.Rotate(-rotateY, 0, 0);
+            transform.Rotate(-rotateY2, 0, 0);
         }
+        //camera normal
         else
         {
-            if (rotateY >= 170)
-                rotateY = 170;
-            else if (rotateY < 10)
-                rotateY = 10;
-
             Vector3 look = Player.transform.position;
             look.y += Constants.camHeight;
 
             transform.position = Vector3.Lerp(transform.position, Orbit(), smooth * Time.deltaTime);
             transform.LookAt(look);
-
-           
         }
-      //  maxDist = Constants.camDist;
-	}
+    }
 
     void OnCollisionEnter(Collision h)
     {
-      /*  Debug.Log("toto");
-        RaycastHit hit;
-        Vector3 look = Player.transform.position;
-        Vector3 dir = transform.position - look;
-        if (Physics.Raycast(look, dir, out hit))
-        {
-            Debug.Log("collide");
-            // transform.position = look-CalculateOrbit(hit.distance-10f);
-            maxDist = hit.distance;
-            //transform.position = ball.transform.position;// (hit.point - ball.transform.position) * 0.8f + ball.transform.position;
-        }
+        /*  Debug.Log("toto");
+          RaycastHit hit;
+          Vector3 look = Player.transform.position;
+          Vector3 dir = transform.position - look;
+          if (Physics.Raycast(look, dir, out hit))
+          {
+              Debug.Log("collide");
+              // transform.position = look-CalculateOrbit(hit.distance-10f);
+              maxDist = hit.distance;
+              //transform.position = ball.transform.position;// (hit.point - ball.transform.position) * 0.8f + ball.transform.position;
+          }
+          else
+          {
+              // maxDist = Constants.camDist;
+          }*/
+    }
+    void Collision()
+    {
+        if (Player.lockVar)
+            CollisionV();
         else
-        {
-            // maxDist = Constants.camDist;
-        }*/
+            CollisionN();
     }
 
-    void Collision()
+    void CollisionV()
+    {
+        float wDistance = 3f;
+        float wDistanceL = 5f;
+
+        RaycastHit hit;
+        Vector3 look = lookAtCam.position;
+        Vector3 dir = this.transform.position - look;
+        float distance = Vector3.Distance(look, Player.repere.transform.position) + wDistance;
+
+        if (Physics.Raycast(look, dir, out hit))
+        {
+            Debug.Log(hit.distance);
+            Debug.DrawLine(look, hit.point, Color.green);
+
+            if (hit.distance < distance)
+                collisionLockF = -1 * (hit.distance - distance);
+            else
+                collisionLockF = 0f;
+        }
+        else
+            collisionLockF = 0f;
+        // Debug.Log(collisionLockF);
+        if (Physics.Raycast(this.transform.position, this.transform.right, out hit))
+        {
+            Debug.Log(hit.distance);
+            Debug.DrawLine(this.transform.position, hit.point, Color.cyan);
+
+            if (hit.distance < wDistanceL)
+                collisionLockL = wDistanceL - hit.distance;
+            else
+                collisionLockL = 0f;
+        }
+        else
+            collisionLockL = 0f;
+    }
+
+    void CollisionN()
     {
         float wDistance = 4f;
 
@@ -143,7 +190,7 @@ public class CameraFollower : MonoBehaviour {
         if (Physics.Raycast(look, dir, out hit))
         {
             //Debug.Log(hit.distance);
-            //Debug.Log(hit.collider.gameObject.name);
+
             if (hit.distance < Constants.camDist + wDistance)
             {
                 maxDist = hit.distance - wDistance;
