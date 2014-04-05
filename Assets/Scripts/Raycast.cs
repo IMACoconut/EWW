@@ -17,6 +17,7 @@ public class Raycast : MonoBehaviour
     private bool alt = false;
     private float holdingTime = 0f ;
     private int direction = -1;
+    public WrenchRay particleRay;
 
     void Start()
     {
@@ -47,6 +48,9 @@ public class Raycast : MonoBehaviour
                     {
                         grabbed = hit.transform;
                         grabDistance = hit.distance;
+                        particleRay.target = hit.point;
+                        
+                        particleRay.StartEmit();
                         //Debug.Log(hit.distance);
 
                     }
@@ -151,7 +155,7 @@ public class Raycast : MonoBehaviour
 
 
         else { grabbed = null;
-        
+        particleRay.StopEmit();
         }
                 
     }
@@ -159,6 +163,7 @@ public class Raycast : MonoBehaviour
     void Grab() {
     if (grabbed) 
        grabbed = null;
+        particleRay.StopEmit();
    
     }
 }
