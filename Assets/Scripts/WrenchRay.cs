@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class WrenchRay : MonoBehaviour {
 
@@ -8,10 +9,14 @@ public class WrenchRay : MonoBehaviour {
     private float invParticleCount;
     public bool emitEnabled = false;
 
+    public Transform origin;
     public Vector3 target;
     private Perlin noise = null;
     public float speed = 1.0f;
     public float scale = 1.0f;
+    public float frequency = 5.0f;
+    public float amplitude = 0.3f;
+    public float noiseFactor = 1.0f;
 	// Use this for initialization
 	void Start () {
         
@@ -44,17 +49,24 @@ public class WrenchRay : MonoBehaviour {
         if (noise == null)
             noise = new Perlin();
 
-        float timex = Time.time * speed * 0.1365143f;
-        float timey = Time.time * speed * 1.21688f;
-        float timez = Time.time * speed * 2.5564f;
-
+        float timex = Time.time * noiseFactor * 0.1365143f;
+        float timey = Time.time * noiseFactor * 1.21688f;
+        float timez = Time.time * noiseFactor * 2.5564f;
+        float dist = (target - origin.position).magnitude;
         for (int i = 0; i < particles.Length; i++)
         {
-            Vector3 position = Vector3.Lerp(transform.position, target, invParticleCount * (float)i);
+            float t = (float)i * invParticleCount;
+
+            Vector3 position = Vector3.Lerp(origin.position, target, t);
+            Vector3 offset2 = new Vector3(0.0f, (float)Math.Cos((position - origin.position).magnitude * Time.time) * 1.0f / dist, 0.0f);
             Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),
                                         noise.Noise(timey + position.x, timey + position.y, timey + position.z),
                                         noise.Noise(timez + position.x, timez + position.y, timez + position.z));
-            position += (offset * scale * ((float)i * invParticleCount));
+            position += offset2;//+(offset * scale * ((float)i * invParticleCount));
+            /*position += offset;
+            Vector3 offnoise = new Vector3(noise.Noise(position.x * timex, position.x * timex, position.x * timex),
+                                           noise.Noise(position.y * timey, position.y * timey, position.y * timey),
+                                           noise.Noise(position.z * timez, position.z * timez, position.z * timez));*/
 
             particles[i].position = position;
             particles[i].color = Color.white;
