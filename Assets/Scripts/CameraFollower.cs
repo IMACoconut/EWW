@@ -167,7 +167,7 @@ public class CameraFollower : MonoBehaviour
         // Debug.Log(collisionLockF);
         if (Physics.Raycast(this.transform.position, this.transform.right, out hit))
         {
-            Debug.Log(hit.distance);
+            //Debug.Log(hit.distance);
             Debug.DrawLine(this.transform.position, hit.point, Color.cyan);
 
             if (hit.distance < wDistanceL)

@@ -43,6 +43,8 @@ public class WrenchRay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(origin.position);
+
         if (Constants.pause || !emitEnabled)
             return;
 
