@@ -10,7 +10,10 @@ public class Voice : MonoBehaviour {
     SoundBankManager SoundBank; 
     private List <GameObject> AudiozoneTab;
     AudioClip ToPlay;
-    public string[] breathTab; 
+    public string[] breathTab;
+    public string[] breathTabSlow;
+    public string[] idleTab;
+    private float idleTime = 0;
     
     
     
@@ -57,6 +60,11 @@ public class Voice : MonoBehaviour {
         if (!Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) StartCoroutine(BreathSlow()); } //walk 
         else if (Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) StartCoroutine(Breath()); } //run
         else if (step && !Player.idle && Player.isGround && Player.lockVar && Player.forw != 0) { if (!grunt.audio.isPlaying) StartCoroutine(BreathSlow()); } //ironsight
+        else if (step && Player.idle)
+        {
+            if (!grunt.audio.isPlaying && idleTime > 8f) { StartCoroutine(Idle()); idleTime = 0f; }
+            else idleTime += Time.deltaTime;   
+        } //idle
 
 
 
@@ -68,22 +76,31 @@ public class Voice : MonoBehaviour {
     {
         string tmp = breathTab[Random.Range(0, breathTab.GetLength(0))];
         step = false;
-        Debug.Log("RESPIRE !!!!!!!");
         grunt.audio.clip = SoundBank.SoundBank[tmp];
         grunt.audio.Play(); 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.15f);
         step = true; 
        
     }
 
     IEnumerator BreathSlow()
     {
-        string tmp = breathTab[Random.Range(0, breathTab.GetLength(0))];
+        string tmp = breathTabSlow[Random.Range(0, breathTabSlow.GetLength(0))];
         step = false;
-        Debug.Log("RESPIRE SLOW !!!!!!!");
         grunt.audio.clip = SoundBank.SoundBank[tmp];
         grunt.audio.Play();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.65f);
+        step = true;
+
+    }
+
+    IEnumerator Idle()
+    {
+        string tmp = idleTab[Random.Range(0, idleTab.GetLength(0))]; 
+        step = false;
+        grunt.audio.clip = SoundBank.SoundBank[tmp];
+        grunt.audio.Play();
+        yield return new WaitForSeconds(1f);
         step = true;
 
     }
