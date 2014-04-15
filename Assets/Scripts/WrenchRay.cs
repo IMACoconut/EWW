@@ -24,6 +24,9 @@ public class WrenchRay : MonoBehaviour {
 
     public void StartEmit()
     {
+        if (emitEnabled)
+            return;
+
         particleEmitter.emit = false;
         particleEmitter.ClearParticles();
         particleEmitter.Emit(particleCount);
@@ -32,35 +35,40 @@ public class WrenchRay : MonoBehaviour {
         particleCount = particleEmitter.particleCount;
         invParticleCount = 1.0f / (float)particleCount;
         emitEnabled = true;
+        Debug.Log("Start emit");
     }
 
     public void StopEmit()
     {
+        if (!emitEnabled)
+            return;
+
         particleEmitter.emit = false;
         emitEnabled = false;
         particleEmitter.ClearParticles();
+        Debug.Log("Stop emit");
     }
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(origin.position);
 
-        if (Constants.pause || !emitEnabled)
+        if (Constants.pause || !emitEnabled || target == null)
             return;
 
         if (noise == null)
             noise = new Perlin();
 
+        Vector3 orig = origin.position;
         float timex = Time.time * noiseFactor * 0.1365143f;
         float timey = Time.time * noiseFactor * 1.21688f;
         float timez = Time.time * noiseFactor * 2.5564f;
-        float dist = (target - origin.position).magnitude;
+        float dist = (target - orig).magnitude;
         for (int i = 0; i < particles.Length; i++)
         {
             float t = (float)i * invParticleCount;
 
-            Vector3 position = Vector3.Lerp(origin.position, target, t);
-            Vector3 offset2 = new Vector3(0.0f, (float)Math.Cos((position - origin.position).magnitude * Time.time) * 1.0f / dist, 0.0f);
+            Vector3 position = Vector3.Lerp(orig, target, t);
+            Vector3 offset2 = new Vector3(0.0f, (float)Math.Cos((position - orig).magnitude * Time.time) * 1.0f / dist, 0.0f);
             Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),
                                         noise.Noise(timey + position.x, timey + position.y, timey + position.z),
                                         noise.Noise(timez + position.x, timez + position.y, timez + position.z));
