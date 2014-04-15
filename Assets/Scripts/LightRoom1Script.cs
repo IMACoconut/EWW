@@ -3,10 +3,11 @@ using System.Collections;
 
 public class LightRoom1Script : MonoBehaviour
 {
-
+    SoundBankManager SoundBank; 
     public float lastAngle, currAngle;
     public int loop;
     public bool updateLoopValue;
+    private GameObject alert; 
     public GameObject player;
     public GameObject doorStart;
     public GameObject doorEnd;
@@ -16,6 +17,9 @@ public class LightRoom1Script : MonoBehaviour
     private Light bulb; 
     public bool startRoom;
     bool solved;
+    bool step = true ;
+    bool played = false; 
+    private float alertTime = 0f; 
 
     // Use this for initialization
     void Start()
@@ -35,6 +39,7 @@ public class LightRoom1Script : MonoBehaviour
         Lights[6] = GameObject.Find("Light7");
 
         doorStart = GameObject.Find("DoorEntry");
+        alert = GameObject.Find("alert");
         bulblight = GameObject.Find("bulblight");
         bulb = bulblight.GetComponentInChildren<Light>();
         bulb.color = Color.red;
@@ -50,6 +55,7 @@ public class LightRoom1Script : MonoBehaviour
         loop = 0;
         updateLoopValue = false;
         solved = false;
+        SoundBank = GameObject.Find("GameGeneralScript").GetComponent<SoundBankManager>(); 
     }
 
     // Update is called once per frame
@@ -64,11 +70,24 @@ public class LightRoom1Script : MonoBehaviour
         bulb.color = Color.green;  
             
         }
-     
 
+        alertTime += Time.deltaTime;
+        if (alertTime > 4f && !played) { Alert(); played = true;  }
+
+       
         
 
         
+    }
+
+    void Alert()
+    {
+        string tmp = "we are sorry to announce"; 
+        step = false;
+        alert.audio.clip = SoundBank.SoundBank[tmp];
+        alert.audio.Play();
+        step = true;
+
     }
 
     bool isSolved()
@@ -96,7 +115,7 @@ public class LightRoom1Script : MonoBehaviour
     {
         startRoom = true;
         updateLoopValue = true;
-        Debug.Log("start room");
+        //Debug.Log("start room");
     }
 
     void OnTriggerExit()
