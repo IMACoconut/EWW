@@ -13,6 +13,7 @@ public class Voice : MonoBehaviour {
     public string[] breathTab;
     public string[] breathTabSlow;
     public string[] idleTab;
+    public string[] jumpTab;
     private float idleTime = 0;
     
     
@@ -53,24 +54,34 @@ public class Voice : MonoBehaviour {
 
             }
             
-        } 
+        }
 
-      
 
-        if (!Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) StartCoroutine(BreathSlow()); } //walk 
-        else if (Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) StartCoroutine(Breath()); } //run
-        else if (step && !Player.idle && Player.isGround && Player.lockVar && Player.forw != 0) { if (!grunt.audio.isPlaying) StartCoroutine(BreathSlow()); } //ironsight
+
+        if (!Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) { idleTime = 0f; StartCoroutine(BreathSlow()); } } //walk 
+        else if (Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) { StartCoroutine(Breath()); idleTime = 0f; } } //run
+        else if (step && !Player.idle && Player.isGround && Player.lockVar && Player.forw != 0) { if (!grunt.audio.isPlaying) { idleTime = 0f; StartCoroutine(BreathSlow()); } } //ironsight
         else if (step && Player.idle)
         {
             if (!grunt.audio.isPlaying && idleTime > 8f) { StartCoroutine(Idle()); idleTime = 0f; }
             else idleTime += Time.deltaTime;   
         } //idle
 
-
+        if (step && Player.jump) if (!grunt.audio.isPlaying) Jump(); 
 
 
 	
 	}
+
+    void Jump()
+    {
+        string tmp = jumpTab[Random.Range(0, breathTab.GetLength(0))];
+        step = false;
+        grunt.audio.clip = SoundBank.SoundBank[tmp];
+        grunt.audio.Play();
+        step = true; 
+
+    }
 
     IEnumerator Breath()
     {
