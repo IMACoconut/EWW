@@ -2,38 +2,25 @@
 using System.Collections;
 
 public class RoomFoldedSpace_01_script : Room {
-
-    public bool startRoom;
-    private GameObject player;
-    private GameObject roomCenter, roomCenter2;
+    public GameObject roomCenter, roomCenter2;
 
     public int loop1, loop2;
     public float currAngle1, lastAngle1, currAngle2, lastAngle2;
 
-    private GameObject firstRoom, secondRoom, passage1, passage2, passage3, passage4, passage5;
+    public GameObject firstRoom, secondRoom, passage1, passage2, passage3, passage4, passage5;
 
     // Use this for initialization
 	void Start () {
-        startRoom = false;
         Restart();
     }
 
     public void Restart() {
-        firstRoom = GameObject.Find("FirstRoom");
-        secondRoom = GameObject.Find("SecondRoom");
-        passage1 = firstRoom.transform.FindChild("Passage1").gameObject;
-        passage2 = firstRoom.transform.FindChild("Passage2").gameObject;
-        passage3 = secondRoom.transform.FindChild("Passage1").gameObject;
-        passage4 = secondRoom.transform.FindChild("Passage2").gameObject;
-        passage5 = secondRoom.transform.FindChild("Passage3").gameObject;
+   
         ShowRoom(passage1, true);
         ShowRoom(passage2, true);
         ShowRoom(firstRoom, true);
         ShowRoom(secondRoom, false);        
-        
-        player = GameObject.Find("Player");
-        roomCenter = GameObject.Find("RoomCenter");
-        roomCenter2 = GameObject.Find("RoomCenter2");
+
         currAngle1 = 0;
         lastAngle1 = 0;
         loop1 = -1;
@@ -58,7 +45,7 @@ public class RoomFoldedSpace_01_script : Room {
         if (Constants.pause)
             return;
 
-        if (!startRoom)
+        if (!started)
             return;
 
         Vector3 pos = player.transform.position - roomCenter.transform.position;
@@ -150,13 +137,5 @@ public class RoomFoldedSpace_01_script : Room {
             loop2++;
         else if (currAngle2 > 350 && lastAngle2 < 50)
             loop2--;
-    }
-
-    void OnTriggerEnter()
-    {
-        if (startRoom)
-            return;
-        startRoom = true;
-        Debug.Log("start room");
     }
 }
