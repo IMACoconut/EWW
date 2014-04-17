@@ -15,7 +15,7 @@ public class Voice : MonoBehaviour {
     public string[] idleTab;
     public string[] jumpTab;
     private float idleTime = 0;
-    
+   
     
     
 	// Use this for initialization
@@ -31,12 +31,15 @@ public class Voice : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Debug.Log(Player.LoadAudio);
+        if (Player.clearAudio)
+        {
+            clearList();
+            Player.clearAudio = false;
+        }
        if (Player.LoadAudio) {
         
             foreach (GameObject fooObj in GameObject.FindGameObjectsWithTag("audiozone")){
                 AudiozoneTab.Add(fooObj);
-           
-                
              }
         }
         for (int j = 0; j < AudiozoneTab.Count; j++)
@@ -68,10 +71,12 @@ public class Voice : MonoBehaviour {
         } //idle
 
         if (step && Player.jump) if (!grunt.audio.isPlaying) Jump(); 
-
-
-	
 	}
+
+    void clearList()
+    {
+        AudiozoneTab.Clear();
+    }
 
     void Jump()
     {

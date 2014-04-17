@@ -60,6 +60,7 @@ public class GameScript : MonoBehaviour {
     void beginIntro()
     {
         player.LoadAudio = true;
+        player.clearAudio = true;
         currentLocation = GameObject.Instantiate(dortoir) as Room;
         currentLocation.setGameScript(this);
         currentLocation.started = true;
@@ -195,7 +196,8 @@ public class GameScript : MonoBehaviour {
 	
 	void EnterStreet() {
         ScreenFader.sceneStarting = true; 
-        player.LoadAudio = true; 
+        player.LoadAudio = true;
+        player.clearAudio = true;
         Debug.Log("enterstreet");
 		generateStreets();
 
@@ -206,6 +208,7 @@ public class GameScript : MonoBehaviour {
 	
 	void EnterRoom() {
         player.LoadAudio = true;
+        player.clearAudio = true;
         ScreenFader.sceneStarting = true; 
 		int re = Random.Range(0, rooms.Length);
 		currentLocation = GameObject.Instantiate(rooms[re]) as Room;
