@@ -9,7 +9,6 @@ public class EndPointScript : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake() {
-		mainScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
 		enabled = true;
 		collided = false;
 	}
@@ -23,7 +22,6 @@ public class EndPointScript : MonoBehaviour {
 		if(collided) {
 			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
 			{
-                Debug.Log("Ingrid, est-ce que tu bug après le cinéma");
                 mainScript.LeaveRoom();
 			}
 		}
@@ -39,8 +37,6 @@ public class EndPointScript : MonoBehaviour {
 	void OnTriggerEnter(Collider p) {
         if (p.tag.StartsWith("Player"))
             collided = true;
-        
-        //    Debug.Log("collide");
 	}
 	
 	void OnTriggerExit(Collider player) {

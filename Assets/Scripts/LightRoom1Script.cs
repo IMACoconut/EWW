@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LightRoom1Script : MonoBehaviour
+public class LightRoom1Script : Room
 {
     SoundBankManager SoundBank; 
     public float lastAngle, currAngle;

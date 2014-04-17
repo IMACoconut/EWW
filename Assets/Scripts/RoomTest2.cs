@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RoomTest2 : MonoBehaviour {
+public class RoomTest2 : Room {
 
     public bool startRoom;
     BallPlayer Player;

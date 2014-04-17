@@ -5,17 +5,19 @@ using System.Collections.Generic;
 using Assets;
 
 public class GameScript : MonoBehaviour {
-	
-	public int roomsDone;
-	public int maxRooms;
-	public GameObject player;
-    private BallPlayer Player; 
-	public GameObject[] rooms;
+
+    public int roomsDone = 0;
+	public int maxRooms = 4;
+
+	public BallPlayer player;
+
+    public Room dortoir;
+    public Room[] rooms;
+
 	public StreetScript[] streets;
-	public GameObject currentLocation;
-    public List<StreetScript> generatedStreets;
+	
 	public GameObject door;
-	public GameObject currentDoor;
+	
     public GameObject[] posters;
     public StreetRule[] rules;
     public FadeInOut ScreenFader;  
@@ -24,6 +26,10 @@ public class GameScript : MonoBehaviour {
 
     protected DoorScript doorScript;
     protected ValveScript valveScript;
+
+    public GameObject currentDoor;
+    public Room currentLocation;
+    private List<StreetScript> generatedStreets;
 
     private enum Menu {
         Main,
@@ -40,21 +46,37 @@ public class GameScript : MonoBehaviour {
 		reshuffle();
     }
 	void Start () {
-		roomsDone = 0;
-		maxRooms = 4;
-		//player = GameObject.Find("Player");
-        Player = GameObject.Find("Player").GetComponent<BallPlayer>();
-        ScreenFader = GameObject.Find("ScreenFader").GetComponent<FadeInOut>();
-        Constants.pause = false;
-		EnterRoom();
-        globalTimer.delay = 1000 * 60 * 3;
-		globalTimer.Start();
+        beginIntro();
 
+        ScreenFader = GameObject.Find("ScreenFader").GetComponent<FadeInOut>();
+
+        Constants.pause = false;
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
         Screen.lockCursor = true;
         
 	}
+
+    void beginIntro()
+    {
+        player.LoadAudio = true;
+        currentLocation = GameObject.Instantiate(dortoir) as Room;
+        currentLocation.setGameScript(this);
+        currentLocation.player = player.gameObject;
+
+        Vector3 pos = currentLocation.start.transform.position;
+        pos.y += 2;
+        player.transform.position = pos;
+        player.transform.localRotation = currentLocation.start.transform.localRotation;
+    }
+
+    void beginGame()
+    {
+        player.LoadAudio = true;
+        EnterRoom();
+        globalTimer.delay = 1000 * 60 * 3;
+        globalTimer.Start();
+    }
 
 	void reshuffle()
 	{
@@ -65,7 +87,7 @@ public class GameScript : MonoBehaviour {
 			
 		{
 			
-			GameObject tmp = rooms[t];
+			Room tmp = rooms[t];
 			
 			int r = Random.Range(t, rooms.Length);
 			
@@ -148,10 +170,10 @@ public class GameScript : MonoBehaviour {
 			Application.LoadLevel("menu");
 		}
 		else {
-			GameObject.Destroy(currentLocation);
+			GameObject.Destroy(currentLocation.gameObject);
 			currentLocation = null;
-            
-			EnterStreet();
+            addTime(1000 * 60 * 3);
+			EnterRoom();
 		}
 	}
 	
@@ -171,7 +193,7 @@ public class GameScript : MonoBehaviour {
 	
 	void EnterStreet() {
         ScreenFader.sceneStarting = true; 
-        Player.LoadAudio = true; 
+        player.LoadAudio = true; 
         Debug.Log("enterstreet");
 		generateStreets();
 
@@ -181,19 +203,19 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	void EnterRoom() {
-        Player.LoadAudio = true;
+        player.LoadAudio = true;
         ScreenFader.sceneStarting = true; 
 		int re = Random.Range(0, rooms.Length);
-		currentLocation = GameObject.Instantiate(rooms[re]) as GameObject;
+		currentLocation = GameObject.Instantiate(rooms[re]) as Room;
 
-		Vector3 pos = currentLocation.transform.Find("StartPointScript").transform.position;
+        Vector3 pos = currentLocation.start.transform.position;
 
        // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
 		pos.y += 2;
 		player.transform.position = pos;
-        player.transform.localRotation = currentLocation.transform.Find("StartPointScript").transform.localRotation;
-        
-
+        player.transform.localRotation = currentLocation.start.transform.localRotation;
+        currentLocation.player = player.gameObject;
+        currentLocation.setGameScript(this);
 	}
 	
 	void generateStreets() {
@@ -206,7 +228,6 @@ public class GameScript : MonoBehaviour {
 	public void addTime(int time) {
         globalTimer.delay = time;
 		globalTimer.Start();
-		doorScript.locked = false;
 	}
 	
 	// Specify what you want to happen when the Elapsed event is raised.

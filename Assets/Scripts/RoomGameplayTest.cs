@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RoomGameplayTest : MonoBehaviour {
+public class RoomGameplayTest : Room {
 
     public float lastAngle, currAngle;
     public int loop;

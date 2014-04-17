@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RoomLightFolded : MonoBehaviour {
+public class RoomLightFolded : Room {
 
     public GameObject player;
 

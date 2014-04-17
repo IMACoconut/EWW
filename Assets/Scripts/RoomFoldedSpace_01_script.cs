@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RoomFoldedSpace_01_script : MonoBehaviour {
+public class RoomFoldedSpace_01_script : Room {
 
     public bool startRoom;
     private GameObject player;
