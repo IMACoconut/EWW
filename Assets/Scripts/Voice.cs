@@ -30,7 +30,8 @@ public class Voice : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(Player.LoadAudio);
+        Debug.Log(Player.LoadAudio);
+        Debug.Log(AudiozoneTab.Count); 
         if (Player.clearAudio)
         {
             clearList();
@@ -41,18 +42,26 @@ public class Voice : MonoBehaviour {
             foreach (GameObject fooObj in GameObject.FindGameObjectsWithTag("audiozone")){
                 AudiozoneTab.Add(fooObj);
              }
+            Player.LoadAudio = false; 
         }
         for (int j = 0; j < AudiozoneTab.Count; j++)
         {
             if (AudiozoneTab[j].GetComponent<Audiozone>().triggered)
             {
-                Debug.Log("Audio triggered n°" + AudiozoneTab[j].GetComponent<Audiozone>().audiofile); 
-                /* On play le son une seule fois */ 
-                grunt.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
-                grunt.audio.Play(); 
-                
+                if (!grunt.audio.isPlaying)
+                {
+                    step = false;
+                   // Debug.Log("Audio triggered n°" + AudiozoneTab[j].GetComponent<Audiozone>().audiofile);
 
-                AudiozoneTab.Remove(AudiozoneTab[j]);
+                    
+                    /* On play le son une seule fois */
+                    grunt.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
+                    grunt.audio.Play();
+
+
+                    AudiozoneTab.Remove(AudiozoneTab[j]);
+                    step = true; 
+                }
 
 
             }
