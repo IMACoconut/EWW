@@ -7,6 +7,7 @@ public class Room : MonoBehaviour {
     public EndPointScript end;
     protected GameScript game;
     public GameObject player;
+    public bool started;
 
     public void setGameScript(GameScript g)
     {

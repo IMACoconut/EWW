@@ -11,6 +11,7 @@ public class Room1Script : Room {
     public GameObject pillar;
     public GameObject doorStart;
     public GameObject doorEnd;
+    
 	
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,8 @@ public class Room1Script : Room {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!started)
+            return;
         if (Constants.pause)
             return;
 

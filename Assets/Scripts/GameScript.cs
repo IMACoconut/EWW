@@ -62,6 +62,7 @@ public class GameScript : MonoBehaviour {
         player.LoadAudio = true;
         currentLocation = GameObject.Instantiate(dortoir) as Room;
         currentLocation.setGameScript(this);
+        currentLocation.started = true;
         currentLocation.player = player.gameObject;
 
         Vector3 pos = currentLocation.start.transform.position;
@@ -170,6 +171,7 @@ public class GameScript : MonoBehaviour {
 			Application.LoadLevel("menu");
 		}
 		else {
+            currentLocation.started = false;
 			GameObject.Destroy(currentLocation.gameObject);
 			currentLocation = null;
             addTime(1000 * 60 * 3);
@@ -207,7 +209,7 @@ public class GameScript : MonoBehaviour {
         ScreenFader.sceneStarting = true; 
 		int re = Random.Range(0, rooms.Length);
 		currentLocation = GameObject.Instantiate(rooms[re]) as Room;
-
+        currentLocation.started = true;
         Vector3 pos = currentLocation.start.transform.position;
 
        // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
