@@ -4,7 +4,8 @@ using System.Collections;
 public class LightRoom1Script : Room
 {
     SoundBankManager SoundBank; 
-    public GameObject alert; 
+    public GameObject alert;
+    public string[] alertTab; 
     public GameObject doorEnd;
     public GameObject[] Lights;
     public GameObject bulblight;
@@ -52,7 +53,7 @@ public class LightRoom1Script : Room
 
     void Alert()
     {
-        string tmp = "we are sorry to announce"; 
+        string tmp = alertTab[Random.Range(0, alertTab.GetLength(0))];
         step = false;
         alert.audio.clip = SoundBank.SoundBank[tmp];
         alert.audio.Play();
