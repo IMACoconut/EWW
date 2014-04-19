@@ -13,7 +13,7 @@ public class LightRoom1Script : Room
     bool solved;
     bool step = true ;
     bool played = false; 
-    private float alertTime = 0f; 
+    private float alertTime = 5f; 
 
     // Use this for initialization
     void Start()
@@ -44,8 +44,10 @@ public class LightRoom1Script : Room
         }
 
         alertTime += Time.deltaTime;
-        if (alertTime > 4f && !played) 
-        { 
+        Debug.Log(alertTime % 20);
+        if (alertTime%20 <= 0.1) 
+        {
+            Debug.Log("Boo");
             Alert();
             played = true;
         }        

@@ -30,8 +30,8 @@ public class Voice : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(Player.LoadAudio);
-        Debug.Log(AudiozoneTab.Count); 
+        //Debug.Log(Player.LoadAudio);
+        //Debug.Log(AudiozoneTab.Count); 
         if (Player.clearAudio)
         {
             clearList();
