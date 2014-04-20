@@ -13,7 +13,10 @@ public class LightRoom1Script : Room
     bool solved;
     bool step = true ;
     bool played = false; 
-    private float alertTime = 5f; 
+    private float alertTime = 5f;
+    private int nbalert = 0;
+    GameObject grunt;
+    private bool angry = false; 
 
     // Use this for initialization
     void Start()
@@ -22,7 +25,7 @@ public class LightRoom1Script : Room
         bulb = bulblight.GetComponentInChildren<Light>();
         bulb.color = Color.red;
         doorEnd.collider.enabled = false;
-
+        grunt = GameObject.Find("grunt");
         solved = false;
         SoundBank = game.GetComponent<SoundBankManager>(); 
     }
@@ -44,13 +47,30 @@ public class LightRoom1Script : Room
         }
 
         alertTime += Time.deltaTime;
-        Debug.Log(alertTime % 20);
-        if (alertTime%20 <= 0.1) 
+       
+        if (alertTime >= 10 && !played) 
         {
-            Debug.Log("Boo");
+            //Debug.Log("Boo");
             Alert();
-            played = true;
-        }        
+            nbalert++;
+            alertTime = 0f; 
+            if(nbalert == 3) played = true;
+        }
+        else if (alertTime >= 5 && played && !angry)
+        {
+            //Debug.Log("she's bothering me !");
+            grunt.audio.Stop(); 
+            if (!grunt.audio.isPlaying)
+            {
+                step = false;
+                grunt.audio.clip = SoundBank.SoundBank["she is bothering me"];
+                grunt.audio.priority = 0; 
+                grunt.audio.Play();               
+                step = true;
+                angry = true; 
+            }
+           
+        } 
     }
 
     void Alert()
