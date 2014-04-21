@@ -4,7 +4,8 @@ using System.Collections;
 public class Audiozone : MonoBehaviour {
 
     public bool triggered;
-    public string audiofile; 
+    public string audiofile;
+    public bool alert; 
 
 	// Use this for initialization
 	void Start () {
@@ -17,9 +18,12 @@ public class Audiozone : MonoBehaviour {
 	
 	}
 
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider other)
     {
-        triggered = true;
+        if (other.gameObject.tag == "Player")
+        {
+            triggered = true; 
+        }
 
     }
 }

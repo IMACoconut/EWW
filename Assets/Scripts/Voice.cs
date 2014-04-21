@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class Voice : MonoBehaviour {
     private bool step; 
     BallPlayer Player;
-    GameObject grunt; 
+    GameObject grunt;
+    GameObject alert; 
     SoundBankManager SoundBank; 
     private List <GameObject> AudiozoneTab;
     AudioClip ToPlay;
@@ -22,6 +23,7 @@ public class Voice : MonoBehaviour {
 	void Start () {
         Player = GameObject.Find("Player").GetComponent<BallPlayer>();
         grunt = GameObject.Find("grunt");
+        
         SoundBank = GameObject.Find("GameGeneralScript").GetComponent<SoundBankManager>(); 
         AudiozoneTab = new List<GameObject>();
         step = true; 
@@ -42,25 +44,47 @@ public class Voice : MonoBehaviour {
             foreach (GameObject fooObj in GameObject.FindGameObjectsWithTag("audiozone")){
                 AudiozoneTab.Add(fooObj);
              }
+            alert = GameObject.Find("alert");
             Player.LoadAudio = false; 
         }
         for (int j = 0; j < AudiozoneTab.Count; j++)
         {
             if (AudiozoneTab[j].GetComponent<Audiozone>().triggered)
             {
-                if (!grunt.audio.isPlaying)
+                if (!AudiozoneTab[j].GetComponent<Audiozone>().alert)
                 {
-                    step = false;
-                   // Debug.Log("Audio triggered n°" + AudiozoneTab[j].GetComponent<Audiozone>().audiofile);
+                    if (!grunt.audio.isPlaying)
+                    {
+                        step = false;
+                        Debug.Log("alert : " + AudiozoneTab[j].GetComponent<Audiozone>().alert);
+                        Debug.Log("triggered : " + AudiozoneTab[j].GetComponent<Audiozone>().triggered); 
+                        Debug.Log(AudiozoneTab[j].GetComponent<Audiozone>().audiofile);
 
-                    
-                    /* On play le son une seule fois */
-                    grunt.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
-                    grunt.audio.Play();
+
+                        /* On play le son une seule fois */
+                        grunt.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
+                        grunt.audio.Play();
 
 
-                    AudiozoneTab.Remove(AudiozoneTab[j]);
-                    step = true; 
+                        AudiozoneTab.Remove(AudiozoneTab[j]);
+                        step = true;
+                    }
+                }
+                else
+                {
+                    alert.audio.Stop(); 
+                    if (!alert.audio.isPlaying)
+                    {
+                        step = false;
+
+                        /* On play le son une seule fois */
+                        alert.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
+                        alert.audio.Play();
+                        AudiozoneTab.Remove(AudiozoneTab[j]);
+                        step = true;
+                    }
+
+
                 }
 
 
