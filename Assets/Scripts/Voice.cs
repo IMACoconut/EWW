@@ -56,9 +56,9 @@ public class Voice : MonoBehaviour {
                     if (!grunt.audio.isPlaying)
                     {
                         step = false;
-                        Debug.Log("alert : " + AudiozoneTab[j].GetComponent<Audiozone>().alert);
-                        Debug.Log("triggered : " + AudiozoneTab[j].GetComponent<Audiozone>().triggered); 
-                        Debug.Log(AudiozoneTab[j].GetComponent<Audiozone>().audiofile);
+                        //Debug.Log("alert : " + AudiozoneTab[j].GetComponent<Audiozone>().alert);
+                       // Debug.Log("triggered : " + AudiozoneTab[j].GetComponent<Audiozone>().triggered); 
+                       // Debug.Log(AudiozoneTab[j].GetComponent<Audiozone>().audiofile);
 
 
                         /* On play le son une seule fois */
