@@ -18,6 +18,7 @@ public class Raycast : MonoBehaviour
     private float holdingTime = 0f ;
     private int direction = -1;
     public WrenchRay particleRay;
+    public Aiguille aiguille;
 
     void Start()
     {
@@ -43,22 +44,28 @@ public class Raycast : MonoBehaviour
                 if (Physics.Raycast(ray, out hit))
                 {
                     Debug.DrawLine(transform.position, hit.point, Color.red);
-                    //Debug.Log("hit : " + hit.transform.name); 
-                    if ((Input.GetAxis("fire") > 0) && (hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable"))
-                    {
-                        grabbed = hit.transform;
-                        grabDistance = hit.distance;
-                        particleRay.target = hit.point;
+                    if(hit.transform.tag == "Grabable" || hit.transform.tag == "Curvable") {
+                        aiguille.SetAngle(aiguille.max);
+                        //Debug.Log("hit : " + hit.transform.name); 
+                        if (Input.GetAxis("fire") > 0.2f)
+                        {
                         
-                        particleRay.StartEmit();
-                        //Debug.Log(hit.distance);
+                            grabbed = hit.transform;
+                            grabDistance = hit.distance;
+                            particleRay.target = hit.point;
+                        
+                            particleRay.StartEmit();
+                            //Debug.Log(hit.distance);
 
-                    }
+                        }
+                    } else
+                        aiguille.SetAngle(aiguille.min);
 
                     collider1 = hit.collider;
 
                     //Debug.Log(collider1.name); 
-                }
+                } else
+                    aiguille.SetAngle(aiguille.min);
 
             }
             /* if (Input.GetKeyDown(KeyCode.LeftControl)) alt = true;
