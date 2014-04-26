@@ -19,7 +19,7 @@ public class Raycast : MonoBehaviour
     private int direction = -1;
     public WrenchRay particleRay;
     public Aiguille aiguille;
-
+    
     void Start()
     {
 
@@ -90,6 +90,7 @@ public class Raycast : MonoBehaviour
         Plane plane = new Plane(-transform.forward, position);
         float distance ;
             if (plane.Raycast(ray, out distance)) {
+                grabbed.rigidbody.useGravity = false; 
                 grabbed.rigidbody.position = ray.origin + ray.direction * limGrab;
                 grabbed.rigidbody.rotation = transform.rotation;
                 
@@ -156,13 +157,19 @@ public class Raycast : MonoBehaviour
                 }
             }
             else
+            {
                 Grab();
+
+            }
         }
 
 
 
-        else { grabbed = null;
+        else {
+			if(grabbed != null && grabbed.tag == "Grabable") grabbed.rigidbody.useGravity = true; 
+            grabbed = null;
         particleRay.StopEmit();
+        
         }
                 
     }
