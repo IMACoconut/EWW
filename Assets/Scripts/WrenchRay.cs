@@ -8,6 +8,7 @@ public class WrenchRay : MonoBehaviour {
     public int particleCount = 100;
     private float invParticleCount;
     public bool emitEnabled = false;
+    SoundBankManager SoundBank;
 
     public Transform origin;
     public Vector3 target;
@@ -19,7 +20,7 @@ public class WrenchRay : MonoBehaviour {
     public float noiseFactor = 1.0f;
 	// Use this for initialization
 	void Start () {
-        
+               
 	}
 
     public void StartEmit()
@@ -36,6 +37,7 @@ public class WrenchRay : MonoBehaviour {
         invParticleCount = 1.0f / (float)particleCount;
         emitEnabled = true;
         Debug.Log("Start emit");
+        
     }
 
     public void StopEmit()
