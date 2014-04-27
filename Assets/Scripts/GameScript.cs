@@ -31,6 +31,8 @@ public class GameScript : MonoBehaviour {
     public Room currentLocation;
     private List<StreetScript> generatedStreets;
 
+    public Compteur compteur;
+
     private enum Menu {
         Main,
         Options
@@ -54,6 +56,7 @@ public class GameScript : MonoBehaviour {
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
         Screen.lockCursor = true;
+        //compteur.SetTime(1000*3*60);
         
 	}
 
