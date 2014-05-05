@@ -1,4 +1,6 @@
 fileFormatVersion: 2
 guid: 3bc7c55806c1c32469a17a422cb7a7c8
+labels:
+- Architecture
 NativeFormatImporter:
   userData: 
