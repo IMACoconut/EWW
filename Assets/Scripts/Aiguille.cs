@@ -4,13 +4,13 @@ using System.Collections;
 public class Aiguille : MonoBehaviour {
 
     public float min = -80, max = 80;
-    public float angle;
+    public float angle = 0;
     private bool raise;
     private float realAngle;
 
 	// Use this for initialization
 	void Start () {
-	
+        SetAngle(min);
 	}
 	
 	// Update is called once per frame
@@ -20,6 +20,6 @@ public class Aiguille : MonoBehaviour {
 	}
 
     public void SetAngle(float a) {
-        angle = a;
+        angle = -a;
     }
 }
