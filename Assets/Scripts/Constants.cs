@@ -1,12 +1,12 @@
 using UnityEngine;
 
 public class Constants : MonoBehaviour {
-	public static float charSpeed = 10f;
-	private static float baseSpeed = 10f;
-	public static float camDist = 10f;
+    public static float charSpeed = 10f * 0.1f;
+    private static float baseSpeed = 10f * 0.1f;
+    public static float camDist = 10f * 0.1f;
 
-    public static float camHeight = 8.5f;
-	private static float baseCamDist = 10f;
+    public static float camHeight = 8.5f * 0.1f;
+    private static float baseCamDist = 10f * 0.1f;
     public static float cityScale = 1f/0.6f;
 
     public static float camRotateSpeed = 2f;

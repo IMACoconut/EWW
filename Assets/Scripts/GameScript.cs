@@ -46,6 +46,7 @@ public class GameScript : MonoBehaviour {
         globalTimer = new RealTimer();
         globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
 		reshuffle();
+        player.transform.localScale *= 0.1f;
     }
 	void Start () {
         beginIntro();
@@ -68,7 +69,7 @@ public class GameScript : MonoBehaviour {
         currentLocation.setGameScript(this);
         currentLocation.started = true;
         currentLocation.player = player.gameObject;
-
+        currentLocation.transform.localScale *= 0.1f;
         Vector3 pos = currentLocation.start.transform.position;
         pos.y += 2;
         player.transform.position = pos;
@@ -216,6 +217,7 @@ public class GameScript : MonoBehaviour {
 		int re = Random.Range(0, rooms.Length);
 		currentLocation = GameObject.Instantiate(rooms[re]) as Room;
         currentLocation.started = true;
+        currentLocation.transform.localScale *= 0.1f;
         Vector3 pos = currentLocation.start.transform.position;
 
        // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
