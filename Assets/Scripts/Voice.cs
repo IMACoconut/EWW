@@ -53,7 +53,8 @@ public class Voice : MonoBehaviour {
             {
                 if (!AudiozoneTab[j].GetComponent<Audiozone>().alert)
                 {
-                    if (!grunt.audio.isPlaying)
+					grunt.audio.Stop(); 
+					if (!grunt.audio.isPlaying)
                     {
                         step = false;
                         //Debug.Log("alert : " + AudiozoneTab[j].GetComponent<Audiozone>().alert);
@@ -93,17 +94,18 @@ public class Voice : MonoBehaviour {
         }
 
 
-
-        if (!Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) { idleTime = 0f; StartCoroutine(BreathSlow()); } } //walk 
-        else if (Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) { if (!grunt.audio.isPlaying) { StartCoroutine(Breath()); idleTime = 0f; } } //run
-        else if (step && !Player.idle && Player.isGround && Player.lockVar && Player.forw != 0) { if (!grunt.audio.isPlaying) { idleTime = 0f; StartCoroutine(BreathSlow()); } } //ironsight
-        else if (step && Player.idle)
-        {
-            if (!grunt.audio.isPlaying && idleTime > 8f) { StartCoroutine(Idle()); idleTime = 0f; }
-            else idleTime += Time.deltaTime;   
-        } //idle
-
-        if (step && Player.jump) if (!grunt.audio.isPlaying) Jump(); 
+		if(!Player.jump) {
+			if (!Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) {  if (!grunt.audio.isPlaying) { idleTime = 0f; StartCoroutine(BreathSlow()); } } //walk 
+			else if (Player.run && step && !Player.idle && Player.isGround && !Player.lockVar) {    if (!grunt.audio.isPlaying) { StartCoroutine(Breath()); idleTime = 0f; } } //run
+			else if (step && !Player.idle && Player.isGround && Player.lockVar && Player.forw != 0) {    if (!grunt.audio.isPlaying) { idleTime = 0f; StartCoroutine(BreathSlow()); } } //ironsight
+	        else if (step && Player.idle)
+	        {
+				 
+				if (!grunt.audio.isPlaying && idleTime > 8f) { StartCoroutine(Idle()); idleTime = 0f; }
+	            else idleTime += Time.deltaTime;   
+	        } //idle
+		}
+		else if (step && Player.jump) {   if (!grunt.audio.isPlaying) Jump(); }
 	}
 
     void clearList()
