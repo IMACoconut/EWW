@@ -82,6 +82,11 @@ public class Raycast : MonoBehaviour
 
             UpdateHoldDrag();
         }
+        else
+        {
+            particleRay.StopEmit();
+            //if (grabbed != null && grabbed.tag == "Grabable") grabbed.rigidbody.useGravity = true; 
+        }
     }
 
     void Drag() {
@@ -90,11 +95,17 @@ public class Raycast : MonoBehaviour
         Plane plane = new Plane(-transform.forward, position);
         float distance ;
             if (plane.Raycast(ray, out distance)) {
-                grabbed.rigidbody.useGravity = false; 
+                /*
+                
                 grabbed.rigidbody.position = ray.origin + ray.direction * limGrab;
-                grabbed.rigidbody.rotation = transform.rotation;
+                grabbed.rigidbody.rotation = transform.rotation; */
+                //grabbed.rigidbody.useGravity = false; 
+                Vector3 v = ray.origin + ray.direction * limGrab;
+                //v.y = 0;
+                grabbed.rigidbody.MovePosition(v);
                 
             }
+            //grabbed.rigidbody.useGravity = true; 
     }
 
     void Curve()
@@ -142,7 +153,7 @@ public class Raycast : MonoBehaviour
     void UpdateHoldDrag()
     {
 
-        if (Input.GetAxis("fire") >0)
+        if (Input.GetAxis("fire") >0.2f)
         {
             holdingTime += Time.deltaTime;
             if (grabbed)
@@ -166,7 +177,7 @@ public class Raycast : MonoBehaviour
 
 
         else {
-			if(grabbed != null && grabbed.tag == "Grabable") grabbed.rigidbody.useGravity = true; 
+			//if(grabbed != null && grabbed.tag == "Grabable") grabbed.rigidbody.useGravity = true; 
             grabbed = null;
         particleRay.StopEmit();
         
