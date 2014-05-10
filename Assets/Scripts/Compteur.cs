@@ -19,7 +19,7 @@ public class Compteur : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         TimeSpan left = time.TimeLeft();
-        text.text = left.Minutes + ":" + left.Seconds;
+        text.text = left.Minutes + ":" + ((left.Seconds < 10) ? "0"+left.Seconds : ""+left.Seconds);
 	}
 
     public void SetTime(int t)
