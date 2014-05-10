@@ -9,7 +9,7 @@ public class CameraFollower : MonoBehaviour
     private float rotateY = 90;
     private float rotateY2;
 
-    private float smooth = 7f;
+    private float smooth = 14f;
     private float maxDist = Constants.camDist;
     private float collisionLockF = 0;
     private float collisionLockL = 0;
