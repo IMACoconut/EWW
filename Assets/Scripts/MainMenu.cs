@@ -47,7 +47,7 @@ public class MainMenu : MonoBehaviour {
             if (selected == quit)
                 Application.Quit();
             else
-                Application.LoadLevel("greyBox2");
+                Application.LoadLevel("test_unit");
         }
 	}
 }

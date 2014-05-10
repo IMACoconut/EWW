@@ -12,7 +12,7 @@ public class GameScript : MonoBehaviour {
 	public BallPlayer player;
 
     public Room dortoir;
-    public Room claveau; 
+    public Room claveau;
     public Room[] rooms;
 
 	public StreetScript[] streets;
@@ -55,7 +55,6 @@ public class GameScript : MonoBehaviour {
         beginIntro();
 
         ScreenFader = GameObject.Find("ScreenFader").GetComponent<FadeInOut>();
-
         Constants.pause = false;
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
@@ -119,6 +118,7 @@ public class GameScript : MonoBehaviour {
                 Pause();
             }
         }
+        
 	}
 
     public void Resume()
@@ -169,7 +169,7 @@ public class GameScript : MonoBehaviour {
     public void EndGame() {
 
         //Application.LoadLevel("menu");
-        Debug.Log("play room claveau");
+        //Debug.Log("play room claveau");
         currentLocation.started = false;
         GameObject.Destroy(currentLocation.gameObject);
         currentLocation = null;

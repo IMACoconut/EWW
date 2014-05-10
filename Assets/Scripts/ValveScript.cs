@@ -6,7 +6,9 @@ public class ValveScript : MonoBehaviour {
 	public GameScript mainScript;
 	
 	public bool useEnabled = false;
-	private bool collided, used;
+	private bool collided; 
+    public bool used;
+    public RoomClaveau room; 
 	
 	// Use this for initialization
 	void Start () {
@@ -20,8 +22,9 @@ public class ValveScript : MonoBehaviour {
 		if(useEnabled && collided && !used) {
 			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
 			{
-				mainScript.addTime(1000*60*3);
+				mainScript.addTime(1000*60*3);               
 				used = true;
+
 			}
 		}
 	}

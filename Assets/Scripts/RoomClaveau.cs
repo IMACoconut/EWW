@@ -2,15 +2,15 @@
 using System.Collections;
 
 public class RoomClaveau : Room {
-    public bool end; 
+    public bool endgame;
 	// Use this for initialization
 	void Start () {
-        end = false; 
-	
+        endgame = false; 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+       
+        
 	}
 }
