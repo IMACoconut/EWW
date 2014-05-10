@@ -30,7 +30,7 @@ public class GameScript : MonoBehaviour {
     public GameObject currentDoor;
     public Room currentLocation;
     private List<StreetScript> generatedStreets;
-
+    private GUIMainMenu mainMenu;
     public Compteur compteur;
 
     private enum Menu {
@@ -47,6 +47,8 @@ public class GameScript : MonoBehaviour {
         globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
 		reshuffle();
         player.transform.localScale *= 0.1f;
+        mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
+        mainMenu.main = this;
     }
 	void Start () {
         beginIntro();
@@ -118,7 +120,7 @@ public class GameScript : MonoBehaviour {
         }
 	}
 
-    void Resume()
+    public void Resume()
     {
         globalTimer.Resume();
         Constants.pause = false;
@@ -130,6 +132,7 @@ public class GameScript : MonoBehaviour {
         globalTimer.Pause();
         Constants.pause = true;
         Screen.lockCursor = false;
+        mainMenu.Show();
     }
 
 	
@@ -138,14 +141,7 @@ public class GameScript : MonoBehaviour {
             return;
         else if (m_menu == Menu.Main)
         {
-            int w = Screen.width / 2;
-            int h = Screen.height / 2;
-            if (GUI.Button(new Rect(w - 75, h - 60, 150, 40), "Resume"))
-                Resume();
-            if (GUI.Button(new Rect(w - 75, h - 10, 150, 40), "Options"))
-                m_menu = Menu.Options;
-            if (GUI.Button(new Rect(w - 75, h + 70, 150, 40), "Back to main menu"))
-                Application.LoadLevel("menu");
+
         }
         else if (m_menu == Menu.Options)
         {
