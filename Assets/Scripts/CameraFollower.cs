@@ -144,8 +144,8 @@ public class CameraFollower : MonoBehaviour
 
     void CollisionV()
     {
-        float wDistance = 3f;
-        float wDistanceL = 5f;
+        float wDistance = 0.3f;
+        float wDistanceL = 0.5f;
 
         RaycastHit hit;
         Vector3 look = lookAtCam.position;
@@ -181,7 +181,7 @@ public class CameraFollower : MonoBehaviour
 
     void CollisionN()
     {
-        float wDistance = 4f;
+        float wDistance = 0.4f;
 
         RaycastHit hit;
         Vector3 look = Player.transform.position;
@@ -194,10 +194,10 @@ public class CameraFollower : MonoBehaviour
             if (hit.distance < Constants.camDist + wDistance)
             {
                 maxDist = hit.distance - wDistance;
-                if (maxDist < 2f)
+                if (maxDist < 0.2f)
                 {
                     //if (hit.collider.transform.position != Player.transform.position)
-                    maxDist = 2f;
+                    maxDist = 0.2f;
                 }
             }
             else
