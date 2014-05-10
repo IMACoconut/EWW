@@ -30,7 +30,7 @@ public class BallPlayer : MonoBehaviour
 
     private Vector3 lastDir;
     private float distToGround;
-    private const float jumpPower = 15.0f;
+    private const float jumpPower = 15.0f * 0.1f;
     private float currentJump;
 
     private float velocity = 1f;
@@ -253,18 +253,18 @@ public class BallPlayer : MonoBehaviour
             }
             if (jump && currentJump < jumpPower)
             {
-                currentJump += 9.81f * Time.deltaTime * 6f;
-                mov.y += 9.81f * Time.deltaTime * 6f;
+                currentJump += 9.81f * Time.deltaTime * 6f * 0.1f;
+                mov.y += 9.81f * Time.deltaTime * 6f * 0.1f;
 
             }
         }
 
         // gravity
         if (!(IsGrounded()))
-            fallTime += Time.deltaTime;
+            fallTime += Time.deltaTime * 0.1f;
         else
             fallTime = 0;
-        mov.y -= 9.81f * Time.deltaTime * 3f;
+        mov.y -= 9.81f * Time.deltaTime * 3f * 0.1f;
 
         //Debug.Log(controller.bounds.max.y);
         //Debug.Log(collider.bounds.extents.y);
