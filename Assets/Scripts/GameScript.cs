@@ -12,6 +12,7 @@ public class GameScript : MonoBehaviour {
 	public BallPlayer player;
 
     public Room dortoir;
+    public Room claveau; 
     public Room[] rooms;
 
 	public StreetScript[] streets;
@@ -164,12 +165,38 @@ public class GameScript : MonoBehaviour {
                 m_menu = Menu.Main;
         }
     }
+
+    public void EndGame() {
+
+        //Application.LoadLevel("menu");
+        Debug.Log("play room claveau");
+        currentLocation.started = false;
+        GameObject.Destroy(currentLocation.gameObject);
+        currentLocation = null;
+        addTime(1000 * 60 * 3);
+
+        player.LoadAudio = true;
+        player.clearAudio = true;
+        ScreenFader.sceneStarting = true;
+        currentLocation = GameObject.Instantiate(claveau) as Room;
+        currentLocation.started = true;
+        currentLocation.transform.localScale *= 0.1f;
+        Vector3 pos = currentLocation.start.transform.position;
+
+        // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
+        pos.y += 2;
+        player.transform.position = pos;
+        player.transform.localRotation = currentLocation.start.transform.localRotation;
+        currentLocation.player = player.gameObject;
+        currentLocation.setGameScript(this);
+    }
 	
 	public void LeaveRoom() {
-        Debug.Log("leaveroom");
+        //Debug.Log("leaveroom");
 		roomsDone++;
 		if(roomsDone >= maxRooms) {
-			Application.LoadLevel("menu");
+            EndGame(); 
+
 		}
 		else {
             currentLocation.started = false;
