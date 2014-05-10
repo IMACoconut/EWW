@@ -10,7 +10,7 @@ public class Compteur : MonoBehaviour {
     private UILabel text;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         text = GetComponent<UILabel>();
         time = new RealTimer();
         //SetTime(1000 * 60);
