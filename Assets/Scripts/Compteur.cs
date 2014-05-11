@@ -20,6 +20,8 @@ public class Compteur : MonoBehaviour {
 	void Update () {
         TimeSpan left = time.TimeLeft();
         text.text = left.Minutes + ":" + ((left.Seconds < 10) ? "0"+left.Seconds : ""+left.Seconds);
+
+        if (left.Minutes == 0 && left.Seconds == 0) Application.LoadLevel("menudead");
 	}
 
     public void SetTime(int t)
