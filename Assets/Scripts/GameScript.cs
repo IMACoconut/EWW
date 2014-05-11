@@ -13,6 +13,7 @@ public class GameScript : MonoBehaviour {
 
     public Room dortoir;
     public Room claveau;
+    public RoomClaveau Roomclaveau;
     public Room[] rooms;
 
 	public StreetScript[] streets;
@@ -33,6 +34,8 @@ public class GameScript : MonoBehaviour {
     private List<StreetScript> generatedStreets;
     private GUIMainMenu mainMenu;
     public Compteur compteur;
+
+    private bool end = false; 
 
     private enum Menu {
         Main,
@@ -170,6 +173,7 @@ public class GameScript : MonoBehaviour {
 
         //Application.LoadLevel("menu");
         //Debug.Log("play room claveau");
+       
         currentLocation.started = false;
         GameObject.Destroy(currentLocation.gameObject);
         currentLocation = null;

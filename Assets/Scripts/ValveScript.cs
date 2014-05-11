@@ -19,6 +19,7 @@ public class ValveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log("Used ?" + used); 
 		if(useEnabled && collided && !used) {
 			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
 			{
@@ -35,7 +36,7 @@ public class ValveScript : MonoBehaviour {
 		
 		if(!used)
 			
-			GUI.Box(new Rect(0,Screen.height-50,Screen.width,50),"Press 'A' to turn valve");
+			GUI.Box(new Rect(0,Screen.height-50,Screen.width,50),"Press Action to turn valve");
 	}
 	
 	void OnTriggerEnter(Collider player) {
