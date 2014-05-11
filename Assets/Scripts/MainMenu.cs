@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour {
     private TextMesh selected;
 	// Use this for initialization
 	void Start () {
+        Screen.lockCursor = false; 
 	
 	}
 	

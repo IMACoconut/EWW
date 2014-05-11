@@ -5,6 +5,7 @@ public class EndMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Screen.lockCursor = false; 
         
 	
 	}

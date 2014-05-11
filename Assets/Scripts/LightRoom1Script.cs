@@ -21,9 +21,6 @@ public class LightRoom1Script : Room
     // Use this for initialization
     void Start()
     {
-
-        bulb = bulblight.GetComponentInChildren<Light>();
-        bulb.color = Color.red;
         doorEnd.collider.enabled = false;
         grunt = GameObject.Find("grunt");
         solved = false;
@@ -39,7 +36,7 @@ public class LightRoom1Script : Room
         if (solved) 
         {
             doorEnd.collider.enabled = true;
-            bulb.color = Color.green;
+            
         }
         else
         {
