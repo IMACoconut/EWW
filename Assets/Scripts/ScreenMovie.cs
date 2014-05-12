@@ -5,7 +5,6 @@ public class ScreenMovie : MonoBehaviour {
 
     public MovieTexture intro, alert;
     public AudioClip introSound, alertSound;
-    private AudioSource audio;
 
     public RoomDortoir dortoir;
 
@@ -14,7 +13,6 @@ public class ScreenMovie : MonoBehaviour {
 
     void Awake()
     {
-        audio = this.GetComponent<AudioSource>();
         intro.Stop();
     }
 	// Use this for initialization

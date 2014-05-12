@@ -3,12 +3,10 @@ using System.Collections;
 
 public class RedSpot : MonoBehaviour {
 
-    private Light light;
     private bool alert = false;
 
 	// Use this for initialization
 	void Start () {
-        light = GetComponent<Light>();
 	}
 	
 	// Update is called once per frame

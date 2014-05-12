@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets;
 
 public class FadeInOut : MonoBehaviour {
     public Texture2D blackScreen; 
@@ -58,7 +59,7 @@ public class FadeInOut : MonoBehaviour {
 
     IEnumerator StartScene()
     {
-        
+        GameObject.Find("UI Root").transform.FindChild("Geiger").GetComponent<GUIGeiger>().Hide();
         guiTexture.enabled = true;
         yield return new WaitForSeconds(2f);
         // Fade the texture to clear.
@@ -78,6 +79,7 @@ public class FadeInOut : MonoBehaviour {
            
             // The scene is no longer starting.
             sceneStarting = false;
+            GameObject.Find("UI Root").transform.FindChild("Geiger").GetComponent<GUIGeiger>().Show();
         }
     }
 
