@@ -12,8 +12,8 @@ public class Raycast : MonoBehaviour
     //private LayerMask layerMask; à voir si on a un système de layer
     public static Collider collider1 = new Collider();
     public Transform grabbed;
-    private float grabDistance = 1f;
-    private float limGrab = 20f;
+    private float grabDistance = 1f *0.1f;
+    private float limGrab = 20f * 0.1f;
     private bool alt = false;
     private float holdingTime = 0f ;
     private int direction = -1;
@@ -132,9 +132,9 @@ public class Raycast : MonoBehaviour
 
 
             float alpha = -Mathf.Atan(bones[0].collider.bounds.size.y) / (radius * 10f);
-            alpha *= 2f;
+            alpha *= 2f * 0.3f;
             //Debug.Log(holdingTime);
-            if (direction == 3 || direction == 2) alpha = alpha * -1f;
+            if (direction == 3 || direction == 2) alpha = alpha * -1f ;
             for (int i = 0; i < bones.Count; i++)
             {
                 //Debug.Log("Bone n°" + i + " = " + bones[i].localEulerAngles.z);
