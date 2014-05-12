@@ -11,8 +11,6 @@ public class RoomClaveau : Room {
 	// Update is called once per frame
 	void Update () {
         endgame = this.GetComponentInChildren<ValveScript>().used;
-        Debug.Log(endgame);
-        Debug.Log(this.GetComponentInChildren<ValveScript>().used); 
         if (endgame) { Application.LoadLevel("end"); }
        
         
