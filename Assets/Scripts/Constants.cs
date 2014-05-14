@@ -58,6 +58,7 @@ public class Constants : MonoBehaviour {
     void Start()
     {
         generalScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
+        CheckForControllers();
              
         
     }
