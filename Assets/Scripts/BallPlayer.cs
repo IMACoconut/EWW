@@ -30,7 +30,7 @@ public class BallPlayer : MonoBehaviour
 
     private Vector3 lastDir;
     private float distToGround;
-    private const float jumpPower = 15.0f * 0.1f;
+    private const float jumpPower = 20.0f * 0.1f;
     private float currentJump;
 
     private float velocity = 1f;
@@ -38,6 +38,7 @@ public class BallPlayer : MonoBehaviour
     private float jumpTime = 1f;
     private float fallTime = 0f;
     private float smooth = 15f;
+    private float cinetic = 0;
 
     private Vector3 lateralDirection;
 
@@ -255,16 +256,24 @@ public class BallPlayer : MonoBehaviour
             {
                 currentJump += 9.81f * Time.deltaTime * 6f * 0.1f;
                 mov.y += 9.81f * Time.deltaTime * 6f * 0.1f;
+                Debug.Log(currentJump);
 
             }
         }
 
         // gravity
         if (!(IsGrounded()))
+        {
             fallTime += Time.deltaTime * 0.1f;
+            cinetic += 0.25f;
+        }
         else
+        {
             fallTime = 0;
-        mov.y -= 9.81f * Time.deltaTime * 3f * 0.1f;
+            cinetic = 0;
+
+        }
+        mov.y -= (9.81f + cinetic) * Time.deltaTime * 3f * 0.1f;
 
         //Debug.Log(controller.bounds.max.y);
         //Debug.Log(collider.bounds.extents.y);
