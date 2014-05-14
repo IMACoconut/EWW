@@ -19,7 +19,7 @@ public class ValveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("Used ?" + used); 
+
 		if(useEnabled && collided && !used) {
 			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
 			{

@@ -4,6 +4,7 @@ using System.Collections;
 
 public class GUIGeiger : MonoBehaviour {
 
+    public bool enableShow = true;
 	// Use this for initialization
 	void Start () {
         Hide();
@@ -16,7 +17,8 @@ public class GUIGeiger : MonoBehaviour {
 
     public void Show()
     {
-        NGUITools.SetActive(this.gameObject, true);
+        if (enableShow)
+            NGUITools.SetActive(this.gameObject, true);
     }
 
     public void Hide()

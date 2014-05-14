@@ -33,6 +33,7 @@ public class GameScript : MonoBehaviour {
     public Room currentLocation;
     private List<StreetScript> generatedStreets;
     private GUIMainMenu mainMenu;
+    private GUIGeiger geiger;
     public Compteur compteur;
 
     private bool end = false; 
@@ -52,6 +53,8 @@ public class GameScript : MonoBehaviour {
 		reshuffle();
         player.transform.localScale *= 0.1f;
         mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
+        geiger = GameObject.Find("Geiger").GetComponent<GUIGeiger>();
+        geiger.enableShow = false;
         mainMenu.main = this;
     }
 	void Start () {
@@ -63,7 +66,7 @@ public class GameScript : MonoBehaviour {
         m_menu = Menu.Main;
         Screen.lockCursor = true;
         compteur.SetTime(1000*3*60);
-        
+        geiger.enableShow = true;
 	}
 
     void beginIntro()
@@ -79,6 +82,7 @@ public class GameScript : MonoBehaviour {
         pos.y += 2;
         player.transform.position = pos;
         player.transform.localRotation = currentLocation.start.transform.localRotation;
+
     }
 
     void beginGame()
