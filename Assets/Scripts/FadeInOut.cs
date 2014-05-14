@@ -59,7 +59,7 @@ public class FadeInOut : MonoBehaviour {
 
     IEnumerator StartScene()
     {
-        GameObject.Find("UI Root").transform.FindChild("Geiger").GetComponent<GUIGeiger>().Hide();
+       // GameObject.Find("UI Root").transform.FindChild("Geiger").GetComponent<GUIGeiger>().Hide();
         guiTexture.enabled = true;
         yield return new WaitForSeconds(2f);
         // Fade the texture to clear.

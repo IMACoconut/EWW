@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Constants : MonoBehaviour {
     public static float charSpeed = 10f * 0.1f;
@@ -22,6 +23,8 @@ public class Constants : MonoBehaviour {
     public static bool useController = true;
 
     public static float worldScale = 25.6f;
+
+    private bool connected = false;
     
     
 
@@ -55,6 +58,23 @@ public class Constants : MonoBehaviour {
     void Start()
     {
         generalScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
+             
+        
+    }
+
+    void CheckForControllers()
+    {
+            if (!connected && Input.GetJoystickNames().Length > 0)
+            {
+                connected = true;
+                //Debug.Log("Connected");
+            }
+            else if (connected && Input.GetJoystickNames().Length == 0)
+            {
+                connected = false;
+                //Debug.Log("Disconnected");
+            }
+           
         
     }
 	
@@ -67,6 +87,8 @@ public class Constants : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.P))
             NextStep();
+
+        CheckForControllers();
 	}
 	
 	void EnableDebug(bool b) {

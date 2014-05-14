@@ -24,7 +24,9 @@ public class LightRoom1Script : Room
         doorEnd.collider.enabled = false;
         grunt = GameObject.Find("grunt");
         solved = false;
-        SoundBank = game.GetComponent<SoundBankManager>(); 
+        SoundBank = game.GetComponent<SoundBankManager>();
+        bulb = GameObject.Find("bulb").GetComponent<Light>();
+        bulb.light.color = Color.red; 
     }
 
     // Update is called once per frame
@@ -36,6 +38,7 @@ public class LightRoom1Script : Room
         if (solved) 
         {
             doorEnd.collider.enabled = true;
+            bulb.light.color = Color.green; 
             
         }
         else
