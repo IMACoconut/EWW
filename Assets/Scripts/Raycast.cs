@@ -23,7 +23,6 @@ public class Raycast : MonoBehaviour
     void Start()
     {
         aiguille = GameObject.Find("Aiguille").GetComponent<Aiguille>();
-
     }
 
     void Update()
