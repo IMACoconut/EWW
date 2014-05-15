@@ -150,7 +150,7 @@ public class BallPlayer : MonoBehaviour
 
             //input manettes
             if (Input.GetAxis("Left Analog Vertical") > 0.2f || Input.GetAxis("Left Analog Vertical") < -0.2f)
-                forw = Input.GetAxis("Left Analog Vertical") * velocity * -1;
+                forw = Input.GetAxis("Left Analog Vertical") * velocity;
 
             if (Input.GetAxis("Left Analog Horizontal") > 0.2f || Input.GetAxis("Left Analog Horizontal") < -0.2f)
             {
