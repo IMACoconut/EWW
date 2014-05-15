@@ -6,11 +6,17 @@ public class RoomTest2_switch : MonoBehaviour {
     private GameObject player;
     private bool collided;
     public bool on ;
+    private GUISubtitle instructions;
 
     // Use this for initialization
+    void Awake()
+    {
+        instructions = GameObject.Find("Instructions").GetComponent<GUISubtitle>();
+    }
+
     void Start()
     {
-
+        
         player = GameObject.Find("Player");
         on = false;
         audio.Stop();
@@ -25,10 +31,8 @@ public class RoomTest2_switch : MonoBehaviour {
         {
             if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("switch");
                 on = !on;
                 audio.Play(0);
-
             }
         }
        
@@ -36,19 +40,19 @@ public class RoomTest2_switch : MonoBehaviour {
 
     void OnTriggerEnter(Collider player)
     {
-        if (player.tag.Equals("Player")) collided = true; 
+        if (player.tag.Equals("Player"))
+        {
+            collided = true;
+            if(Constants.useController)
+                instructions.displaySubtitles("Press 'A' to activate");
+            else
+                instructions.displaySubtitles("Press 'E' to activate");
+        }
     }
 
     void OnTriggerExit(Collider player)
     {
         collided = false;
-    }
-
-    void OnGUI()
-    {
-        if (!collided)
-            return;
-
-            GUI.Box(new Rect(0, Screen.height - 50, Screen.width, 50), "Press 'A' ");
+        instructions.hideSubtitles();
     }
 }
