@@ -6,6 +6,7 @@ public class GUIOptionMenu : MonoBehaviour {
     public GameScript main;
     public UIToggle mouse, controller, camera;
     public UISlider sensitivity;
+    public UIButton back;
 	// Use this for initialization
 	void Start () {
         Hide();
@@ -18,7 +19,7 @@ public class GUIOptionMenu : MonoBehaviour {
 
     public void OnSensitivityChanged()
     {
-
+        Debug.Log(sensitivity.value);
     }
 
     public void OnMouseChanged()
@@ -41,7 +42,7 @@ public class GUIOptionMenu : MonoBehaviour {
         controller.value = Constants.useController;
         mouse.value = !controller.value;
         camera.value = Constants.invertCamera;
-        sensitivity.value = (Constants.sensitivity) / 3.0f;
+        //sensitivity.value = (Constants.sensitivity) / 3.0f;
         NGUITools.SetActive(gameObject, true);
     }
 
