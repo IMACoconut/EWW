@@ -34,7 +34,10 @@ public class EndPointScript : MonoBehaviour {
         if (p.tag.StartsWith("Player"))
         {
             collided = true;
-            GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'A' to leave the room");
+            if(Constants.useController)
+                GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'A' to leave the room");
+            else
+                GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'E' to leave the room");
         }
 	}
 	

@@ -33,24 +33,37 @@ public class LightRoom1Script_Light : MonoBehaviour
             {
                 off = !off;
                 if (off) { for (int i = 0; i < lightswitch.Length; i++) { lightswitch[i].enabled = false; } }
-                else { for (int i = 0; i < lightswitch.Length; i++) { lightswitch[i].enabled = true; } } 
-                
-                //Debug.Log("switch");
-
+                else { for (int i = 0; i < lightswitch.Length; i++) { lightswitch[i].enabled = true; } }
+                mainScript.instructions.hideSubtitles();
+                RefreshInstruction();
             }
         }
 
     }
 
-    void OnGUI()
+    void RefreshInstruction()
     {
-        if (!collided)
-            return;
-
-        if (!off)
-            GUI.Box(new Rect(0, Screen.height - 50, Screen.width, 50), "Press 'A' to switch OFF the light");
+        if (collided)
+        {
+            if (!off)
+            {
+                if (Constants.useController)
+                    mainScript.instructions.displaySubtitles("Press 'A' to switch OFF the light");
+                else
+                    mainScript.instructions.displaySubtitles("Press 'E' to switch OFF the light");
+            }
+            else
+            {
+                if (Constants.useController)
+                    mainScript.instructions.displaySubtitles("Press 'A' to switch ON the light");
+                else
+                    mainScript.instructions.displaySubtitles("Press 'E' to switch ON the light");
+            }
+        }
         else
-            GUI.Box(new Rect(0, Screen.height - 50, Screen.width, 50), "Press 'A' to switch ON the light");
+        {
+            mainScript.instructions.hideSubtitles();
+        }
     }
 
     void OnTriggerEnter(Collider player)
@@ -58,14 +71,17 @@ public class LightRoom1Script_Light : MonoBehaviour
         if (player.tag.Equals("Player"))
         {
             collided = true;
-          
+            RefreshInstruction();
         }
     }
 
     void OnTriggerExit(Collider player)
     {
-        collided = false;
-  
+        if (player.tag.Equals("Player"))
+        {
+            collided = false;
+            RefreshInstruction();
+        }
     }
 
 
