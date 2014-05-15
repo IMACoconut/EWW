@@ -6,6 +6,7 @@ public class RoomDortoir : Room {
     public ScreenMovie screen;
     private float elapsed = 0f;
     private bool startPlay = false;
+    public GameObject[] lightScreen; 
 
     void Awake()
     {
@@ -13,6 +14,10 @@ public class RoomDortoir : Room {
     // Use this for initialization
 	void Start () {
         screen.dortoir = this;
+        lightScreen[0].renderer.enabled = false;
+        lightScreen[1].renderer.enabled = false;
+        lightScreen[2].renderer.enabled = false; 
+        lightScreen[3].renderer.enabled = false; 
 	}
 	
 	// Update is called once per frame
@@ -23,6 +28,10 @@ public class RoomDortoir : Room {
             Debug.Log("start");
             screen.Play();
             startPlay = true;
+            lightScreen[0].renderer.enabled = true;
+            lightScreen[1].renderer.enabled = true;
+            lightScreen[2].renderer.enabled = true;
+            lightScreen[3].renderer.enabled = true; 
         }
 	}
 
