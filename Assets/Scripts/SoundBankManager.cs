@@ -34,6 +34,16 @@ public class SoundBankManager : MonoBehaviour {
             Debug.Log("Unable to find " + name);
             return;
         }
+        if (source.audio == null)
+        {
+            Debug.Log("No audio source to play the sound within");
+            return;
+        }
+        if (source.audio.isPlaying)
+        {
+            Debug.Log("Sound already playing");
+            return;
+        }
         StartSound(s, source);
     }
 
@@ -42,7 +52,8 @@ public class SoundBankManager : MonoBehaviour {
         if(s.enableSubtitles)
             displaySub(s.subtitle);
         source.audio.priority = 0;
-        source.audio.PlayOneShot(s.sound);
+        source.audio.clip = s.sound;
+        source.audio.Play();
         StartCoroutine(DelayedCallback(s.sound.length, s.enableSubtitles));
     }
 
