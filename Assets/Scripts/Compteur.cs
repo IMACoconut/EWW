@@ -6,18 +6,22 @@ public class Compteur : MonoBehaviour {
 
     private float angle;
     public float min = 0, max = 3*60;
-    private RealTimer time;
+    private RealTimer time = new RealTimer();
     private UILabel text;
 
 	// Use this for initialization
 	void Awake () {
         text = GetComponent<UILabel>();
-        time = new RealTimer();
-        //SetTime(1000 * 60);
+        time.Pause();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (time.IsPaused())
+        {
+            text.text = "";
+            return;
+        }
         TimeSpan left = time.TimeLeft();
         text.text = left.Minutes + ":" + ((left.Seconds < 10) ? "0"+left.Seconds : ""+left.Seconds);
 
@@ -38,5 +42,16 @@ public class Compteur : MonoBehaviour {
     public void Resume()
     {
         time.Resume();
+    }
+
+    public void Start()
+    {
+        Debug.Log("timer start");
+        time.Start();
+    }
+
+    public bool IsPaused()
+    {
+        return time.IsPaused();
     }
 }

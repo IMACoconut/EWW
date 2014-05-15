@@ -20,6 +20,7 @@ public class ScreenMovie : MonoBehaviour {
 	void Start () {
         renderer.material.mainTexture = intro;
         alert.loop = true;
+        alarmSound.audio.loop = true;
         alarmSound.audio.Stop(); 
 	}
 	
@@ -27,13 +28,17 @@ public class ScreenMovie : MonoBehaviour {
 	void Update () {
         if (Constants.pause)
         {
-            if (!wasPaused)
+            if (started && !wasPaused)
             {
                 if (!alertStarted)
                     intro.Pause();
                 else
+                {
                     alert.Pause();
+                    alarmSound.audio.Pause();
+                }
                 audio.Pause();
+
                 wasPaused = true;
             }
             return;
@@ -47,9 +52,12 @@ public class ScreenMovie : MonoBehaviour {
             if (!alertStarted)
                 intro.Play();
             else
+            {
                 alert.Play();
-
+                alarmSound.audio.Play();
+            }
             audio.Play();
+            wasPaused = false;
         }
 
         if (!intro.isPlaying && !alertStarted)

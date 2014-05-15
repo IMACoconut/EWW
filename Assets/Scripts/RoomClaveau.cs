@@ -10,6 +10,9 @@ public class RoomClaveau : Room {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Constants.pause)
+            return;
+
         endgame = this.GetComponentInChildren<ValveScript>().used;
         if (endgame) { Application.LoadLevel("end"); }
        

@@ -23,8 +23,6 @@ public class GameScript : MonoBehaviour {
     public GameObject[] posters;
     public StreetRule[] rules;
     public FadeInOut ScreenFader;  
-	
-	public RealTimer globalTimer;
 
     protected DoorScript doorScript;
     protected ValveScript valveScript;
@@ -38,7 +36,7 @@ public class GameScript : MonoBehaviour {
     public Compteur compteur;
     public GUISubtitle instructions;
 
-    private bool end = false; 
+    private bool end = false, started = false; 
 
     private enum Menu {
         Main,
@@ -50,8 +48,6 @@ public class GameScript : MonoBehaviour {
 	// Use this for initialization
     void Awake()
     {
-        globalTimer = new RealTimer();
-        globalTimer.elapsed += new System.Timers.ElapsedEventHandler(OnTimedEvent);
 		reshuffle();
         player.transform.localScale *= 0.1f;
         mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
@@ -70,12 +66,13 @@ public class GameScript : MonoBehaviour {
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
         Screen.lockCursor = true;
-        compteur.SetTime(1000*3*60);
+
         geiger.enableShow = true;
 	}
 
     void beginIntro()
-    {
+   {
+       
         player.LoadAudio = true;
         player.clearAudio = true;
         currentLocation = GameObject.Instantiate(dortoir) as Room;
@@ -87,15 +84,15 @@ public class GameScript : MonoBehaviour {
         pos.y += 2;
         player.transform.position = pos;
         player.transform.localRotation = currentLocation.start.transform.localRotation;
-
+        compteur.Pause();
     }
 
     void beginGame()
     {
+        started = true;
         player.LoadAudio = true;
         EnterRoom();
-        globalTimer.delay = 1000 * 60 * 3;
-        globalTimer.Start();
+        compteur.SetTime(1000 * 3 * 60);
     }
 
 	void reshuffle()
@@ -121,11 +118,10 @@ public class GameScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        globalTimer.Update();
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start"))
         {
             Screen.lockCursor = false;
-            if (!globalTimer.IsPaused())
+            if (!Constants.pause)
             {
                 Pause();
             }
@@ -135,20 +131,20 @@ public class GameScript : MonoBehaviour {
 
     public void Resume()
     {
-        globalTimer.Resume();
         Constants.pause = false;
         Screen.lockCursor = true;
         geiger.Show();
-        compteur.Resume();
+        if(started)
+            compteur.Resume();
     }
 
     void Pause()
     {
-        globalTimer.Pause();
         Constants.pause = true;
         Screen.lockCursor = false;
         geiger.Hide();
-        compteur.Pause();
+        if(started)
+            compteur.Pause();
         ShowMenu();
     }
 
@@ -270,17 +266,10 @@ public class GameScript : MonoBehaviour {
 	}
 	
 	public void addTime(int time) {
-        globalTimer.delay = time;
-		globalTimer.Start();
+        compteur.SetTime(time);
+        compteur.Start();
 	}
 	
-	// Specify what you want to happen when the Elapsed event is raised.
-	private void OnTimedEvent(object source, ElapsedEventArgs e)
-	{
-		Debug.Log("Timeout noob!");
-		globalTimer.Stop();
-	}
-
     public void teleportPlayer(GameObject to)
     {
         player.transform.position = to.transform.position;

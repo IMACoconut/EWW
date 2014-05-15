@@ -25,29 +25,24 @@ public class ValveScript : MonoBehaviour {
 			{
 				mainScript.addTime(1000*60*3);               
 				used = true;
-
 			}
 		}
-	}
-	
-	void OnGUI() {
-		if(!collided)
-			return;
-		
-		if(!used)
-			
-			GUI.Box(new Rect(0,Screen.height-50,Screen.width,50),"Press Action to turn valve");
 	}
 	
 	void OnTriggerEnter(Collider player) {
 		if (player.tag.Equals("Player") && !used)
         {
 			collided = true;
+            if(Constants.useController)
+                mainScript.instructions.displaySubtitles("Press 'A' to turn valve");
+            else
+                mainScript.instructions.displaySubtitles("Press 'E' to turn valve");
 		}
 	}
 	
 	void OnTriggerExit(Collider player)
     {
 		collided = false;
+        mainScript.instructions.hideSubtitles();
     }
 }
