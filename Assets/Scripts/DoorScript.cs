@@ -24,25 +24,20 @@ public class DoorScript : MonoBehaviour {
 		}
 	}
 	
-	void OnGUI() {
-		if(!collided)
-			return;
-		
-		if(locked)
-			GUI.Box(new Rect(0,Screen.height-50,Screen.width,50), "This door is locked. I need to find the valve");
-		else
-			GUI.Box(new Rect(0,Screen.height-50,Screen.width,50), "Press 'A' to enter the room");
-	}
-	
 	void OnTriggerEnter(Collider player) {
 		if (player.tag.Equals("Player"))
         {
 			collided = true;
+            if (locked)
+                GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("This door is locked. I need to find the valve");
+            else
+                GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'A' to enter the room");
 		}
 	}
 	
 	void OnTriggerExit(Collider player)
     {
 		collided = false;
+        GameObject.Find("Instructions").GetComponent<GUISubtitle>().hideSubtitles();
     }
 }

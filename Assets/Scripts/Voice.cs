@@ -63,9 +63,8 @@ public class Voice : MonoBehaviour {
 
 
                         /* On play le son une seule fois */
-                        grunt.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
-                        grunt.audio.Play();
-
+                        SoundBank.PlaySound(AudiozoneTab[j].GetComponent<Audiozone>().audiofile, grunt);
+   
 
                         AudiozoneTab.Remove(AudiozoneTab[j]);
                         step = true;
@@ -79,8 +78,8 @@ public class Voice : MonoBehaviour {
                         step = false;
 
                         /* On play le son une seule fois */
-                        alert.audio.clip = SoundBank.SoundBank[AudiozoneTab[j].GetComponent<Audiozone>().audiofile];
-                        alert.audio.Play();
+                        SoundBank.PlaySound(AudiozoneTab[j].GetComponent<Audiozone>().audiofile, alert);
+
                         AudiozoneTab.Remove(AudiozoneTab[j]);
                         step = true;
                     }
@@ -117,8 +116,7 @@ public class Voice : MonoBehaviour {
     {
         string tmp = jumpTab[Random.Range(0, breathTab.GetLength(0))];
         step = false;
-        grunt.audio.clip = SoundBank.SoundBank[tmp];
-        grunt.audio.Play();
+        SoundBank.PlaySound(tmp, grunt);
         step = true; 
 
     }
@@ -127,8 +125,7 @@ public class Voice : MonoBehaviour {
     {
         string tmp = breathTab[Random.Range(0, breathTab.GetLength(0))];
         step = false;
-        grunt.audio.clip = SoundBank.SoundBank[tmp];
-        grunt.audio.Play(); 
+        SoundBank.PlaySound(tmp, grunt);
         yield return new WaitForSeconds(0.15f);
         step = true; 
        
@@ -138,8 +135,7 @@ public class Voice : MonoBehaviour {
     {
         string tmp = breathTabSlow[Random.Range(0, breathTabSlow.GetLength(0))];
         step = false;
-        grunt.audio.clip = SoundBank.SoundBank[tmp];
-        grunt.audio.Play();
+        SoundBank.PlaySound(tmp, grunt);
         yield return new WaitForSeconds(0.65f);
         step = true;
 
@@ -149,8 +145,7 @@ public class Voice : MonoBehaviour {
     {
         string tmp = idleTab[Random.Range(0, idleTab.GetLength(0))]; 
         step = false;
-        grunt.audio.clip = SoundBank.SoundBank[tmp];
-        grunt.audio.Play();
+        SoundBank.PlaySound(tmp, grunt);
         yield return new WaitForSeconds(1f);
         step = true;
 

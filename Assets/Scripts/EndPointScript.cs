@@ -18,28 +18,28 @@ public class EndPointScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(collided) {
-			if(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
-			{
+    void Update()
+    {
+        if (collided)
+        {
+            if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
+            {
                 mainScript.LeaveRoom();
-			}
-		}
-	}
-	
-	void OnGUI() {
-		if(!collided)
-			return;
-		
-		GUI.Box(new Rect(0,Screen.height-50,Screen.width,50),"Press 'A' to leave the room");
-	}
+                GameObject.Find("Instructions").GetComponent<GUISubtitle>().hideSubtitles();
+            }
+        }
+    }
 	
 	void OnTriggerEnter(Collider p) {
         if (p.tag.StartsWith("Player"))
+        {
             collided = true;
+            GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'A' to leave the room");
+        }
 	}
 	
 	void OnTriggerExit(Collider player) {
 		collided = false;
+        GameObject.Find("Instructions").GetComponent<GUISubtitle>().hideSubtitles();
     }
 }

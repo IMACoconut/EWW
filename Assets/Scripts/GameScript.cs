@@ -54,6 +54,7 @@ public class GameScript : MonoBehaviour {
         player.transform.localScale *= 0.1f;
         mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
         geiger = GameObject.Find("Geiger").GetComponent<GUIGeiger>();
+        compteur = GameObject.Find("Compteur").GetComponent<Compteur>();
         geiger.enableShow = false;
         mainMenu.main = this;
     }
