@@ -6,7 +6,6 @@ public class EndPointScript : MonoBehaviour {
 	
 	public GameScript mainScript;
 	private bool collided;
-	
 	// Use this for initialization
 	void Awake() {
 		enabled = true;
@@ -25,7 +24,7 @@ public class EndPointScript : MonoBehaviour {
             if (Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.E))
             {
                 mainScript.LeaveRoom();
-                GameObject.Find("Instructions").GetComponent<GUISubtitle>().hideSubtitles();
+                mainScript.instructions.hideSubtitles();
             }
         }
     }
@@ -35,14 +34,14 @@ public class EndPointScript : MonoBehaviour {
         {
             collided = true;
             if(Constants.useController)
-                GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'A' to leave the room");
+                mainScript.instructions.displaySubtitles("Press 'A' to leave the room");
             else
-                GameObject.Find("Instructions").GetComponent<GUISubtitle>().displaySubtitles("Press 'E' to leave the room");
+                mainScript.instructions.displaySubtitles("Press 'E' to leave the room");
         }
 	}
 	
 	void OnTriggerExit(Collider player) {
 		collided = false;
-        GameObject.Find("Instructions").GetComponent<GUISubtitle>().hideSubtitles();
+        mainScript.instructions.hideSubtitles();
     }
 }
