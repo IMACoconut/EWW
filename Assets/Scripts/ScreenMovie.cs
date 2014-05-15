@@ -5,7 +5,7 @@ public class ScreenMovie : MonoBehaviour {
 
     public MovieTexture intro, alert;
     public AudioClip introSound, alertSound;
-
+    public GameObject alarmSound; 
     public RoomDortoir dortoir;
 
     public bool started = false, alertStarted = false;
@@ -19,6 +19,7 @@ public class ScreenMovie : MonoBehaviour {
 	void Start () {
         renderer.material.mainTexture = intro;
         alert.loop = true;
+        alarmSound.audio.Stop(); 
 	}
 	
 	// Update is called once per frame
@@ -34,6 +35,8 @@ public class ScreenMovie : MonoBehaviour {
             audio.Play();
             alert.Play();
             dortoir.alert();
+            alarmSound.audio.Play(); 
+
         }  
 	}
 

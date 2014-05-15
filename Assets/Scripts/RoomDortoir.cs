@@ -6,7 +6,8 @@ public class RoomDortoir : Room {
     public ScreenMovie screen;
     private float elapsed = 0f;
     private bool startPlay = false;
-    public GameObject[] lightScreen; 
+    public GameObject[] lightScreen;
+    
 
     void Awake()
     {
@@ -17,7 +18,8 @@ public class RoomDortoir : Room {
         lightScreen[0].renderer.enabled = false;
         lightScreen[1].renderer.enabled = false;
         lightScreen[2].renderer.enabled = false; 
-        lightScreen[3].renderer.enabled = false; 
+        lightScreen[3].renderer.enabled = false;
+        lightScreen[4].light.enabled = false; 
 	}
 	
 	// Update is called once per frame
@@ -31,7 +33,9 @@ public class RoomDortoir : Room {
             lightScreen[0].renderer.enabled = true;
             lightScreen[1].renderer.enabled = true;
             lightScreen[2].renderer.enabled = true;
-            lightScreen[3].renderer.enabled = true; 
+            lightScreen[3].renderer.enabled = true;
+            lightScreen[4].light.enabled = true; 
+
         }
 	}
 
