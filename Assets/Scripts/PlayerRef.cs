@@ -14,6 +14,8 @@ public class PlayerRef : MonoBehaviour
     private bool iron = false;
     private bool rotate = true;
 
+    private bool isLock = false;
+
 
     public float theta, phi;
 
@@ -87,17 +89,25 @@ public class PlayerRef : MonoBehaviour
         else
         {
             if (iron || Input.GetAxis("LB") > 0)
-            {
-                theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
-                if (theta >= 0)
-                    theta = 180 - theta;
-                else
-                    theta = -180 + theta;
+           {
+               if (!isLock)
+               {
+                   isLock = true;
+                   theta = ContAngle(Player.transform.forward, Vector3.right, Vector3.up);
+                   if (theta >= 0)
+                       theta = 180 - theta;
+                   else
+                       theta = -180 + theta;
+
+               }
+                
                 iron = false;
                 rotate = true;
             }
             else
             {
+                isLock = false;
+
                 if (tmp != 0)
                     rotate = true;
 
