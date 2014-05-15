@@ -33,6 +33,7 @@ public class GameScript : MonoBehaviour {
     public Room currentLocation;
     private List<StreetScript> generatedStreets;
     private GUIMainMenu mainMenu;
+    private GUIOptionMenu optionMenu;
     private GUIGeiger geiger;
     public Compteur compteur;
     public GUISubtitle instructions;
@@ -54,16 +55,17 @@ public class GameScript : MonoBehaviour {
 		reshuffle();
         player.transform.localScale *= 0.1f;
         mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
+        optionMenu = GameObject.Find("MenuOptions").GetComponent<GUIOptionMenu>();
         geiger = GameObject.Find("Geiger").GetComponent<GUIGeiger>();
         compteur = GameObject.Find("Compteur").GetComponent<Compteur>();
         instructions = GameObject.Find("Instructions").GetComponent<GUISubtitle>();
+        ScreenFader = GameObject.Find("ScreenFader").GetComponent<FadeInOut>();
         geiger.enableShow = false;
         mainMenu.main = this;
+        optionMenu.main = this;
     }
 	void Start () {
         beginIntro();
-
-        ScreenFader = GameObject.Find("ScreenFader").GetComponent<FadeInOut>();
         Constants.pause = false;
         initialSize = player.transform.localScale;
         m_menu = Menu.Main;
@@ -143,6 +145,16 @@ public class GameScript : MonoBehaviour {
         globalTimer.Pause();
         Constants.pause = true;
         Screen.lockCursor = false;
+        ShowMenu();
+    }
+
+    public void ShowOptions()
+    {
+        optionMenu.Show();
+    }
+
+    public void ShowMenu()
+    {
         mainMenu.Show();
     }
 
@@ -156,23 +168,7 @@ public class GameScript : MonoBehaviour {
         }
         else if (m_menu == Menu.Options)
         {
-            int w = Screen.width / 2;
-            int h = Screen.height / 2;
-            Constants.useController = GUI.Toggle(new Rect(w - 80, h - 110, 80, 20), Constants.useController, "Controller");
-            Constants.useController = !GUI.Toggle(new Rect(w, h - 110, 75, 20), !Constants.useController, "Mouse");
 
-            GUI.Label(new Rect(w - 75, h - 80, 150, 40), "Sensitivity");
-            Constants.sensitivity = GUI.HorizontalSlider(new Rect(w - 75, h - 60, 150, 20), Constants.sensitivity, .1f, 3.0f);
-            GUI.Label(new Rect(w + 80, h - 65, 80, 40), "" + Constants.sensitivity);
-
-            Constants.invertCamera = GUI.Toggle(new Rect(w - 75, h - 45, 150, 20), Constants.invertCamera, "Inverse camera");
-
-            GUI.Label(new Rect(w - 75, h - 10, 150, 40), "Volume");
-            Constants.volume = GUI.HorizontalSlider(new Rect(w - 75, h + 10, 150, 40), Constants.volume, 0f, 1f);
-            GUI.Label(new Rect(w + 80, h + 5, 80, 40), "" + Constants.volume);
-
-            if (GUI.Button(new Rect(w - 75, h + 70, 150, 40), "Back"))
-                m_menu = Menu.Main;
         }
     }
 

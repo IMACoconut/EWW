@@ -7,7 +7,7 @@ public class GUIMainMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        NGUITools.SetActive(this.gameObject, false);
+        Hide();
 	}
 	
 	// Update is called once per frame
@@ -27,17 +27,19 @@ public class GUIMainMenu : MonoBehaviour {
 
     public void OnBackClicked()
     {
+        Hide();
         Application.LoadLevel("menu");
     }
 
     public void OnOptionsClicked()
     {
-        Debug.Log(2);
+        Hide();
+        main.ShowOptions();
     }
 
     public void OnResumeClicked()
     {
-        main.Resume();
         Hide();
+        main.Resume();
     }
 }

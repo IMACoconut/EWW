@@ -19,10 +19,15 @@ public class Raycast : MonoBehaviour
     private int direction = -1;
     public WrenchRay particleRay;
     public Aiguille aiguille;
-    
-    void Start()
+
+    void Awake()
     {
         aiguille = GameObject.Find("Aiguille").GetComponent<Aiguille>();
+    }
+
+    void Start()
+    {
+
     }
 
     void Update()
