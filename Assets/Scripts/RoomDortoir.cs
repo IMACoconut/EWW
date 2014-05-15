@@ -24,6 +24,9 @@ public class RoomDortoir : Room {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Constants.pause)
+            return;
+
         elapsed += Time.deltaTime;
         if (!startPlay && elapsed > 15)
         {

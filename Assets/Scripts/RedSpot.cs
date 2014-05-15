@@ -11,6 +11,9 @@ public class RedSpot : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Constants.pause)
+            return;
+
         if (alert)
         {
             transform.Rotate(Vector3.up, 180 * Time.deltaTime);

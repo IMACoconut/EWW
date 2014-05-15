@@ -15,6 +15,9 @@ public class Aiguille : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Constants.pause)
+            return;
+
         realAngle = angle + Random.Range(-3,3);
         this.transform.localEulerAngles = new Vector3(0, 0, realAngle);
 	}

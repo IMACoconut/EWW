@@ -29,4 +29,14 @@ public class Compteur : MonoBehaviour {
         time.delay = t;
         time.Start();
     }
+
+    public void Pause()
+    {
+        time.Pause();
+    }
+
+    public void Resume()
+    {
+        time.Resume();
+    }
 }

@@ -8,6 +8,7 @@ public class ScreenMovie : MonoBehaviour {
     public GameObject alarmSound; 
     public RoomDortoir dortoir;
 
+    private bool wasPaused = false;
     public bool started = false, alertStarted = false;
 
 
@@ -24,8 +25,32 @@ public class ScreenMovie : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Constants.pause)
+        {
+            if (!wasPaused)
+            {
+                if (!alertStarted)
+                    intro.Pause();
+                else
+                    alert.Pause();
+                audio.Pause();
+                wasPaused = true;
+            }
+            return;
+        }
+
         if (!started)
             return;
+
+        if (wasPaused)
+        {
+            if (!alertStarted)
+                intro.Play();
+            else
+                alert.Play();
+
+            audio.Play();
+        }
 
         if (!intro.isPlaying && !alertStarted)
         {

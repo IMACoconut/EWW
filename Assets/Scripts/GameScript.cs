@@ -138,6 +138,8 @@ public class GameScript : MonoBehaviour {
         globalTimer.Resume();
         Constants.pause = false;
         Screen.lockCursor = true;
+        geiger.Show();
+        compteur.Resume();
     }
 
     void Pause()
@@ -145,6 +147,8 @@ public class GameScript : MonoBehaviour {
         globalTimer.Pause();
         Constants.pause = true;
         Screen.lockCursor = false;
+        geiger.Hide();
+        compteur.Pause();
         ShowMenu();
     }
 
