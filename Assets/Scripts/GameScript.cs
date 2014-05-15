@@ -35,6 +35,7 @@ public class GameScript : MonoBehaviour {
     private GUIMainMenu mainMenu;
     private GUIGeiger geiger;
     public Compteur compteur;
+    public GUISubtitle instructions;
 
     private bool end = false; 
 
@@ -55,6 +56,7 @@ public class GameScript : MonoBehaviour {
         mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
         geiger = GameObject.Find("Geiger").GetComponent<GUIGeiger>();
         compteur = GameObject.Find("Compteur").GetComponent<Compteur>();
+        instructions = GameObject.Find("Instructions").GetComponent<GUISubtitle>();
         geiger.enableShow = false;
         mainMenu.main = this;
     }
