@@ -91,10 +91,10 @@ public class CameraFollower : MonoBehaviour
         else
             rotateY += tmp1;
         //on borne les valeurs
-        if (rotateY >= 150)
-            rotateY = 150;
-        else if (rotateY < 30)
-            rotateY = 30;
+        if (rotateY >= 130)
+            rotateY = 130;
+        else if (rotateY < 50)
+            rotateY = 50;
         //camera visée
         if (Player.lockVar)
         {
