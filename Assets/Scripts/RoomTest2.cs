@@ -39,8 +39,7 @@ public class RoomTest2 : Room
     {
         string tmp = alertTab[Random.Range(0, alertTab.GetLength(0))];
         step = false;
-        alert.audio.clip = SoundBank.SoundBank[tmp];
-        alert.audio.Play();
+        SoundBank.PlaySound(tmp, alert);
         step = true;
 
     }

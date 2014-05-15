@@ -63,9 +63,7 @@ public class LightRoom1Script : Room
             if (!grunt.audio.isPlaying)
             {
                 step = false;
-                grunt.audio.clip = SoundBank.SoundBank["she is bothering me"];
-                grunt.audio.priority = 0; 
-                grunt.audio.Play();               
+                SoundBank.PlaySound("she is bothering me", grunt);
                 step = true;
                 angry = true; 
             }
@@ -77,8 +75,7 @@ public class LightRoom1Script : Room
     {
         string tmp = alertTab[Random.Range(0, alertTab.GetLength(0))];
         step = false;
-        alert.audio.clip = SoundBank.SoundBank[tmp];
-        alert.audio.Play();
+        SoundBank.PlaySound(tmp, alert);
         step = true;
 
     }

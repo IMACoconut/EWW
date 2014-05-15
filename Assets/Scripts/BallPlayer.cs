@@ -256,8 +256,6 @@ public class BallPlayer : MonoBehaviour
             {
                 currentJump += 9.81f * Time.deltaTime * 6f * 0.1f;
                 mov.y += 9.81f * Time.deltaTime * 6f * 0.1f;
-                Debug.Log(currentJump);
-
             }
         }
 
@@ -266,7 +264,6 @@ public class BallPlayer : MonoBehaviour
         {
             fallTime += Time.deltaTime * 0.1f;
             cinetic += 0.05f;
-            Debug.Log(cinetic);
             if (cinetic > 20)
                 cinetic = 20;
         }
