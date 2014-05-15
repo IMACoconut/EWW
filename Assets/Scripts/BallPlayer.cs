@@ -265,7 +265,10 @@ public class BallPlayer : MonoBehaviour
         if (!(IsGrounded()))
         {
             fallTime += Time.deltaTime * 0.1f;
-            cinetic += 0.25f;
+            cinetic += 0.05f;
+            Debug.Log(cinetic);
+            if (cinetic > 20)
+                cinetic = 20;
         }
         else
         {
@@ -273,7 +276,7 @@ public class BallPlayer : MonoBehaviour
             cinetic = 0;
 
         }
-        mov.y -= (9.81f + cinetic) * Time.deltaTime * 3f * 0.1f;
+        mov.y -= (9.81f + Mathf.Exp( cinetic)) * Time.deltaTime * 3f * 0.1f;
 
         //Debug.Log(controller.bounds.max.y);
         //Debug.Log(collider.bounds.extents.y);
