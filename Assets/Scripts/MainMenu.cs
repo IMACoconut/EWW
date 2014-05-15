@@ -3,6 +3,11 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour {
 
+	// Use this for initialization
+	void Start () {
+        Screen.lockCursor = true; 
+	}
+
     public void OnPlayClicked()
     {
         Application.LoadLevel("greyBox2");
