@@ -85,11 +85,13 @@ public class GameScript : MonoBehaviour {
         player.transform.position = pos;
         player.transform.localRotation = currentLocation.start.transform.localRotation;
         compteur.Pause();
+        geiger.Hide();
     }
 
     void beginGame()
     {
         started = true;
+        geiger.Show();
         player.LoadAudio = true;
         EnterRoom();
         compteur.SetTime(1000 * 3 * 60);
@@ -133,18 +135,25 @@ public class GameScript : MonoBehaviour {
     {
         Constants.pause = false;
         Screen.lockCursor = true;
-        geiger.Show();
-        if(started)
+
+        if (started)
+        {
             compteur.Resume();
+            geiger.Show();
+        }
+
     }
 
     void Pause()
     {
         Constants.pause = true;
         Screen.lockCursor = false;
-        geiger.Hide();
-        if(started)
+        if (started)
+        {
+            geiger.Hide();
             compteur.Pause();
+        }
+
         ShowMenu();
     }
 
@@ -250,8 +259,6 @@ public class GameScript : MonoBehaviour {
         currentLocation.transform.localScale *= 0.1f;
         Vector3 pos = currentLocation.start.transform.position;
 
-       // Vector3 forw = currentLocation.transform.Find("StartPointScript").transform.right;
-		pos.y += 2;
 		player.transform.position = pos;
         player.transform.localRotation = currentLocation.start.transform.localRotation;
         currentLocation.player = player.gameObject;
