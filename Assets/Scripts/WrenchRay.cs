@@ -70,7 +70,7 @@ public class WrenchRay : MonoBehaviour {
             float t = (float)i * invParticleCount;
 
             Vector3 position = Vector3.Lerp(orig, target, t);
-            Vector3 offset2 = new Vector3(0.0f, (float)Math.Cos((position - orig).magnitude * Time.time) * 1.0f / dist, 0.0f);
+            Vector3 offset2 = new Vector3(0.0f, (float)Math.Cos((position - orig).magnitude * Time.time) * 1.0f / dist, 0.0f) * 0.05f;
             Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),
                                         noise.Noise(timey + position.x, timey + position.y, timey + position.z),
                                         noise.Noise(timez + position.x, timez + position.y, timez + position.z));
