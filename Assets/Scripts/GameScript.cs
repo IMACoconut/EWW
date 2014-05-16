@@ -48,7 +48,7 @@ public class GameScript : MonoBehaviour {
 	// Use this for initialization
     void Awake()
     {
-		reshuffle();
+		//reshuffle();
         player.transform.localScale *= 0.1f;
         mainMenu = GameObject.Find("MenuPrincipal").GetComponent<GUIMainMenu>();
         optionMenu = GameObject.Find("MenuOptions").GetComponent<GUIOptionMenu>();
@@ -255,7 +255,7 @@ public class GameScript : MonoBehaviour {
         player.clearAudio = true;
         ScreenFader.sceneStarting = true; 
 		int re = Random.Range(0, rooms.Length);
-		currentLocation = GameObject.Instantiate(rooms[re]) as Room;
+		currentLocation = GameObject.Instantiate(rooms[roomsDone-1]) as Room;
         currentLocation.started = true;
         currentLocation.transform.localScale *= 0.1f;
         Vector3 pos = currentLocation.start.transform.position;
