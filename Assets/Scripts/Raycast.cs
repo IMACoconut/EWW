@@ -76,10 +76,10 @@ public class Raycast : MonoBehaviour
             else if (Input.GetKeyUp(KeyCode.LeftControl)) alt = false; */
             if (!Player.curve) direction = -1;
             else {
-                if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical")< -0.2f ) direction = 0; //haut
+                if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Left Analog Vertical") > 0.2f) direction = 0; //haut
                 else if (Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Left Analog Horizontal") > 0.2f) direction = 1; // gauche
                 else if (Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Left Analog Horizontal") < -0.2f) direction = 2; // droite
-			    else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical") > 0.2f ) direction = 3; // bas
+			    else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Left Analog Vertical")< -0.2f) direction = 3; // bas
             }
 			
 
