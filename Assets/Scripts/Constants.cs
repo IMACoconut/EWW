@@ -61,7 +61,7 @@ public class Constants : MonoBehaviour {
         CheckForControllers();
         
 
-        if (connected) sensitivity = 2 * 2.0f;
+        if (connected) sensitivity = 1.5f * 2.0f;
         else sensitivity = 2.0f; 
              
         
@@ -94,7 +94,7 @@ public class Constants : MonoBehaviour {
             NextStep();
 
         CheckForControllers();
-        if (connected) sensitivity = 2 * 2.0f;
+        if (connected) sensitivity = 1.5f * 2.0f;
         else sensitivity = 2.0f;
         //Debug.Log(sensitivity);
 	}

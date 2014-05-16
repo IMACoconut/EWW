@@ -85,6 +85,7 @@ public class GameScript : MonoBehaviour {
         player.transform.position = pos;
         player.transform.localRotation = currentLocation.start.transform.localRotation;
         compteur.Pause();
+        compteur.SetTime(1000 * 60 * 60); 
         geiger.Hide();
     }
 
