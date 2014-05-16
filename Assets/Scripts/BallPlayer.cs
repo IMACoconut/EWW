@@ -45,7 +45,7 @@ public class BallPlayer : MonoBehaviour
     private float debug = 0;
     public bool isGround = false;
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
         CharacterController controller = GetComponent<CharacterController>();
         //return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);

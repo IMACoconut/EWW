@@ -74,6 +74,20 @@ public class CameraFollower : MonoBehaviour
 
         Collision();
 
+        //calcule du smooth
+        if (!Player.IsGrounded())
+        {
+            smooth -= 0.1f;
+            if(smooth < 5)
+                smooth = 5;
+        }
+        else
+        {
+            smooth += 0.1f;
+            if(smooth > 25)
+                smooth = 25;
+        }
+
         //récupération de l'input axe vertical
         float tmp1 = 0;
         if (Input.GetJoystickNames().Length > 0)
