@@ -73,7 +73,7 @@ public class PlayerRef : MonoBehaviour
         if (Input.GetJoystickNames().Length > 0)
         {
             if (Input.GetAxis("Right Analog Horizontal") < -0.2f || Input.GetAxis("Right Analog Horizontal") > 0.2f)
-                tmp = Input.GetAxis("Right Analog Horizontal") * invert;
+                tmp = Input.GetAxis("Right Analog Horizontal") * invert * Constants.sensitivity;
         }
         else
             tmp = Input.GetAxis("Mouse X") * Constants.sensitivity * invert;

@@ -59,8 +59,9 @@ public class Constants : MonoBehaviour {
     {
         generalScript = GameObject.Find("GameGeneralScript").GetComponent<GameScript>();
         CheckForControllers();
+        
 
-        if (connected) sensitivity = 25 * 2.0f;
+        if (connected) sensitivity = 2 * 2.0f;
         else sensitivity = 2.0f; 
              
         
@@ -93,6 +94,9 @@ public class Constants : MonoBehaviour {
             NextStep();
 
         CheckForControllers();
+        if (connected) sensitivity = 2 * 2.0f;
+        else sensitivity = 2.0f;
+        //Debug.Log(sensitivity);
 	}
 	
 	void EnableDebug(bool b) {
